@@ -26,7 +26,7 @@ namespace MedicalImager
         public SingleImageLayout()
         {
             InitializeComponent();
-            image = new BitmapImage(new Uri("file:///C:/Users/John/Desktop/picture-show-flickr-promo.jpg"));
+            image = new BitmapImage();
             Image1.Source = image;
         }
     }
