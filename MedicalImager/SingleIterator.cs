@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MedicalImager
 {
-    class SingleIterator : IEnumerator<Study>
+    class SingleIterator : IEnumerator<ObservableCollection<BitmapImage>>
     {
         
         private List<Image>.Enumerator _enumerator;
