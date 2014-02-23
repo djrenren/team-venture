@@ -25,7 +25,7 @@ namespace MedicalImager
         {
             study = s;
             Current = new ObservableCollection<BitmapImage>();
-            Current.Insert(0, new BitmapImage(new Uri("C:/Users/John/Desktop/picture-show-flickr-promo.jpg")));
+            Current.Insert(0, new BitmapImage());
         }
 
         public void Reset()
