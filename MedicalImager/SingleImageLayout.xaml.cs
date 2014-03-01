@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -19,15 +21,94 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
-    public partial class SingleImageLayout : Page
+    public partial class SingleImageLayout : Page, StudyIterator
     {
-        private StudyIterator Iterator = new SinglePageIterator(new Study());
-        public BitmapImage image;
-        public SingleImageLayout()
+        private Study _study;
+
+        public SingleImageLayout(Study study)
         {
             InitializeComponent();
-            image = new BitmapImage(new Uri("file:///C:/Users/John/Desktop/picture-show-flickr-promo.jpg"));
-            Image1.Source = image;
+            _study = study;
+            Reset();
+            // image = new BitmapImage(new Uri("file:///C:/Users/John/Desktop/picture-show-flickr-promo.jpg"));
+            //Image1.Source = image;
+        }
+
+        public ObservableCollection<BitmapImage> Current { get; set; }
+
+        private int _position;
+        /// <summary>
+        /// Gets and sets the position. The position is 1 indexed
+        /// </summary>
+        public int Position
+        {
+            get
+            {
+                return _position;
+            }
+
+            set
+            {
+                if(value != _position)
+                {
+                    if(value < 1 || value > _study.Count)
+                    {
+                        throw new IndexOutOfRangeException("No images found at position " + value);
+                    }
+                    else
+                    {
+                        Current.Clear();
+                        Current.Add(_study[value-1]);
+                    }
+                }
+            }
+        }
+
+        //public BitmapImage image;
+
+        object IEnumerator.Current
+        {
+            get
+            {
+                return Current;
+            }
+        }
+
+        public void Reset()
+        {
+            Current.Clear();
+            _position = 0;
+        }
+
+        public bool MoveNext()
+        {
+            if(Position >= _study.Count)
+            {
+                return false;
+            }
+            else
+            {
+                Position++;
+                return true;
+            }
+        }
+
+        public bool MovePrev()
+        {
+            if(Position <= 1)
+            {
+                return false;
+            }
+            else
+            {
+                Position--;
+                return true;
+            }
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }
