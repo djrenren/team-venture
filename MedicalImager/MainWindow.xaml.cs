@@ -23,7 +23,6 @@ namespace MedicalImager
         public MainWindow()
         {
             InitializeComponent();
-            Layout.Navigate(new SingleImageLayout());
         }
     }
 }
