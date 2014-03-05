@@ -56,6 +56,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IStudy.cs" />
+    <Compile Include="TwoByTwoImageLayout.xaml.cs">
+      <DependentUpon>TwoByTwoImageLayout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SinglePageIterator.cs" />
     <Compile Include="Study.cs" />
     <Compile Include="SingleImageLayout.xaml.cs">
@@ -74,6 +77,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TwoByTwoImageLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SingleImageLayout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

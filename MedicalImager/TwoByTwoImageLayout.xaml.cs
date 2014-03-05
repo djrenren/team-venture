@@ -21,11 +21,11 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
-    public partial class SingleImageLayout : Page, StudyIterator
+    public partial class TwoByTwoImageLayout : Page, StudyIterator
     {
         private Study _study;
 
-        public SingleImageLayout(Study study)
+        public TwoByTwoImageLayout(Study study)
         {
             InitializeComponent();
             DataContext = this;
@@ -52,14 +52,15 @@ namespace MedicalImager
             {
                 if(value != _position)
                 {
-                    if(value < 0 || value > _study.Count)
+                    if(value < 0 || value >= _study.Count - 4)
                     {
                         throw new IndexOutOfRangeException("No images found at position " + value);
                     }
                     else
                     {
                         Current.Clear();
-                        Current.Add(_study[value]);
+                        for (int i = 0; _position + i < _study.Count && i < 4; i++ )
+                            Current.Add(_study[_position+i]);
                     }
                 }
             }
@@ -83,20 +84,20 @@ namespace MedicalImager
 
         public bool MoveNext()
         {
-            if(Position >= _study.Count)
+            if(Position > _study.Count -4)
             {
                 return false;
             }
             else
             {
-                Position++;
+                Position += 4;
                 return true;
             }
         }
 
         public bool MovePrev()
         {
-            if(Position < 1)
+            if(Position <= 1)
             {
                 return false;
             }

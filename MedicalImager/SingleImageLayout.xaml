@@ -7,7 +7,7 @@
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="SingleImageLayout">
 
-    <Grid >
-        <Image x:Name="Image1" Source="{Binding Path=image}" />
+    <Grid>
+        <Image x:Name="Image1" Source="{Binding Path=Current[0]}" />
     </Grid>
 </Page>
