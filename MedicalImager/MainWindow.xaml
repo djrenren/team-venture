@@ -3,15 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="480" Width="640">
 
-    <Grid x:Name="MainGrid" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="16*"/>
-            <ColumnDefinition Width="277*"/>
-            <ColumnDefinition Width="24*"/>
-        </Grid.ColumnDefinitions>
-        <Button Content="&lt;" HorizontalAlignment="Left" Margin="8,199,0,199" VerticalAlignment="Center" Width="20" Height="54"/>
-        <Button Content="&gt;" HorizontalAlignment="Right" Margin="0,199,8,199" VerticalAlignment="Center" Width="20" Height="54" Grid.Column="2"/>
+
+    <DockPanel x:Name="MainPanel" LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." />
+                <MenuItem Header="_Save" />
+                <MenuItem Header="_Save As..." />
+            </MenuItem>
+
+        </Menu>
+        <Button Content="&lt;" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="8,188.2,0,189" VerticalAlignment="Center" Width="20" Height="54"/>
+        <Button Content="&gt;" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,188.2,8,189" VerticalAlignment="Center" Width="20" Height="54" Grid.Column="2"/>
         <Frame x:Name="Layout" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="" Grid.Column="1" Margin="10,10,10,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" BorderThickness="1"/>
 
-    </Grid>
+
+    </DockPanel>
 </Window>
