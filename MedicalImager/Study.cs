@@ -11,7 +11,7 @@ using System.Drawing;
 
 namespace MedicalImager
 {
-    class Study : List<BitmapImage>, IStudy
+    public class Study : List<BitmapImage>, IStudy
     {
         public string directory;
         string[] filePaths;

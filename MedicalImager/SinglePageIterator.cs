@@ -38,9 +38,26 @@ namespace MedicalImager
             return true;
         }
 
+        public bool MovePrev()
+        {
+            return true;
+        }
+
         public void Dispose()
         {
 
+        }
+
+        public int Position
+        {
+            get
+            {
+                return 1;
+            }
+            set
+            {
+                
+            }
         }
     }
 }

@@ -24,5 +24,21 @@ namespace MedicalImager
         {
             InitializeComponent();
         }
+
+        private void mnu_Open_Click(object sender, RoutedEventArgs e)
+        {
+            OpenStudyDialog newDialog = new OpenStudyDialog();
+        }
+
+        private void mnu_Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void mnu_SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

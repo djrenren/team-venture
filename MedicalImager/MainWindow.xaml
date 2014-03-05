@@ -5,16 +5,16 @@
 
 
     <DockPanel x:Name="MainPanel" LastChildFill="True">
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open..." />
-                <MenuItem Header="_Save" />
-                <MenuItem Header="_Save As..." />
+        <Menu DockPanel.Dock="Top" IsMainMenu="True">
+            <MenuItem Header="_File" x:Name="mnu_File">
+                <MenuItem Header="_Open..." x:Name="mnu_Open" Click="mnu_Open_Click" />
+                <MenuItem Header="_Save" x:Name="mnu_Save" Click="mnu_Save_Click" />
+                <MenuItem Header="_Save As..." x:Name="mnu_SaveAs" Click="mnu_SaveAs_Click" />
             </MenuItem>
 
         </Menu>
-        <Button Content="&lt;" DockPanel.Dock="Left" HorizontalAlignment="Left" Margin="8,188.2,0,189" VerticalAlignment="Center" Width="20" Height="54"/>
-        <Button Content="&gt;" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="0,188.2,8,189" VerticalAlignment="Center" Width="20" Height="54" Grid.Column="2"/>
+        <Button x:Name="btnPrevious" Content="&lt;" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="54" Margin="5,0,0,0"/>
+        <Button x:Name="btnNext" Content="&gt;" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="20" Height="54" Grid.Column="2" Margin="0,0,5,0"/>
         <Frame x:Name="Layout" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="" Grid.Column="1" Margin="10,10,10,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" BorderThickness="1"/>
 
 

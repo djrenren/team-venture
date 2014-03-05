@@ -15,11 +15,11 @@ namespace MedicalImager
         /// Moves to the previous grouping of images
         /// </summary>
         /// <returns>true if the move was successful, false otherwise</returns>
-        public bool MovePrev();
+        bool MovePrev();
 
         /// <summary>
         /// The current position in the study
         /// </summary>
-        public int Position { get; set; }
+        int Position { get; set; }
     }
 }
