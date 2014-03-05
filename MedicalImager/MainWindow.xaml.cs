@@ -28,6 +28,13 @@ namespace MedicalImager
         private void mnu_Open_Click(object sender, RoutedEventArgs e)
         {
             OpenStudyDialog newDialog = new OpenStudyDialog();
+            string filePath = newDialog.openStudy();
+            IStudy openedStudy;
+            if (filePath == null)
+                return;
+            openedStudy = new Study(filePath);
+            // Code for passing off the Study object (displaying it) goes here
+
         }
 
         private void mnu_Save_Click(object sender, RoutedEventArgs e)
@@ -36,6 +43,21 @@ namespace MedicalImager
         }
 
         private void mnu_SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void mnu_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
 
         }

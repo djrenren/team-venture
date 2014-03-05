@@ -10,11 +10,12 @@
                 <MenuItem Header="_Open..." x:Name="mnu_Open" Click="mnu_Open_Click" />
                 <MenuItem Header="_Save" x:Name="mnu_Save" Click="mnu_Save_Click" />
                 <MenuItem Header="_Save As..." x:Name="mnu_SaveAs" Click="mnu_SaveAs_Click" />
+                <MenuItem Header="_Exit" x:Name="mnu_Exit" Click="mnu_Exit_Click" />
             </MenuItem>
 
         </Menu>
-        <Button x:Name="btnPrevious" Content="&lt;" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="54" Margin="5,0,0,0"/>
-        <Button x:Name="btnNext" Content="&gt;" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="20" Height="54" Grid.Column="2" Margin="0,0,5,0"/>
+        <Button x:Name="btnPrevious" Content="&lt;" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="54" Margin="5,0,0,0" Click="btnPrevious_Click"/>
+        <Button x:Name="btnNext" Content="&gt;" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Width="20" Height="54" Grid.Column="2" Margin="0,0,5,0" Click="btnNext_Click"/>
         <Frame x:Name="Layout" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="" Grid.Column="1" Margin="10,10,10,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderBrush="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" BorderThickness="1"/>
 
 
