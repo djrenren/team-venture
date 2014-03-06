@@ -59,7 +59,6 @@
     <Compile Include="TwoByTwoImageLayout.xaml.cs">
       <DependentUpon>TwoByTwoImageLayout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SinglePageIterator.cs" />
     <Compile Include="Study.cs" />
     <Compile Include="SingleImageLayout.xaml.cs">
       <DependentUpon>SingleImageLayout.xaml</DependentUpon>

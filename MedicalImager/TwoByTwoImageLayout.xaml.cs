@@ -37,6 +37,11 @@ namespace MedicalImager
             //Image1.Source = image;
         }
 
+        public TwoByTwoImageLayout(IStudy study, StudyIterator layout) : this(study)
+        {
+            Position = layout.Position;
+        }
+
         public ObservableCollection<BitmapImage> Current { get; set; }
 
         private int _position;
@@ -84,7 +89,13 @@ namespace MedicalImager
             }
         }
 
-        //public BitmapImage image;
+        public IStudy Study
+        {
+            get
+            {
+                return _study;
+            }
+        }
 
         object IEnumerator.Current
         {

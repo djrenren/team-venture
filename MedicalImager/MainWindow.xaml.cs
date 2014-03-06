@@ -24,6 +24,7 @@ namespace MedicalImager
         public MainWindow()
         {
             InitializeComponent();
+            mnu_View.IsEnabled = false;
             layout = null;
         }
 
@@ -36,8 +37,8 @@ namespace MedicalImager
                 return;
             openedStudy = new Study(filePath);
             // Code for passing off the Study object (displaying it) goes here
-            //layout = new SingleImageLayout(openedStudy);
-            layout = new TwoByTwoImageLayout(openedStudy);
+            layout = new SingleImageLayout(openedStudy);
+            mnu_View.IsEnabled = true;
             Layout.Navigate(layout);
 
         }
@@ -70,6 +71,24 @@ namespace MedicalImager
             if (layout != null)
             {
                 layout.MovePrev();
+            }
+        }
+
+        private void mnu_Single_Click(object sender, RoutedEventArgs e)
+        {
+            if (layout != null && !layout.GetType().Equals(typeof(SingleImageLayout)))
+            {
+                layout = new SingleImageLayout(layout.Study, layout);
+                Layout.Navigate(layout);
+            }
+        }
+
+        private void mnu_TwoByTwo_Click(object sender, RoutedEventArgs e)
+        {
+            if (layout != null && !layout.GetType().Equals(typeof(TwoByTwoImageLayout)))
+            {
+                layout = new TwoByTwoImageLayout(layout.Study, layout);
+                Layout.Navigate(layout);
             }
         }
 

@@ -37,7 +37,7 @@ namespace MedicalImager
             //Image1.Source = image;
         }
 
-        public SingleImageLayout(IStudy study, TwoByTwoImageLayout layout) : this(study)
+        public SingleImageLayout(IStudy study, StudyIterator layout) : this(study)
         {
             Position = layout.Position;
         }
@@ -81,6 +81,14 @@ namespace MedicalImager
                         Image1.Source = Current[0];
                     }
                 }
+            }
+        }
+
+        public IStudy Study
+        {
+            get
+            {
+                return _study;
             }
         }
 

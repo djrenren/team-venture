@@ -12,6 +12,10 @@
                 <MenuItem Header="_Save As..." x:Name="mnu_SaveAs" Click="mnu_SaveAs_Click" />
                 <MenuItem Header="_Exit" x:Name="mnu_Exit" Click="mnu_Exit_Click" />
             </MenuItem>
+            <MenuItem Header="_View" x:Name="mnu_View">
+                <MenuItem Header="_Single Image" x:Name="mnu_Single" Click="mnu_Single_Click" />
+                <MenuItem Header="_Two By Two" x:Name="mnu_TwoByTwo" Click="mnu_TwoByTwo_Click" />
+            </MenuItem>
 
         </Menu>
         <Button x:Name="btnPrevious" Content="&lt;" DockPanel.Dock="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Width="20" Height="54" Margin="5,0,0,0" Click="btnPrevious_Click"/>

@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager
 {
-    interface StudyIterator : IEnumerator<ObservableCollection<BitmapImage>>
+    public interface StudyIterator : IEnumerator<ObservableCollection<BitmapImage>>
     {
         /// <summary>
         /// Moves to the previous grouping of images
@@ -21,5 +21,7 @@ namespace MedicalImager
         /// The current position in the study
         /// </summary>
         int Position { get; set; }
+
+        IStudy Study { get; }
     }
 }
