@@ -24,12 +24,16 @@
         <Button x:Name="btnNext" Content="&gt;" DockPanel.Dock="Right"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Width="20" Height="54"
                 Grid.Column="2" Margin="0,0,5,0" Click="btnNext_Click"/>
+        <Label x:Name="CountLabel" 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Bottom"
+               DockPanel.Dock="Bottom"
+               Content =""
+               />
         <Frame x:Name="Layout" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                Content="" Grid.Column="1" Margin="10,10,10,10" HorizontalContentAlignment="Center"
                VerticalContentAlignment="Center"
                BorderBrush="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" BorderThickness="1"
                NavigationUIVisibility="Hidden"/>
-
-
     </DockPanel>
 </Window>

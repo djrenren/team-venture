@@ -40,6 +40,7 @@ namespace MedicalImager
             layout = new SingleImageLayout(openedStudy);
             mnu_View.IsEnabled = true;
             Layout.Navigate(layout);
+            updateCount();
 
         }
 
@@ -63,6 +64,7 @@ namespace MedicalImager
             if (layout != null)
             {
                 layout.MoveNext();
+                updateCount();
             }
         }
 
@@ -71,6 +73,7 @@ namespace MedicalImager
             if (layout != null)
             {
                 layout.MovePrev();
+                updateCount();
             }
         }
 
@@ -80,6 +83,7 @@ namespace MedicalImager
             {
                 layout = new SingleImageLayout(layout.Study, layout);
                 Layout.Navigate(layout);
+                updateCount();
             }
         }
 
@@ -89,8 +93,13 @@ namespace MedicalImager
             {
                 layout = new TwoByTwoImageLayout(layout.Study, layout);
                 Layout.Navigate(layout);
+                updateCount();
             }
         }
 
+        private void updateCount()
+        {
+            CountLabel.Content = "Position: " + (layout.Position + 1);
+        }
     }
 }
