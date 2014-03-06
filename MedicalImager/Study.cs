@@ -27,5 +27,10 @@ namespace MedicalImager
                 base.Add(bm);
             }
         }
+
+        public int size()
+        {
+            return this.Count;
+        }
     }
 }

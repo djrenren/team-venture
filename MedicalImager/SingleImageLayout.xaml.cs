@@ -23,9 +23,9 @@ namespace MedicalImager
     /// </summary>
     public partial class SingleImageLayout : Page, StudyIterator
     {
-        private Study _study;
+        private IStudy _study;
 
-        public SingleImageLayout(Study study)
+        public SingleImageLayout(IStudy study)
         {
             InitializeComponent();
             DataContext = this;
@@ -52,7 +52,7 @@ namespace MedicalImager
             {
                 if(value != _position)
                 {
-                    if(value < 0 || value > _study.Count)
+                    if(value < 0 || value > _study.size())
                     {
                         throw new IndexOutOfRangeException("No images found at position " + value);
                     }
@@ -77,13 +77,16 @@ namespace MedicalImager
 
         public void Reset()
         {
-            Current.Clear();
+            if (Current != null)
+            {
+                Current.Clear();
+            }
             Position = 0;
         }
 
         public bool MoveNext()
         {
-            if(Position >= _study.Count)
+            if(Position >= _study.size())
             {
                 return false;
             }

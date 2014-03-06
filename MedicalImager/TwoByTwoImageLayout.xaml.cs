@@ -84,7 +84,7 @@ namespace MedicalImager
 
         public bool MoveNext()
         {
-            if(Position > _study.Count -4)
+            if(Position > _study.size() -4)
             {
                 return false;
             }

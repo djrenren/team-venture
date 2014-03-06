@@ -8,8 +8,9 @@ using System.Drawing;
 
 namespace MedicalImager
 {
-    interface IStudy
+    public interface IStudy
     {
+        int size();
         BitmapImage this[int index]
         {
             get;

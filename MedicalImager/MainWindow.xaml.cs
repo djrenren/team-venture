@@ -20,9 +20,11 @@ namespace MedicalImager
     /// </summary>
     public partial class MainWindow : Window
     {
+        StudyIterator layout;
         public MainWindow()
         {
             InitializeComponent();
+            layout = null;
         }
 
         private void mnu_Open_Click(object sender, RoutedEventArgs e)
@@ -34,6 +36,8 @@ namespace MedicalImager
                 return;
             openedStudy = new Study(filePath);
             // Code for passing off the Study object (displaying it) goes here
+            layout = new SingleImageLayout(openedStudy);
+            Layout.Navigate(layout);
 
         }
 
@@ -54,12 +58,18 @@ namespace MedicalImager
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
-
+            if (layout != null)
+            {
+                layout.MoveNext();
+            }
         }
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
-
+            if (layout != null)
+            {
+                layout.MovePrev();
+            }
         }
 
     }
