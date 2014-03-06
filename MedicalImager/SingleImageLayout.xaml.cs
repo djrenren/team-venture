@@ -28,11 +28,18 @@ namespace MedicalImager
         public SingleImageLayout(IStudy study)
         {
             InitializeComponent();
-            DataContext = this;
             _study = study;
+            Current = new ObservableCollection<BitmapImage>();
+            _position = -1;
             Reset();
+            DataContext = this;
             // image = new BitmapImage(new Uri("file:///C:/Users/John/Desktop/picture-show-flickr-promo.jpg"));
             //Image1.Source = image;
+        }
+
+        public SingleImageLayout(IStudy study, TwoByTwoImageLayout layout) : this(study)
+        {
+            Position = layout.Position;
         }
 
         public ObservableCollection<BitmapImage> Current { get; set; }
@@ -58,14 +65,24 @@ namespace MedicalImager
                     }
                     else
                     {
-                        Current.Clear();
-                        Current.Add(_study[value]);
+                        //Current.Clear();
+                        //Current.Add(_study[value]);
+                        if (Current.Count == 0)
+                        {
+                            Current.Add(_study[value]);
+                        }
+                        else
+                        {
+                            Current[0] = _study[value];
+                        }
+                        _position = value;
+                        Console.Out.WriteLine("New Position: " + Position);
+                        Console.Out.WriteLine(Current[0]);
+                        Image1.Source = Current[0];
                     }
                 }
             }
         }
-
-        //public BitmapImage image;
 
         object IEnumerator.Current
         {
@@ -77,21 +94,20 @@ namespace MedicalImager
 
         public void Reset()
         {
-            if (Current != null)
-            {
-                Current.Clear();
-            }
             Position = 0;
+            Console.Out.WriteLine("Reset");
         }
 
         public bool MoveNext()
         {
-            if(Position >= _study.size())
+            if(Position >= _study.size()-1)
             {
+                Console.Out.WriteLine("Cannot move");
                 return false;
             }
             else
             {
+                Console.Out.WriteLine("Attempting move");
                 Position++;
                 return true;
             }

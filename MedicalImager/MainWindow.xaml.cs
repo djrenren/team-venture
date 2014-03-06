@@ -36,7 +36,8 @@ namespace MedicalImager
                 return;
             openedStudy = new Study(filePath);
             // Code for passing off the Study object (displaying it) goes here
-            layout = new SingleImageLayout(openedStudy);
+            //layout = new SingleImageLayout(openedStudy);
+            layout = new TwoByTwoImageLayout(openedStudy);
             Layout.Navigate(layout);
 
         }
