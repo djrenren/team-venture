@@ -16,5 +16,7 @@ namespace MedicalImager
             get;
             set;
         }
+
+        string GetMeta();
     }
 }

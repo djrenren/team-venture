@@ -24,17 +24,20 @@ namespace MedicalImager
     public partial class SingleImageLayout : Page, StudyIterator
     {
         private IStudy _study;
+        public static string Representation = "1x1";
 
-        public SingleImageLayout(IStudy study)
+        public SingleImageLayout(IStudy study) : this(study, 0)
+        {
+
+        }
+
+        public SingleImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
             _study = study;
             Current = new ObservableCollection<BitmapImage>();
-            _position = -1;
-            Reset();
+            Position = pos;
             DataContext = this;
-            // image = new BitmapImage(new Uri("file:///C:/Users/John/Desktop/picture-show-flickr-promo.jpg"));
-            //Image1.Source = image;
         }
 
         public SingleImageLayout(IStudy study, StudyIterator layout) : this(study)
@@ -44,7 +47,14 @@ namespace MedicalImager
 
         public ObservableCollection<BitmapImage> Current { get; set; }
 
-        private int _position;
+        private int _position = -1;
+
+
+        public string Serialize()
+        {
+            return Representation + '\n' + Position;
+        }
+
         /// <summary>
         /// Gets and sets the position. The position is 1 indexed
         /// </summary>

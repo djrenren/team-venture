@@ -25,16 +25,19 @@ namespace MedicalImager
     {
         private IStudy _study;
 
-        public TwoByTwoImageLayout(IStudy study)
+        public static string Representation = "2x2";
+
+        public TwoByTwoImageLayout(IStudy study) : this(study, 0)
+        {
+        }
+
+        public TwoByTwoImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
             _study = study;
             Current = new ObservableCollection<BitmapImage>();
-            _position = -1;
-            Reset();
+            Position = pos;
             DataContext = this;
-            // image = new BitmapImage(new Uri("file:///C:/Users/John/Desktop/picture-show-flickr-promo.jpg"));
-            //Image1.Source = image;
         }
 
         public TwoByTwoImageLayout(IStudy study, StudyIterator layout) : this(study)
@@ -44,7 +47,11 @@ namespace MedicalImager
 
         public ObservableCollection<BitmapImage> Current { get; set; }
 
-        private int _position;
+        public string Serialize(){
+            return Representation + '\n' + Position;
+        }
+
+        private int _position = -1;
         /// <summary>
         /// Gets and sets the position
         /// </summary>

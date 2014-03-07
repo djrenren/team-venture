@@ -22,6 +22,8 @@ namespace MedicalImager
         /// </summary>
         int Position { get; set; }
 
+        string Serialize();
+
         IStudy Study { get; }
     }
 }

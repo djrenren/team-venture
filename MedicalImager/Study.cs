@@ -22,6 +22,8 @@ namespace MedicalImager
             directory = dir;
             foreach (string path in filePaths)
             {
+                if(!path.EndsWith(".jpg"))
+                    continue;
                 Uri uri = new Uri(path);
                 BitmapImage bm = new BitmapImage (uri);
                 base.Add(bm);
@@ -31,6 +33,12 @@ namespace MedicalImager
         public int size()
         {
             return this.Count;
+        }
+
+        public string GetMeta()
+        {
+            var reader = new StreamReader(directory + "\\.data");
+            return reader.ReadToEnd();
         }
     }
 }
