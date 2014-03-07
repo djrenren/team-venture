@@ -8,12 +8,22 @@ using System.Drawing;
 
 namespace MedicalImager
 {
-    interface IStudy
+    public interface IStudy
     {
+        int size();
         BitmapImage this[int index]
         {
             get;
             set;
         }
+
+        string GetMeta();
+
+        void SetDefault();
+
+        void Save(string metadata);
+
+        void Save(Uri targetUri, string metadata);
+
     }
 }

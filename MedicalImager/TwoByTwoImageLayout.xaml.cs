@@ -23,23 +23,37 @@ namespace MedicalImager
     /// </summary>
     public partial class TwoByTwoImageLayout : Page, StudyIterator
     {
-        private Study _study;
+        private IStudy _study;
 
-        public TwoByTwoImageLayout(Study study)
+        public static string Representation = "2x2";
+
+        public TwoByTwoImageLayout(IStudy study) : this(study, 0)
+        {
+        }
+
+        public TwoByTwoImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
-            DataContext = this;
             _study = study;
-            Reset();
-            // image = new BitmapImage(new Uri("file:///C:/Users/John/Desktop/picture-show-flickr-promo.jpg"));
-            //Image1.Source = image;
+            Current = new ObservableCollection<BitmapImage>();
+            Position = pos;
+            DataContext = this;
+        }
+
+        public TwoByTwoImageLayout(IStudy study, StudyIterator layout) : this(study)
+        {
+            Position = layout.Position;
         }
 
         public ObservableCollection<BitmapImage> Current { get; set; }
 
-        private int _position;
+        public string Serialize(){
+            return Representation + '\n' + Position;
+        }
+
+        private int _position = -1;
         /// <summary>
-        /// Gets and sets the position. The position is 1 indexed
+        /// Gets and sets the position, handles all iteration
         /// </summary>
         public int Position
         {
@@ -52,22 +66,50 @@ namespace MedicalImager
             {
                 if(value != _position)
                 {
-                    if(value < 0 || value >= _study.Count - 4)
+                    if(value < 0 || value >= (_study.size()))
                     {
-                        throw new IndexOutOfRangeException("No images found at position " + value);
+                        //throw new IndexOutOfRangeException("No images found at position " + value);
+                        return;
                     }
                     else
                     {
-                        Current.Clear();
-                        for (int i = 0; _position + i < _study.Count && i < 4; i++ )
-                            Current.Add(_study[_position+i]);
+                        _position = value - (value % 4);
+                        Console.Out.WriteLine("Value given: " + value);
+                        Console.Out.WriteLine("New Position: " + _position);
+                        
+                        if(Current.Count == 0)
+                        {
+                            for (int i = 0; _position + i < _study.size() && i < 4; i++)
+                                Current.Add(_study[_position + i]);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < 4; i++)
+                                if (_position + i < _study.size())
+                                    Current[i] = _study[_position + i];
+                                else
+                                    Current[i] = null;
+                        }
+                        
                     }
                 }
             }
         }
 
-        //public BitmapImage image;
+        /// <summary>
+        /// The current Study
+        /// </summary>
+        public IStudy Study
+        {
+            get
+            {
+                return _study;
+            }
+        }
 
+        /// <summary>
+        /// The collection of images being displayed
+        /// </summary>
         object IEnumerator.Current
         {
             get
@@ -76,15 +118,21 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// moves back to the first image
+        /// </summary>
         public void Reset()
         {
-            Current.Clear();
             Position = 0;
         }
 
+        /// <summary>
+        /// Moves to the next set of images if possible
+        /// </summary>
+        /// <returns>true if successful, false otherwise</returns>
         public bool MoveNext()
         {
-            if(Position > _study.Count -4)
+            if(Position + 4 > (_study.size()-1))
             {
                 return false;
             }
@@ -95,6 +143,10 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Moves to the previous set of images if possible
+        /// </summary>
+        /// <returns>true if successful, false otherwise</returns>
         public bool MovePrev()
         {
             if(Position <= 1)

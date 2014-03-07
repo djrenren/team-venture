@@ -23,23 +23,42 @@ namespace MedicalImager
     /// </summary>
     public partial class SingleImageLayout : Page, StudyIterator
     {
-        private Study _study;
+        private IStudy _study;
+        public static string Representation = "1x1";
 
-        public SingleImageLayout(Study study)
+        public SingleImageLayout(IStudy study) : this(study, 0) {}
+
+        /// <summary>
+        /// Creates a SingleImageLayout at a specific position
+        /// </summary>
+        /// <param name="study">the study being used</param>
+        /// <param name="pos">the position in the iteration</param>
+        public SingleImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
-            DataContext = this;
             _study = study;
-            Reset();
-            // image = new BitmapImage(new Uri("file:///C:/Users/John/Desktop/picture-show-flickr-promo.jpg"));
-            //Image1.Source = image;
+            Current = new ObservableCollection<BitmapImage>();
+            Position = pos;
+            DataContext = this;
+        }
+
+        public SingleImageLayout(IStudy study, StudyIterator layout) : this(study)
+        {
+            Position = layout.Position;
         }
 
         public ObservableCollection<BitmapImage> Current { get; set; }
 
-        private int _position;
+        private int _position = -1;
+
+
+        public string Serialize()
+        {
+            return Representation + '\n' + Position;
+        }
+
         /// <summary>
-        /// Gets and sets the position. The position is 1 indexed
+        /// Gets and sets the position. Handles all the iteration
         /// </summary>
         public int Position
         {
@@ -52,21 +71,44 @@ namespace MedicalImager
             {
                 if(value != _position)
                 {
-                    if(value < 0 || value > _study.Count)
+                    if(value < 0 || value >= _study.size())
                     {
-                        throw new IndexOutOfRangeException("No images found at position " + value);
+                        //throw new IndexOutOfRangeException("No images found at position " + value);
+                        return;
                     }
                     else
                     {
-                        Current.Clear();
-                        Current.Add(_study[value]);
+                        if (Current.Count == 0)
+                        {
+                            Current.Add(_study[value]);
+                        }
+                        else
+                        {
+                            Current[0] = _study[value];
+                        }
+                        _position = value;
+                        Console.Out.WriteLine("New Position: " + Position);
+                        Console.Out.WriteLine(Current[0]);
+                        Image1.Source = Current[0];
                     }
                 }
             }
         }
 
-        //public BitmapImage image;
+        /// <summary>
+        /// The study being used
+        /// </summary>
+        public IStudy Study
+        {
+            get
+            {
+                return _study;
+            }
+        }
 
+        /// <summary>
+        /// The collection of images being displayed
+        /// </summary>
         object IEnumerator.Current
         {
             get
@@ -75,15 +117,21 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Resets the iteration to the first element
+        /// </summary>
         public void Reset()
         {
-            Current.Clear();
             Position = 0;
         }
 
+        /// <summary>
+        /// Moves to the next image if possible
+        /// </summary>
+        /// <returns>true if successful, false otherwise</returns>
         public bool MoveNext()
         {
-            if(Position >= _study.Count)
+            if(Position >= _study.size()-1)
             {
                 return false;
             }
@@ -94,6 +142,10 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Moves to the previous image if possible
+        /// </summary>
+        /// <returns>true if successful, false otherwise</returns>
         public bool MovePrev()
         {
             if(Position < 1)
