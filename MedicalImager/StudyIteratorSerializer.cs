@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedicalImager
 {
+    /// <summary>
+    /// Factory class that creates new study iterator based of the meta data of a given study 
+    /// </summary>
     class StudyIteratorFactory
     {
         /// <summary>

@@ -8,6 +8,9 @@ using System.Drawing;
 
 namespace MedicalImager
 {
+    /// <summary>
+    /// Interface for remoteStudy and study
+    /// </summary>
     public interface IStudy
     {
         int size();

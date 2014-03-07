@@ -9,7 +9,9 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager
 {
-
+    /// <summary>
+    /// Interface for the image layouts 
+    /// </summary>
     public interface StudyIterator : IEnumerator<ObservableCollection<BitmapImage>>
     {
         /// <summary>
