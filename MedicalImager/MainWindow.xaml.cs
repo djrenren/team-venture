@@ -70,7 +70,7 @@ namespace MedicalImager
 
         private void mnu_Exit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
@@ -121,6 +121,32 @@ namespace MedicalImager
             mnu_Save.IsEnabled = true;
             mnu_SaveAs.IsEnabled = true;
             mnu_View.IsEnabled = true;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (layout != null)
+            {
+                MessageBoxButton button = MessageBoxButton.YesNoCancel;
+                MessageBoxImage icon = MessageBoxImage.Warning;
+                MessageBoxResult result = MessageBox.Show("Do you wish to save before exiting?",
+                    "Medical Image Viewer",
+                    button,
+                    icon);
+
+                // Process message box results 
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        layout.Study.Save(layout.Serialize());
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                    case MessageBoxResult.Cancel:
+                        e.Cancel = true;
+                        break;
+                }
+            }
         }
     }
 }
