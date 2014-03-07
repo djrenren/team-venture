@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,10 +28,11 @@ namespace MedicalImager
             mnu_View.IsEnabled = false;
             mnu_Save.IsEnabled = false;
             mnu_SaveAs.IsEnabled = false;
+            mnu_Default.IsEnabled = false;
 
             //check for a default study
             string def = Environment.GetEnvironmentVariable("MedImgDefault", EnvironmentVariableTarget.User);
-            if (def != "" && def != null)
+            if (def != "" && def != null && Directory.Exists(def))
             {
                 IStudy study = new Study(def);
                 layout = StudyIteratorFactory.Create(study);
@@ -136,6 +138,7 @@ namespace MedicalImager
             mnu_Save.IsEnabled = true;
             mnu_SaveAs.IsEnabled = true;
             mnu_View.IsEnabled = true;
+            mnu_Default.IsEnabled = true;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
