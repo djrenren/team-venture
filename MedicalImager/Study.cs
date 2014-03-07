@@ -35,18 +35,24 @@ namespace MedicalImager
             return this.Count;
         }
 
-        public void Save(string targetPath, string metadata)
+        public void Save(string metadata)
         {
-            if (System.IO.Directory.Exists(targetPath))
+            string[] lines = { metadata };
+            System.IO.File.WriteAllLines(directory + @"\.data", lines);
+        }
+
+        public void Save(Uri targetPath, string metadata)
+        {
+            if (System.IO.Directory.Exists(targetPath.AbsolutePath))
             {
                 throw new Exception("The directory already exists: " + targetPath);
             }
 
-            DirectoryInfo dir = Directory.CreateDirectory(targetPath);
+            DirectoryInfo dir = Directory.CreateDirectory(targetPath.AbsolutePath);
 
             foreach (string path in filePaths)
             {
-                string copyTo = Path.Combine(targetPath, Path.GetFileName(path));
+                string copyTo = Path.Combine(targetPath.AbsolutePath, Path.GetFileName(path));
                 System.IO.File.Copy(path, copyTo, true);
             }
             string[] lines = { metadata };
