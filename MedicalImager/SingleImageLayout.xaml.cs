@@ -26,11 +26,13 @@ namespace MedicalImager
         private IStudy _study;
         public static string Representation = "1x1";
 
-        public SingleImageLayout(IStudy study) : this(study, 0)
-        {
+        public SingleImageLayout(IStudy study) : this(study, 0) {}
 
-        }
-
+        /// <summary>
+        /// Creates a SingleImageLayout at a specific position
+        /// </summary>
+        /// <param name="study">the study being used</param>
+        /// <param name="pos">the position in the iteration</param>
         public SingleImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
@@ -56,7 +58,7 @@ namespace MedicalImager
         }
 
         /// <summary>
-        /// Gets and sets the position. The position is 1 indexed
+        /// Gets and sets the position. Handles all the iteration
         /// </summary>
         public int Position
         {
@@ -93,6 +95,9 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// The study being used
+        /// </summary>
         public IStudy Study
         {
             get
@@ -101,6 +106,9 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// The collection of images being displayed
+        /// </summary>
         object IEnumerator.Current
         {
             get
@@ -109,27 +117,35 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Resets the iteration to the first element
+        /// </summary>
         public void Reset()
         {
             Position = 0;
-            Console.Out.WriteLine("Reset");
         }
 
+        /// <summary>
+        /// Moves to the next image if possible
+        /// </summary>
+        /// <returns>true if successful, false otherwise</returns>
         public bool MoveNext()
         {
             if(Position >= _study.size()-1)
             {
-                Console.Out.WriteLine("Cannot move");
                 return false;
             }
             else
             {
-                Console.Out.WriteLine("Attempting move");
                 Position++;
                 return true;
             }
         }
 
+        /// <summary>
+        /// Moves to the previous image if possible
+        /// </summary>
+        /// <returns>true if successful, false otherwise</returns>
         public bool MovePrev()
         {
             if(Position < 1)

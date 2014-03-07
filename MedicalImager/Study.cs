@@ -16,10 +16,15 @@ namespace MedicalImager
         public string directory;
         string[] filePaths;
 
+        /// <summary>
+        /// Creates a new study using the images contained in a directory
+        /// </summary>
+        /// <param name="dir">the path to the directory holding the study's images</param>
         public Study(string dir)
         {
             filePaths = Directory.GetFiles(dir);
             directory = dir;
+            //this list is used to eliminate non jpeg files
             List<string> imgPaths = new List<string>();
             foreach (string path in filePaths)
             {
@@ -38,12 +43,23 @@ namespace MedicalImager
             return this.Count;
         }
 
+        /// <summary>
+        /// Saves the state of the system to the study's directory
+        /// </summary>
+        /// <param name="metadata">The content to write into the .data file,
+        /// this should be a serialized layout</param>
         public void Save(string metadata)
         {
             string[] lines = { metadata };
             System.IO.File.WriteAllLines(directory + @"\.data", lines);
         }
 
+        /// <summary>
+        /// Saves state of the system to a new directory
+        /// </summary>
+        /// <param name="targetPath">The path to the new directory</param>
+        /// <param name="metadata">The content to write into the .data file,
+        /// this should be a serialized layout</param>
         public void Save(Uri targetPath, string metadata)
         {
             if (!System.IO.Directory.Exists(targetPath.AbsolutePath))
@@ -69,6 +85,13 @@ namespace MedicalImager
             string[] lines = { metadata };
             System.IO.File.WriteAllLines(targetPath.AbsolutePath + @"\.data", lines);
         }
+
+        /// <summary>
+        /// Gets the meta data from the .data file in the study's directory if
+        /// the file exists
+        /// </summary>
+        /// <returns>the content of the .data file if it exists, 
+        /// null otherwise</returns>
         public string GetMeta()
         {
             try

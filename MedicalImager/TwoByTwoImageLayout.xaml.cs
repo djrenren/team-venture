@@ -53,7 +53,7 @@ namespace MedicalImager
 
         private int _position = -1;
         /// <summary>
-        /// Gets and sets the position
+        /// Gets and sets the position, handles all iteration
         /// </summary>
         public int Position
         {
@@ -73,7 +73,6 @@ namespace MedicalImager
                     }
                     else
                     {
-                        //_position = 4 * ((int)((value - 1)/4));
                         _position = value - (value % 4);
                         Console.Out.WriteLine("Value given: " + value);
                         Console.Out.WriteLine("New Position: " + _position);
@@ -97,6 +96,9 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// The current Study
+        /// </summary>
         public IStudy Study
         {
             get
@@ -105,6 +107,9 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// The collection of images being displayed
+        /// </summary>
         object IEnumerator.Current
         {
             get
@@ -113,11 +118,18 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// moves back to the first image
+        /// </summary>
         public void Reset()
         {
             Position = 0;
         }
 
+        /// <summary>
+        /// Moves to the next set of images if possible
+        /// </summary>
+        /// <returns>true if successful, false otherwise</returns>
         public bool MoveNext()
         {
             if(Position + 4 > (_study.size()-1))
@@ -131,6 +143,10 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Moves to the previous set of images if possible
+        /// </summary>
+        /// <returns>true if successful, false otherwise</returns>
         public bool MovePrev()
         {
             if(Position <= 1)
