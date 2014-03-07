@@ -7,21 +7,33 @@ using System.Windows.Forms;
 
 namespace MedicalImager
 {
-    class OpenStudyDialog : System.Windows.Forms.Form
+    class OpenStudyDialog
     {
         private FolderBrowserDialog folderBrowser;
 
         public OpenStudyDialog()
         {
             this.folderBrowser = new FolderBrowserDialog();
-            this.folderBrowser.Description = "Select a Study folder";
-            this.folderBrowser.ShowNewFolderButton = false;
         }
 
         public string openStudy()
         {
+            this.folderBrowser.Description = "Select a Study folder";
+            this.folderBrowser.ShowNewFolderButton = false;
             DialogResult result = folderBrowser.ShowDialog();
             if(result == DialogResult.OK)
+            {
+                return folderBrowser.SelectedPath;
+            }
+            return null;
+        }
+
+        public string saveStudy()
+        {
+            this.folderBrowser.Description = "Select a folder or make a new folder (recommended) to save all images in";
+            this.folderBrowser.ShowNewFolderButton = true;
+            DialogResult result = folderBrowser.ShowDialog();
+            if (result == DialogResult.OK)
             {
                 return folderBrowser.SelectedPath;
             }

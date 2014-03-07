@@ -69,14 +69,13 @@ namespace MedicalImager
             {
                 if(value != _position)
                 {
-                    if(value < 0 || value > _study.size())
+                    if(value < 0 || value >= _study.size())
                     {
-                        throw new IndexOutOfRangeException("No images found at position " + value);
+                        //throw new IndexOutOfRangeException("No images found at position " + value);
+                        return;
                     }
                     else
                     {
-                        //Current.Clear();
-                        //Current.Add(_study[value]);
                         if (Current.Count == 0)
                         {
                             Current.Add(_study[value]);

@@ -25,6 +25,8 @@ namespace MedicalImager
         {
             InitializeComponent();
             mnu_View.IsEnabled = false;
+            mnu_Save.IsEnabled = false;
+            mnu_SaveAs.IsEnabled = false;
             layout = null;
         }
 
@@ -37,8 +39,9 @@ namespace MedicalImager
                 return;
             openedStudy = new Study(filePath);
             // Code for passing off the Study object (displaying it) goes here
-            layout = new SingleImageLayout(openedStudy);
-            mnu_View.IsEnabled = true;
+            //layout = new SingleImageLayout(openedStudy);
+            layout = StudyIteratorFactory.Create(openedStudy);
+            enableButtons();
             Layout.Navigate(layout);
             updateCount();
 
@@ -46,12 +49,23 @@ namespace MedicalImager
 
         private void mnu_Save_Click(object sender, RoutedEventArgs e)
         {
-
+            layout.Study.Save(layout.Serialize());
         }
 
         private void mnu_SaveAs_Click(object sender, RoutedEventArgs e)
         {
+            OpenStudyDialog open = new OpenStudyDialog();
+            string path = open.saveStudy();
 
+            if(path == null)
+            {
+                return;
+            }
+
+            layout.Study.Save(new Uri(path), layout.Serialize());
+            IStudy copy = new Study(path);
+            layout = StudyIteratorFactory.Create(copy);
+            Layout.Navigate(layout);
         }
 
         private void mnu_Exit_Click(object sender, RoutedEventArgs e)
@@ -100,6 +114,13 @@ namespace MedicalImager
         private void updateCount()
         {
             CountLabel.Content = "Position: " + (layout.Position + 1);
+        }
+
+        private void enableButtons()
+        {
+            mnu_Save.IsEnabled = true;
+            mnu_SaveAs.IsEnabled = true;
+            mnu_View.IsEnabled = true;
         }
     }
 }

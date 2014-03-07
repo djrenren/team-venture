@@ -8,11 +8,15 @@ namespace MedicalImager
 {
     class StudyIteratorFactory
     {
-
-
         public static StudyIterator Create(IStudy study)
         {
             string meta = study.GetMeta();
+            
+            if(meta == null)
+            {
+                return new SingleImageLayout(study);
+            }
+
             string[] lines = meta.Split('\n');
             string repr = lines[0];
             int pos = int.Parse(lines[1]);

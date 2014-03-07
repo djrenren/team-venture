@@ -68,7 +68,8 @@ namespace MedicalImager
                 {
                     if(value < 0 || value >= (_study.size()))
                     {
-                        throw new IndexOutOfRangeException("No images found at position " + value);
+                        //throw new IndexOutOfRangeException("No images found at position " + value);
+                        return;
                     }
                     else
                     {

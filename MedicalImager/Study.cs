@@ -43,12 +43,13 @@ namespace MedicalImager
 
         public void Save(Uri targetPath, string metadata)
         {
-            if (System.IO.Directory.Exists(targetPath.AbsolutePath))
+            if (!System.IO.Directory.Exists(targetPath.AbsolutePath))
             {
-                throw new Exception("The directory already exists: " + targetPath);
+                //throw new Exception("The directory already exists: " + targetPath);
+                Directory.CreateDirectory(targetPath.AbsolutePath);
             }
 
-            DirectoryInfo dir = Directory.CreateDirectory(targetPath.AbsolutePath);
+            //DirectoryInfo dir = Directory.CreateDirectory(targetPath.AbsolutePath);
 
             foreach (string path in filePaths)
             {
@@ -56,12 +57,21 @@ namespace MedicalImager
                 System.IO.File.Copy(path, copyTo, true);
             }
             string[] lines = { metadata };
-            System.IO.File.WriteAllLines(targetPath + @"\.data", lines);
+            System.IO.File.WriteAllLines(targetPath.AbsolutePath + @"\.data", lines);
         }
         public string GetMeta()
         {
-            var reader = new StreamReader(directory + "\\.data");
-            return reader.ReadToEnd();
+            try
+            {
+                var reader = new StreamReader(directory + "\\.data");
+                string meta = reader.ReadToEnd();
+                reader.Close();
+                return meta;
+            }
+            catch (IOException e)
+            {
+                return null;
+            }
         }
     }
 }
