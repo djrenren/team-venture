@@ -7,11 +7,11 @@ using System.Windows.Forms;
 
 namespace MedicalImager
 {
-    class OpenStudyDialog
+    class StudyBrowserDialog
     {
         private FolderBrowserDialog folderBrowser;
 
-        public OpenStudyDialog()
+        public StudyBrowserDialog()
         {
             this.folderBrowser = new FolderBrowserDialog();
         }

@@ -66,7 +66,7 @@ namespace MedicalImager
 
         private void mnu_SaveAs_Click(object sender, RoutedEventArgs e)
         {
-            OpenStudyDialog open = new OpenStudyDialog();
+            StudyBrowserDialog open = new StudyBrowserDialog();
             string path = open.saveStudy();
 
             if(path == null)
@@ -151,7 +151,7 @@ namespace MedicalImager
 
         private void openMenu()
         {
-            OpenStudyDialog newDialog = new OpenStudyDialog();
+            StudyBrowserDialog newDialog = new StudyBrowserDialog();
             string filePath = newDialog.openStudy();
             IStudy openedStudy;
             if (filePath == null)
