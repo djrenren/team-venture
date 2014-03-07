@@ -20,14 +20,17 @@ namespace MedicalImager
         {
             filePaths = Directory.GetFiles(dir);
             directory = dir;
+            List<string> imgPaths = new List<string>();
             foreach (string path in filePaths)
             {
                 if(!path.EndsWith(".jpg"))
                     continue;
+                imgPaths.Add(path);
                 Uri uri = new Uri(path);
                 BitmapImage bm = new BitmapImage (uri);
                 base.Add(bm);
             }
+            filePaths = imgPaths.ToArray<string>();
         }
 
         public int size()
@@ -54,7 +57,14 @@ namespace MedicalImager
             foreach (string path in filePaths)
             {
                 string copyTo = Path.Combine(targetPath.AbsolutePath, Path.GetFileName(path));
-                System.IO.File.Copy(path, copyTo, true);
+                try
+                {
+                    System.IO.File.Copy(path, copyTo, true);
+                }
+                catch (IOException e)
+                {
+                    Console.Out.WriteLine("Copy operation failed");
+                }
             }
             string[] lines = { metadata };
             System.IO.File.WriteAllLines(targetPath.AbsolutePath + @"\.data", lines);
