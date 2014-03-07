@@ -43,6 +43,11 @@ namespace MedicalImager
             return this.Count;
         }
 
+        public void SetDefault()
+        {
+            Environment.SetEnvironmentVariable("MedImgDefault", directory, EnvironmentVariableTarget.User);
+        }
+
         /// <summary>
         /// Saves the state of the system to the study's directory
         /// </summary>

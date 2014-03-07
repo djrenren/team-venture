@@ -19,6 +19,8 @@ namespace MedicalImager
 
         string GetMeta();
 
+        void SetDefault();
+
         void Save(string metadata);
 
         void Save(Uri targetUri, string metadata);

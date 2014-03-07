@@ -27,7 +27,22 @@ namespace MedicalImager
             mnu_View.IsEnabled = false;
             mnu_Save.IsEnabled = false;
             mnu_SaveAs.IsEnabled = false;
-            layout = null;
+
+            //check for a default study
+            string def = Environment.GetEnvironmentVariable("MedImgDefault", EnvironmentVariableTarget.User);
+            if (def != "" && def != null)
+            {
+                IStudy study = new Study(def);
+                layout = StudyIteratorFactory.Create(study);
+                enableButtons();
+                updateCount();
+                Layout.Navigate(layout);
+            }
+            else
+            {
+                layout = null;
+                openMenu();
+            }
         }
 
         private void mnu_Open_Click(object sender, RoutedEventArgs e)
@@ -38,21 +53,8 @@ namespace MedicalImager
                 bool cancel = promptSave();
                 if (cancel)
                     return;
+                openMenu();
             }
-
-            OpenStudyDialog newDialog = new OpenStudyDialog();
-            string filePath = newDialog.openStudy();
-            IStudy openedStudy;
-            if (filePath == null)
-                return;
-            openedStudy = new Study(filePath);
-            // Code for passing off the Study object (displaying it) goes here
-            //layout = new SingleImageLayout(openedStudy);
-            layout = StudyIteratorFactory.Create(openedStudy);
-            enableButtons();
-            Layout.Navigate(layout);
-            updateCount();
-
         }
 
         private void mnu_Save_Click(object sender, RoutedEventArgs e)
@@ -74,6 +76,11 @@ namespace MedicalImager
             IStudy copy = new Study(path);
             layout = StudyIteratorFactory.Create(copy);
             Layout.Navigate(layout);
+        }
+
+        private void mnu_Default_Click(object sender, RoutedEventArgs e)
+        {
+            layout.Study.SetDefault();
         }
 
         private void mnu_Exit_Click(object sender, RoutedEventArgs e)
@@ -137,6 +144,22 @@ namespace MedicalImager
             {
                 e.Cancel = promptSave();
             }
+        }
+
+        private void openMenu()
+        {
+            OpenStudyDialog newDialog = new OpenStudyDialog();
+            string filePath = newDialog.openStudy();
+            IStudy openedStudy;
+            if (filePath == null)
+                return;
+            openedStudy = new Study(filePath);
+            // Code for passing off the Study object (displaying it) goes here
+            //layout = new SingleImageLayout(openedStudy);
+            layout = StudyIteratorFactory.Create(openedStudy);
+            enableButtons();
+            Layout.Navigate(layout);
+            updateCount();
         }
 
         /// <summary>
