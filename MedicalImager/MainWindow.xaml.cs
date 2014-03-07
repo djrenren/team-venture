@@ -32,6 +32,14 @@ namespace MedicalImager
 
         private void mnu_Open_Click(object sender, RoutedEventArgs e)
         {
+            //if a study is being displayed prompt to save first
+            if(layout != null)
+            {
+                bool cancel = promptSave();
+                if (cancel)
+                    return;
+            }
+
             OpenStudyDialog newDialog = new OpenStudyDialog();
             string filePath = newDialog.openStudy();
             IStudy openedStudy;
@@ -127,25 +135,35 @@ namespace MedicalImager
         {
             if (layout != null)
             {
-                MessageBoxButton button = MessageBoxButton.YesNoCancel;
-                MessageBoxImage icon = MessageBoxImage.Warning;
-                MessageBoxResult result = MessageBox.Show("Do you wish to save before exiting?",
-                    "Medical Image Viewer",
-                    button,
-                    icon);
+                e.Cancel = promptSave();
+            }
+        }
 
-                // Process message box results 
-                switch (result)
-                {
-                    case MessageBoxResult.Yes:
-                        layout.Study.Save(layout.Serialize());
-                        break;
-                    case MessageBoxResult.No:
-                        break;
-                    case MessageBoxResult.Cancel:
-                        e.Cancel = true;
-                        break;
-                }
+        /// <summary>
+        /// Prompts the user to save the study state
+        /// </summary>
+        /// <returns>true if the user selected to cancel their operation</returns>
+        private bool promptSave()
+        {
+            MessageBoxButton button = MessageBoxButton.YesNoCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result = MessageBox.Show(
+                "Would you like to save your current study state first? Unsaved data may be lost!",
+                "Medical Image Viewer",
+                button,
+                icon);
+
+            // Process message box results 
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    layout.Study.Save(layout.Serialize());
+                    return false;
+                case MessageBoxResult.No:
+                    return false;
+                case MessageBoxResult.Cancel:
+                    return true;
+                default: return true;
             }
         }
     }
