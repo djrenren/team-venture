@@ -55,8 +55,8 @@ namespace MedicalImager
                 bool cancel = promptSave();
                 if (cancel)
                     return;
-                openMenu();
             }
+            openMenu();
         }
 
         private void mnu_Save_Click(object sender, RoutedEventArgs e)
