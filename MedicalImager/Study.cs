@@ -11,6 +11,9 @@ using System.Drawing;
 
 namespace MedicalImager
 {
+    /// <summary>
+    /// List of bitmap images with additional saving functionality 
+    /// </summary>
     public class Study : List<BitmapImage>, IStudy
     {
         public string directory;

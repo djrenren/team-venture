@@ -15,7 +15,10 @@ namespace MedicalImager
         {
             this.folderBrowser = new FolderBrowserDialog();
         }
-
+        /// <summary>
+        /// Opens browsing window to locate a study folder
+        /// </summary>
+        /// <returns>File path</returns>
         public string openStudy()
         {
             this.folderBrowser.Description = "Select a Study folder";
@@ -27,7 +30,10 @@ namespace MedicalImager
             }
             return null;
         }
-
+        /// <summary>
+        /// Opens a browing window to specify a save location 
+        /// </summary>
+        /// <returns></returns>
         public string saveStudy()
         {
             this.folderBrowser.Description = "Select a folder or make a new folder (recommended) to save all images in";

@@ -8,6 +8,12 @@ namespace MedicalImager
 {
     class StudyIteratorFactory
     {
+        /// <summary>
+        /// Creates a new study iterator given a study. The new iterator created is determined 
+        /// by the meta data associated with the study
+        /// </summary>
+        /// <param name="study">Any study </param>
+        /// <returns>returns a study iterator </returns>
         public static StudyIterator Create(IStudy study)
         {
             string meta = study.GetMeta();
