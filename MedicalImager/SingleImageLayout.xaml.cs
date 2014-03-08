@@ -71,7 +71,7 @@ namespace MedicalImager
             {
                 if(value != _position)
                 {
-                    if(value < 0 || value >= _study.size())
+                    if(value < 0 || value >= _study.Size())
                     {
                         //throw new IndexOutOfRangeException("No images found at position " + value);
                         return;
@@ -131,7 +131,7 @@ namespace MedicalImager
         /// <returns>true if successful, false otherwise</returns>
         public bool MoveNext()
         {
-            if(Position >= _study.size()-1)
+            if(Position >= _study.Size()-1)
             {
                 return false;
             }

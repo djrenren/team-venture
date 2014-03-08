@@ -13,7 +13,7 @@ namespace MedicalImager
     /// </summary>
     public interface IStudy
     {
-        int size();
+        int Size();
         BitmapImage this[int index]
         {
             get;

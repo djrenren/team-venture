@@ -25,6 +25,10 @@ namespace MedicalImager
         /// </summary>
         int Position { get; set; }
 
+        /// <summary>
+        /// Creates a texy representation that can be written to the disk
+        /// </summary>
+        /// <returns>the text representation of the layout</returns>
         string Serialize();
 
         IStudy Study { get; }

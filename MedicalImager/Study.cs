@@ -41,7 +41,7 @@ namespace MedicalImager
             filePaths = imgPaths.ToArray<string>();
         }
 
-        public int size()
+        public int Size()
         {
             return this.Count;
         }

@@ -52,6 +52,7 @@ namespace MedicalImager
         }
 
         private int _position = -1;
+        
         /// <summary>
         /// Gets and sets the position, handles all iteration
         /// </summary>
@@ -66,7 +67,7 @@ namespace MedicalImager
             {
                 if(value != _position)
                 {
-                    if(value < 0 || value >= (_study.size()))
+                    if(value < 0 || value >= (_study.Size()))
                     {
                         //throw new IndexOutOfRangeException("No images found at position " + value);
                         return;
@@ -74,18 +75,17 @@ namespace MedicalImager
                     else
                     {
                         _position = value - (value % 4);
-                        Console.Out.WriteLine("Value given: " + value);
-                        Console.Out.WriteLine("New Position: " + _position);
                         
+                        //This is for the first time setting images
                         if(Current.Count == 0)
                         {
-                            for (int i = 0; _position + i < _study.size() && i < 4; i++)
+                            for (int i = 0; _position + i < _study.Size() && i < 4; i++)
                                 Current.Add(_study[_position + i]);
                         }
                         else
                         {
                             for (int i = 0; i < 4; i++)
-                                if (_position + i < _study.size())
+                                if (_position + i < _study.Size())
                                     Current[i] = _study[_position + i];
                                 else
                                     Current[i] = null;
@@ -132,7 +132,7 @@ namespace MedicalImager
         /// <returns>true if successful, false otherwise</returns>
         public bool MoveNext()
         {
-            if(Position + 4 > (_study.size()-1))
+            if(Position + 4 > (_study.Size()-1))
             {
                 return false;
             }

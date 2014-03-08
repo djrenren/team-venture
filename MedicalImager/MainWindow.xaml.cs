@@ -47,6 +47,12 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// warns the user to save state then opens the study browser to
+        /// select a study to open
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnu_Open_Click(object sender, RoutedEventArgs e)
         {
             //if a study is being displayed prompt to save first
@@ -64,6 +70,12 @@ namespace MedicalImager
             layout.Study.Save(layout.Serialize());
         }
 
+        /// <summary>
+        /// Opens a folder browser to allow the user to select a directory
+        /// to save into. The current study is then switched to the new directory
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnu_SaveAs_Click(object sender, RoutedEventArgs e)
         {
             StudyBrowserDialog open = new StudyBrowserDialog();
@@ -108,6 +120,11 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Switches to the SingleImageLayout if possible
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnu_Single_Click(object sender, RoutedEventArgs e)
         {
             if (layout != null && !layout.GetType().Equals(typeof(SingleImageLayout)))
@@ -118,6 +135,11 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Switches to the TwoByTwoImageLayout if possible
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnu_TwoByTwo_Click(object sender, RoutedEventArgs e)
         {
             if (layout != null && !layout.GetType().Equals(typeof(TwoByTwoImageLayout)))
@@ -128,11 +150,17 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Updates the label denoting the position in the study
+        /// </summary>
         private void updateCount()
         {
             CountLabel.Content = "Position: " + (layout.Position + 1);
         }
 
+        /// <summary>
+        /// Enables buttons that should only be clicked when an active study is available
+        /// </summary>
         private void enableButtons()
         {
             mnu_Save.IsEnabled = true;
@@ -141,6 +169,11 @@ namespace MedicalImager
             mnu_Default.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Called whenever the window is closing. Gives the user a chance to cancel or save
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (layout != null)
@@ -149,6 +182,9 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Causes the folder browser to open to select a study
+        /// </summary>
         private void openMenu()
         {
             StudyBrowserDialog newDialog = new StudyBrowserDialog();
