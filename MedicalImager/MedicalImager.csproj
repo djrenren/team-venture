@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="StudyIteratorSerializer.cs" />
+    <Compile Include="StudyIteratorFactory.cs" />
     <Compile Include="IStudy.cs" />
     <Compile Include="TwoByTwoImageLayout.xaml.cs">
       <DependentUpon>TwoByTwoImageLayout.xaml</DependentUpon>
