@@ -163,5 +163,10 @@ namespace MedicalImager
         {
 
         }
+
+        public void accept(IVisitor v)
+        {
+            v.visitLayout(this);
+        }
     }
 }
