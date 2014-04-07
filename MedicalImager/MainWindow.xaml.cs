@@ -228,5 +228,15 @@ namespace MedicalImager
                 default: return true;
             }
         }
+
+        private void mnu_Coronal_Click(object sender, RoutedEventArgs e)
+        {
+            if (layout != null && !layout.GetType().Equals(typeof(CoronalReconstruction)))
+            {
+                layout = new CoronalReconstruction(layout.Study);
+                Layout.Navigate(layout);
+                updateCount();
+            }
+        }
     }
 }

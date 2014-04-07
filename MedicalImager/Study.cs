@@ -14,10 +14,10 @@ namespace MedicalImager
     /// <summary>
     /// List of bitmap images with additional saving functionality 
     /// </summary>
-    public class Study : List<BitmapImage>, IStudy
+    public class Study : List<Uri>, IStudy
     {
         public string directory;
-        string[] filePaths;
+        List<Uri> studyPaths;
 
         /// <summary>
         /// Creates a new study using the images contained in a directory
@@ -25,20 +25,18 @@ namespace MedicalImager
         /// <param name="dir">the path to the directory holding the study's images</param>
         public Study(string dir)
         {
-            filePaths = Directory.GetFiles(dir);
+            string[] files = Directory.GetFiles(dir);
             directory = dir;
             //this list is used to eliminate non jpeg files
             List<string> imgPaths = new List<string>();
-            foreach (string path in filePaths)
+            foreach (string path in files)
             {
-                if(!path.EndsWith(".jpg"))
+                if(!path.EndsWith(".jpg") || !path.EndsWith(".acr"))
                     continue;
-                imgPaths.Add(path);
+
                 Uri uri = new Uri(path);
-                BitmapImage bm = new BitmapImage (uri);
-                base.Add(bm);
+                base.Add(uri);
             }
-            filePaths = imgPaths.ToArray<string>();
         }
 
         public int Size()
@@ -77,13 +75,14 @@ namespace MedicalImager
             }
 
             //DirectoryInfo dir = Directory.CreateDirectory(targetPath.AbsolutePath);
-
-            foreach (string path in filePaths)
+            Uri[] uris = base.ToArray();
+            foreach (Uri path in uris)
             {
-                string copyTo = Path.Combine(targetPath.AbsolutePath, Path.GetFileName(path));
+                String stringVer = path.ToString();
+                string copyTo = Path.Combine(targetPath.AbsolutePath, Path.GetFileName(stringVer));
                 try
                 {
-                    System.IO.File.Copy(path, copyTo, true);
+                    System.IO.File.Copy(stringVer, copyTo, true);
                 }
                 catch (IOException e)
                 {

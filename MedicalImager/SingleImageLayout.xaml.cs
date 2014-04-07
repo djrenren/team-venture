@@ -23,7 +23,6 @@ namespace MedicalImager
     /// </summary>
     public partial class SingleImageLayout : Page, StudyIterator
     {
-        private IStudy _study;
         public static string Representation = "1x1";
 
         public SingleImageLayout(IStudy study) : this(study, 0) {}
@@ -36,8 +35,11 @@ namespace MedicalImager
         public SingleImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
-            _study = study;
             Current = new ObservableCollection<BitmapImage>();
+            for (int i = 0; i < study.Size(); i++)
+            {
+                StudyImage studyImg = new StudyImage(study[i]);
+            }
             Position = pos;
             DataContext = this;
         }
@@ -71,7 +73,7 @@ namespace MedicalImager
             {
                 if(value != _position)
                 {
-                    if(value < 0 || value >= _study.Size())
+                    if(value < 0 || value >= Images.Count)
                     {
                         //throw new IndexOutOfRangeException("No images found at position " + value);
                         return;
@@ -80,11 +82,11 @@ namespace MedicalImager
                     {
                         if (Current.Count == 0)
                         {
-                            Current.Add(_study[value]);
+                            Current.Add(Images.ElementAt(0).getBitmapImage());
                         }
                         else
                         {
-                            Current[0] = _study[value];
+                            Current[0] = Images.ElementAt(0).getBitmapImage();
                         }
                         _position = value;
                         Console.Out.WriteLine("New Position: " + Position);
@@ -92,17 +94,6 @@ namespace MedicalImager
                         Image1.Source = Current[0];
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// The study being used
-        /// </summary>
-        public IStudy Study
-        {
-            get
-            {
-                return _study;
             }
         }
 
@@ -131,7 +122,7 @@ namespace MedicalImager
         /// <returns>true if successful, false otherwise</returns>
         public bool MoveNext()
         {
-            if(Position >= _study.Size()-1)
+            if(Position >= Images.Count-1)
             {
                 return false;
             }
@@ -164,9 +155,11 @@ namespace MedicalImager
 
         }
 
-        public void accept(IVisitor v)
+
+        public List<StudyImage> Images
         {
-            v.visitLayout(this);
+            get;
+            set;
         }
     }
 }

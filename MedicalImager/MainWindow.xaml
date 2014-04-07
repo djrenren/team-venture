@@ -17,6 +17,7 @@
             <MenuItem Header="_View" x:Name="mnu_View">
                 <MenuItem Header="_Single Image" x:Name="mnu_Single" Click="mnu_Single_Click" />
                 <MenuItem Header="_Two By Two" x:Name="mnu_TwoByTwo" Click="mnu_TwoByTwo_Click" />
+                <MenuItem Header="_Coronal Reconstruction" x:Name="mnu_Coronal" Click="mnu_Coronal_Click" />
             </MenuItem>
 
         </Menu>
