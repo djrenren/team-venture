@@ -23,7 +23,6 @@ namespace MedicalImager
     /// </summary>
     public partial class CoronalReconstruction : Page, StudyIterator
     {
-        private IStudy _study;
         private int imageWidth;
         private int imageHeight;
         private int numSlices;
@@ -35,13 +34,16 @@ namespace MedicalImager
         public CoronalReconstruction(IStudy study, int pos)
         {
             InitializeComponent();
-            _study = study;
             Current = new ObservableCollection<BitmapImage>();
             Reconstruction = null;
             Position = pos;
+            for (int i = 0; i < study.Size(); i++)
+            {
+                StudyImage studyImg = new StudyImage(study[i]);
+            }
             DataContext = this;
             //gets a sample image from the study if possible
-            BitmapImage sample = _study.Size() > 0 ? _study[0] : null;
+            BitmapImage sample = Images.Count > 0 ? Images.ElementAt(0).getBitmapImage() : null;
             if(sample ==  null)
             {
                 imageWidth = 0;
@@ -51,7 +53,7 @@ namespace MedicalImager
             else
             {
                 imageWidth = sample.PixelWidth;
-                imageHeight = _study.Size();
+                imageHeight = Images.Count;
                 numSlices = sample.PixelHeight;
             }
         }
@@ -63,12 +65,12 @@ namespace MedicalImager
             PixelFormat pf = PixelFormats.Bgr32;
             int rawStride = (imageWidth * 5);
             byte[] rawImage = new byte[rawStride * imageHeight];
-            for(int i = 0; i < _study.Size(); i++)
+            for(int i = 0; i < Images.Count; i++)
             {
-                _study[i].CopyPixels(new Int32Rect(0, numSlices - Position - 1, imageWidth, 1), 
+                Images.ElementAt(i).Source.CopyPixels(new Int32Rect(0, numSlices - Position - 1, imageWidth, 1), 
                     rawImage, 
                     rawStride, 
-                    (_study.Size()-i-1)*(rawStride));
+                    (Images.Count-i-1)*(rawStride));
             }
 
             // Create a BitmapSource.
@@ -162,6 +164,19 @@ namespace MedicalImager
         public void Reset()
         {
             throw new NotImplementedException();
+        }
+
+
+        public List<StudyImage> Images
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

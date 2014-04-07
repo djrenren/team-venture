@@ -23,7 +23,6 @@ namespace MedicalImager
     /// </summary>
     public partial class TwoByTwoImageLayout : Page, StudyIterator
     {
-        private IStudy _study;
 
         public static string Representation = "2x2";
 
@@ -34,8 +33,11 @@ namespace MedicalImager
         public TwoByTwoImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
-            _study = study;
             Current = new ObservableCollection<BitmapImage>();
+            for (int i = 0; i < study.Size(); i++)
+            {
+                StudyImage studyImg = new StudyImage(study[i]);
+            }
             Position = pos;
             DataContext = this;
         }
@@ -67,7 +69,7 @@ namespace MedicalImager
             {
                 if(value != _position)
                 {
-                    if(value < 0 || value >= (_study.Size()))
+                    if(value < 0 || value >= Images.Count)
                     {
                         //throw new IndexOutOfRangeException("No images found at position " + value);
                         return;
@@ -79,31 +81,20 @@ namespace MedicalImager
                         //This is for the first time setting images
                         if(Current.Count == 0)
                         {
-                            for (int i = 0; _position + i < _study.Size() && i < 4; i++)
-                                Current.Add(_study[_position + i]);
+                            for (int i = 0; _position + i < Images.Count && i < 4; i++)
+                                Current.Add(Images.ElementAt(_position + i).getBitmapImage());
                         }
                         else
                         {
                             for (int i = 0; i < 4; i++)
-                                if (_position + i < _study.Size())
-                                    Current[i] = _study[_position + i];
+                                if (_position + i < Images.Count)
+                                    Current[i] = Images.ElementAt(_position + i).getBitmapImage();
                                 else
                                     Current[i] = null;
                         }
                         
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// The current Study
-        /// </summary>
-        public IStudy Study
-        {
-            get
-            {
-                return _study;
             }
         }
 
@@ -132,7 +123,7 @@ namespace MedicalImager
         /// <returns>true if successful, false otherwise</returns>
         public bool MoveNext()
         {
-            if(Position + 4 > (_study.Size()-1))
+            if(Position + 4 > (Images.Count-1))
             {
                 return false;
             }
@@ -163,6 +154,19 @@ namespace MedicalImager
         public void Dispose()
         {
 
+        }
+
+
+        public List<StudyImage> Images
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

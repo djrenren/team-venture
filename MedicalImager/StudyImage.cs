@@ -12,7 +12,7 @@ namespace MedicalImager
         {
             // TODO: Complete member initialization
         }
-        BitmapSource Source { get; set; }
+        public BitmapSource Source { get; set; }
 
         List<ImageOperation> Operations { get; set; }
 
