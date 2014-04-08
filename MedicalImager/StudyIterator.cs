@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,10 +27,11 @@ namespace MedicalImager
         int Position { get; set; }
 
         /// <summary>
-        /// Creates a texy representation that can be written to the disk
+        /// Creates a texy representation that can be written to the disk.
+        /// Uneccessary data should be disposed of before serializing.
         /// </summary>
-        /// <returns>the text representation of the layout</returns>
-        string Serialize();
+        /// <param name="stream">The filestream to write to</param>
+        void Serialize(FileStream stream);
 
         List<StudyImage> Images { get; set; }
     }

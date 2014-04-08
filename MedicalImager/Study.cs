@@ -12,7 +12,7 @@ using System.Drawing;
 namespace MedicalImager
 {
     /// <summary>
-    /// List of bitmap images with additional saving functionality 
+    /// List of URIs with additional saving functionality 
     /// </summary>
     public class Study : List<Uri>, IStudy
     {
@@ -54,10 +54,13 @@ namespace MedicalImager
         /// </summary>
         /// <param name="metadata">The content to write into the .data file,
         /// this should be a serialized layout</param>
-        public void Save(string metadata)
+        public void Save()
         {
-            string[] lines = { metadata };
-            System.IO.File.WriteAllLines(directory + @"\.data", lines);
+            //string[] lines = { metadata };
+            //System.IO.File.WriteAllLines(directory + @"\.data", lines);
+            FileStream f = new FileStream(directory + @"\.data", FileMode.Create);
+            Layout.Serialize(f);
+            f.Close();
         }
 
         /// <summary>
@@ -66,7 +69,7 @@ namespace MedicalImager
         /// <param name="targetPath">The path to the new directory</param>
         /// <param name="metadata">The content to write into the .data file,
         /// this should be a serialized layout</param>
-        public void Save(Uri targetPath, string metadata)
+        public void Save(Uri targetPath)
         {
             if (!System.IO.Directory.Exists(targetPath.AbsolutePath))
             {
@@ -75,8 +78,7 @@ namespace MedicalImager
             }
 
             //DirectoryInfo dir = Directory.CreateDirectory(targetPath.AbsolutePath);
-            Uri[] uris = base.ToArray();
-            foreach (Uri path in uris)
+            foreach (Uri path in base.ToArray())
             {
                 String stringVer = path.ToString();
                 string copyTo = Path.Combine(targetPath.AbsolutePath, Path.GetFileName(stringVer));
@@ -89,8 +91,11 @@ namespace MedicalImager
                     Console.Out.WriteLine("Copy operation failed");
                 }
             }
-            string[] lines = { metadata };
-            System.IO.File.WriteAllLines(targetPath.AbsolutePath + @"\.data", lines);
+            //string[] lines = { metadata };
+            //System.IO.File.WriteAllLines(targetPath.AbsolutePath + @"\.data", lines);
+            FileStream f = new FileStream(targetPath.AbsolutePath + @"\.data", FileMode.Create);
+            Layout.Serialize(f);
+            f.Close();
         }
 
         /// <summary>
@@ -101,6 +106,7 @@ namespace MedicalImager
         /// null otherwise</returns>
         public string GetMeta()
         {
+            /*
             try
             {
                 var reader = new StreamReader(directory + "\\.data");
@@ -112,6 +118,32 @@ namespace MedicalImager
             {
                 return null;
             }
+            */
+            return null;
+        }
+
+
+        public StudyIterator Layout
+        {
+            get;
+            set;
+        }
+
+
+        public void LoadSavedData()
+        {
+            System.Xml.Serialization.XmlSerializer loader = new System.Xml.Serialization.XmlSerializer(typeof(StudyIterator));
+            
+            try
+            {
+                FileStream f = new FileStream(directory + "\\.data", FileMode.Open);
+                Layout = (StudyIterator)loader.Deserialize(f);
+                f.Close();
+            }
+            catch (FileNotFoundException e)
+            {
+                Layout = new SingleImageLayout(this);
+            }   
         }
     }
 }

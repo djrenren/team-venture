@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace MedicalImager
 {
@@ -54,9 +56,11 @@ namespace MedicalImager
         private int _position = -1;
 
 
-        public string Serialize()
+        public void Serialize(FileStream stream)
         {
-            return Representation + '\n' + Position;
+            //return Representation + '\n' + Position;
+            XmlSerializer x = new XmlSerializer(this.GetType());
+            x.Serialize(stream, this);
         }
 
         /// <summary>

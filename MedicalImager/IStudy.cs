@@ -20,13 +20,17 @@ namespace MedicalImager
             set;
         }
 
+        StudyIterator Layout { get; set; }
+
+        void LoadSavedData();
+
         string GetMeta();
 
         void SetDefault();
 
-        void Save(string metadata);
+        void Save();
 
-        void Save(Uri targetUri, string metadata);
+        void Save(Uri targetUri);
 
     }
 }
