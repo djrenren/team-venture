@@ -13,7 +13,17 @@ namespace MedicalImager.Commands
 
         }
 
-        public static readonly enum SaveType
+        public override void Execute()
+        {
+
+        }
+
+        public override void UnExecute()
+        {
+
+        }
+
+        public enum SaveType
         {
             Save,
             SaveAs

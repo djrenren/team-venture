@@ -157,7 +157,7 @@ namespace MedicalImager
         }
 
 
-        public List<StudyImage> Images
+        List<StudyImage> Images
         {
             get
             {
@@ -167,6 +167,12 @@ namespace MedicalImager
             {
                 throw new NotImplementedException();
             }
+        }
+
+
+        public void Serialize(System.IO.FileStream stream)
+        {
+            throw new NotImplementedException();
         }
     }
 }

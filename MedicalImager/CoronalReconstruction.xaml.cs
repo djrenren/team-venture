@@ -60,7 +60,6 @@ namespace MedicalImager
 
         private void createNextImage()
         {
-            BitmapSource bms;
             Console.WriteLine("w: " + imageWidth + " h: " + imageHeight);
             PixelFormat pf = PixelFormats.Bgr32;
             int rawStride = (imageWidth * 5);
@@ -167,7 +166,7 @@ namespace MedicalImager
         }
 
 
-        public List<StudyImage> Images
+        private List<StudyImage> Images
         {
             get
             {
@@ -177,6 +176,12 @@ namespace MedicalImager
             {
                 throw new NotImplementedException();
             }
+        }
+
+
+        public void Serialize(System.IO.FileStream stream)
+        {
+            throw new NotImplementedException();
         }
     }
 }

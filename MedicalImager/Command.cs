@@ -18,12 +18,12 @@ namespace MedicalImager
         /// <summary>
         /// Executes the command
         /// </summary>
-        public void Execute();
+        public abstract void Execute();
 
         /// <summary>
         /// Reverts the execution of the command
         /// </summary>
-        public void UnExecute();
+        public abstract void UnExecute();
 
         /// <summary>
         /// Adds the command to the invoker's list of commands

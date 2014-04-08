@@ -11,5 +11,13 @@ namespace MedicalImager.Commands
         public StepBackwardCom(StudyIterator layout) : base(layout)
         {
         }
+
+        public override void Execute()
+        {
+        }
+
+        public override void UnExecute()
+        {
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace MedicalImager
         public Driver()
         {
             Command.invoker = this;
+            commandList = new List<Command>();
         }
 
         public List<Command> commandList;

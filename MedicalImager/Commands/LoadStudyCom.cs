@@ -12,12 +12,13 @@ namespace MedicalImager.Commands
         {
 
         }
-        void Execute()
+
+        public override void Execute()
         {
 
         }
 
-        void UnExecute()
+        public override void UnExecute()
         {
 
         }

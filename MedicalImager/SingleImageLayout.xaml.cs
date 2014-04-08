@@ -160,7 +160,7 @@ namespace MedicalImager
         }
 
 
-        public List<StudyImage> Images
+        List<StudyImage> Images
         {
             get;
             set;

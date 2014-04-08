@@ -31,7 +31,8 @@ namespace MedicalImager
             mnu_Default.IsEnabled = false;
 
             //check for a default study
-            string def = Environment.GetEnvironmentVariable("MedImgDefault", EnvironmentVariableTarget.User);
+            string def = //Environment.GetEnvironmentVariable("MedImgDefault", EnvironmentVariableTarget.User);
+                null;
             if (def != "" && def != null && Directory.Exists(def))
             {
                 IStudy study = new Study(def);
@@ -197,10 +198,12 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            /*
             if (layout != null)
             {
                 e.Cancel = promptSave();
             }
+             */
         }
 
         /// <summary>
@@ -222,6 +225,7 @@ namespace MedicalImager
             updateCount();
         }
 
+        /*
         /// <summary>
         /// Prompts the user to save the study state
         /// </summary>
@@ -249,6 +253,7 @@ namespace MedicalImager
                 default: return true;
             }
         }
+         */
 
         private void mnu_Coronal_Click(object sender, RoutedEventArgs e)
         {

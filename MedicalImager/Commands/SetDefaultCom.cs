@@ -12,5 +12,15 @@ namespace MedicalImager.Commands
         public SetDefaultCom(StudyIterator layout) : base(layout)
         {
         }
+
+        public override void Execute()
+        {
+
+        }
+
+        public override void UnExecute()
+        {
+
+        }
     }
 }
