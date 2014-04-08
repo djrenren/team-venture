@@ -55,6 +55,7 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void mnu_Open_Click(object sender, RoutedEventArgs e)
         {
+            /*
             //if a study is being displayed prompt to save first
             if(layout != null)
             {
@@ -63,11 +64,14 @@ namespace MedicalImager
                     return;
             }
             openMenu();
+             */
+            (new Commands.LoadStudyCom(layout)).Execute();
         }
 
         private void mnu_Save_Click(object sender, RoutedEventArgs e)
         {
-            layout.Study.Save(layout.Serialize());
+            //layout.Study.Save(layout.Serialize());
+            (new Commands.SaveCom(layout, Commands.SaveCom.SaveType.Save)).Execute();
         }
 
         /// <summary>
@@ -78,6 +82,7 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void mnu_SaveAs_Click(object sender, RoutedEventArgs e)
         {
+            /*
             StudyBrowserDialog open = new StudyBrowserDialog();
             string path = open.saveStudy();
 
@@ -90,11 +95,14 @@ namespace MedicalImager
             IStudy copy = new Study(path);
             layout = StudyIteratorFactory.Create(copy);
             Layout.Navigate(layout);
+             */
+            (new Commands.SaveCom(layout, Commands.SaveCom.SaveType.SaveAs)).Execute();
         }
 
         private void mnu_Default_Click(object sender, RoutedEventArgs e)
         {
-            layout.Study.SetDefault();
+            //layout.Study.SetDefault();
+            (new Commands.SetDefaultCom(layout)).Execute();
         }
 
         private void mnu_Exit_Click(object sender, RoutedEventArgs e)
@@ -104,20 +112,26 @@ namespace MedicalImager
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
+            /*
             if (layout != null)
             {
                 layout.MoveNext();
                 updateCount();
             }
+             */
+            (new Commands.StepForwardCom(layout)).Execute();
         }
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
+            /*
             if (layout != null)
             {
                 layout.MovePrev();
                 updateCount();
             }
+             */
+            (new Commands.StepBackwardCom(layout)).Execute();
         }
 
         /// <summary>
@@ -127,12 +141,16 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void mnu_Single_Click(object sender, RoutedEventArgs e)
         {
+            /*
             if (layout != null && !layout.GetType().Equals(typeof(SingleImageLayout)))
             {
                 layout = new SingleImageLayout(layout.Study, layout);
                 Layout.Navigate(layout);
                 updateCount();
             }
+             */
+            (new Commands.SetLayoutCom(layout, typeof(SingleImageLayout))).Execute();
+
         }
 
         /// <summary>
@@ -142,12 +160,15 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void mnu_TwoByTwo_Click(object sender, RoutedEventArgs e)
         {
+            /*
             if (layout != null && !layout.GetType().Equals(typeof(TwoByTwoImageLayout)))
             {
                 layout = new TwoByTwoImageLayout(layout.Study, layout);
                 Layout.Navigate(layout);
                 updateCount();
             }
+             */
+            (new Commands.SetLayoutCom(layout, typeof(TwoByTwoImageLayout))).Execute();
         }
 
         /// <summary>
@@ -231,12 +252,15 @@ namespace MedicalImager
 
         private void mnu_Coronal_Click(object sender, RoutedEventArgs e)
         {
+            /*
             if (layout != null && !layout.GetType().Equals(typeof(CoronalReconstruction)))
             {
                 layout = new CoronalReconstruction(layout.Study);
                 Layout.Navigate(layout);
                 updateCount();
             }
+             */
+            (new Commands.SetLayoutCom(layout, typeof(CoronalReconstruction))).Execute();
         }
     }
 }

@@ -9,9 +9,30 @@ namespace MedicalImager
     abstract class Command
     {
         public static Driver invoker = null;
-        
-        void Execute();
 
-        void UnExecute();
+        public Command(StudyIterator currentState)
+        {
+            SystemState = currentState;
+        }
+        
+        /// <summary>
+        /// Executes the command
+        /// </summary>
+        public void Execute();
+
+        /// <summary>
+        /// Reverts the execution of the command
+        /// </summary>
+        public void UnExecute();
+
+        /// <summary>
+        /// Adds the command to the invoker's list of commands
+        /// </summary>
+        void addToList()
+        {
+            invoker.commandList.Add(this);
+        }
+
+        public StudyIterator SystemState { get; private set; }
     }
 }
