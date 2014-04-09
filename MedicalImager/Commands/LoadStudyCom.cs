@@ -12,10 +12,15 @@ namespace MedicalImager.Commands
         {
 
         }
-
+        
         public override void Execute()
         {
-
+            StudyBrowserDialog newDialog = new StudyBrowserDialog();
+            string filePath = newDialog.openStudy();
+            if (filePath == null)
+                return;
+            invoker.Study = new Study(filePath);
+            invoker.Navigate(invoker.Study.Layout);
         }
 
         public override void UnExecute()

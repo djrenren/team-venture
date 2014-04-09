@@ -27,6 +27,8 @@ namespace MedicalImager
     {
         public static string Representation = "1x1";
 
+        //List<StudyImage> images;
+
         public SingleImageLayout(IStudy study) : this(study, 0) {}
 
         /// <summary>
@@ -37,10 +39,12 @@ namespace MedicalImager
         public SingleImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
+            Images = new List<StudyImage>();
             Current = new ObservableCollection<BitmapImage>();
             for (int i = 0; i < study.Size(); i++)
             {
                 StudyImage studyImg = new StudyImage(study[i]);
+                Images.Add(studyImg);
             }
             Position = pos;
             DataContext = this;

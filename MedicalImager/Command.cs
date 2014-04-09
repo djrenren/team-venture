@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MedicalImager
 {
-    abstract class Command
+    public abstract class Command
     {
         public static Driver invoker = null;
 
@@ -30,7 +30,7 @@ namespace MedicalImager
         /// </summary>
         void addToList()
         {
-            invoker.commandList.Add(this);
+            invoker.CommandList.Add(this);
         }
 
         public StudyIterator SystemState { get; private set; }

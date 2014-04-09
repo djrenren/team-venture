@@ -31,12 +31,13 @@ namespace MedicalImager
             List<string> imgPaths = new List<string>();
             foreach (string path in files)
             {
-                if(!path.EndsWith(".jpg") || !path.EndsWith(".acr"))
+                if(!path.EndsWith(".jpg") && !path.EndsWith(".acr"))
                     continue;
 
                 Uri uri = new Uri(path);
                 base.Add(uri);
             }
+            LoadSavedData();
         }
 
         public int Size()
@@ -132,8 +133,14 @@ namespace MedicalImager
 
         public void LoadSavedData()
         {
-            System.Xml.Serialization.XmlSerializer loader = new System.Xml.Serialization.XmlSerializer(typeof(StudyIterator));
-            
+            System.Xml.Serialization.XmlSerializer loader = null;
+            try {
+                loader = new System.Xml.Serialization.XmlSerializer(typeof(StudyIterator));
+            } catch (Exception e)
+            {
+
+            }
+
             try
             {
                 FileStream f = new FileStream(directory + "\\.data", FileMode.Open);

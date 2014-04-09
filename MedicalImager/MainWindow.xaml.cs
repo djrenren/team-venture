@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,11 +20,14 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, Driver
     {
         StudyIterator layout;
         public MainWindow()
         {
+            Command.invoker = this;
+            CommandList = new List<Command>();
+
             InitializeComponent();
             mnu_View.IsEnabled = false;
             mnu_Save.IsEnabled = false;
@@ -44,8 +48,14 @@ namespace MedicalImager
             else
             {
                 layout = null;
-                openMenu();
+                //openMenu();
+                this.Loaded += MainWindow_Loaded;
             }
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            (new Commands.LoadStudyCom(layout)).Execute();
         }
 
         /// <summary>
@@ -266,6 +276,23 @@ namespace MedicalImager
             }
              */
             (new Commands.SetLayoutCom(layout, typeof(CoronalReconstruction))).Execute();
+        }
+
+        public IStudy Study
+        {
+            get;
+            set;
+        }
+
+        public void Navigate(StudyIterator newLayout)
+        {
+            Layout.Navigate(newLayout);
+        }
+
+        public List<Command> CommandList
+        {
+            get;
+            set;
         }
     }
 }

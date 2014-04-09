@@ -1,21 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MedicalImager
 {
-    class Driver
+    public interface Driver
     {
-        public Driver()
-        {
-            Command.invoker = this;
-            commandList = new List<Command>();
-        }
+        /// <summary>
+        /// The list of actions performed
+        /// </summary>
+        List<Command> CommandList { get; set; }
 
-        public List<Command> commandList;
+        /// <summary>
+        /// Gets the current study
+        /// </summary>
+        IStudy Study { get; set; }
 
-        public IStudy study { get; set; }
+        /// <summary>
+        /// Navigate to the provided layout
+        /// </summary>
+        /// <param name="newLayout">The layout to display</param>
+        void Navigate(StudyIterator newLayout);
     }
 }
