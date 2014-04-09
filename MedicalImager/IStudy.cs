@@ -24,8 +24,6 @@ namespace MedicalImager
 
         void LoadSavedData();
 
-        string GetMeta();
-
         void SetDefault();
 
         void Save();

@@ -41,7 +41,7 @@ namespace MedicalImager
             {
                 IStudy study = new Study(def);
                 layout = StudyIteratorFactory.Create(study);
-                enableButtons();
+                EnableOperations();
                 updateCount();
                 Layout.Navigate(layout);
             }
@@ -193,7 +193,7 @@ namespace MedicalImager
         /// <summary>
         /// Enables buttons that should only be clicked when an active study is available
         /// </summary>
-        private void enableButtons()
+        public void EnableOperations()
         {
             mnu_Save.IsEnabled = true;
             mnu_SaveAs.IsEnabled = true;
@@ -214,25 +214,6 @@ namespace MedicalImager
                 e.Cancel = promptSave();
             }
              */
-        }
-
-        /// <summary>
-        /// Causes the folder browser to open to select a study
-        /// </summary>
-        private void openMenu()
-        {
-            StudyBrowserDialog newDialog = new StudyBrowserDialog();
-            string filePath = newDialog.openStudy();
-            IStudy openedStudy;
-            if (filePath == null)
-                return;
-            openedStudy = new Study(filePath);
-            // Code for passing off the Study object (displaying it) goes here
-            //layout = new SingleImageLayout(openedStudy);
-            layout = StudyIteratorFactory.Create(openedStudy);
-            enableButtons();
-            Layout.Navigate(layout);
-            updateCount();
         }
 
         /*

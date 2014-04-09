@@ -21,6 +21,7 @@ namespace MedicalImager.Commands
                 return;
             invoker.Study = new Study(filePath);
             invoker.Navigate(invoker.Study.Layout);
+            invoker.EnableOperations();
         }
 
         public override void UnExecute()

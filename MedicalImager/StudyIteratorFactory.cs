@@ -19,6 +19,7 @@ namespace MedicalImager
         /// <returns>returns a study iterator </returns>
         public static StudyIterator Create(IStudy study)
         {
+            /*
             string meta = study.GetMeta();
             
             if(meta == null)
@@ -38,6 +39,8 @@ namespace MedicalImager
             {
                 return new TwoByTwoImageLayout(study, pos);
             }
+            return null;
+             */
             return null;
         }
     }
