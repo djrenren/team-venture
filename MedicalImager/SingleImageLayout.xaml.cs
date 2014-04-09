@@ -43,8 +43,7 @@ namespace MedicalImager
             Current = new ObservableCollection<BitmapImage>();
             for (int i = 0; i < study.Size(); i++)
             {
-                StudyImage studyImg = new StudyImage(study[i]);
-                Images.Add(studyImg);
+                Images.Add(new StudyImage(study[i]));
             }
             Position = pos;
             DataContext = this;
@@ -90,15 +89,13 @@ namespace MedicalImager
                     {
                         if (Current.Count == 0)
                         {
-                            Current.Add(Images.ElementAt(0).getBitmapImage());
+                            Current.Add(Images.ElementAt(value).getBitmapImage());
                         }
                         else
                         {
-                            Current[0] = Images.ElementAt(0).getBitmapImage();
+                            Current[0] = Images.ElementAt(value).getBitmapImage();
                         }
                         _position = value;
-                        Console.Out.WriteLine("New Position: " + Position);
-                        Console.Out.WriteLine(Current[0]);
                         Image1.Source = Current[0];
                     }
                 }
@@ -163,8 +160,7 @@ namespace MedicalImager
 
         }
 
-
-        List<StudyImage> Images
+        public List<StudyImage> Images
         {
             get;
             set;

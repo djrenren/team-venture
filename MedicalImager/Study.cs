@@ -99,31 +99,6 @@ namespace MedicalImager
             f.Close();
         }
 
-        /// <summary>
-        /// Gets the meta data from the .data file in the study's directory if
-        /// the file exists
-        /// </summary>
-        /// <returns>the content of the .data file if it exists, 
-        /// null otherwise</returns>
-        public string GetMeta()
-        {
-            /*
-            try
-            {
-                var reader = new StreamReader(directory + "\\.data");
-                string meta = reader.ReadToEnd();
-                reader.Close();
-                return meta;
-            }
-            catch (IOException e)
-            {
-                return null;
-            }
-            */
-            return null;
-        }
-
-
         public StudyIterator Layout
         {
             get;

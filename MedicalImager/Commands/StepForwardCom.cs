@@ -15,7 +15,8 @@ namespace MedicalImager.Commands
 
         public override void Execute()
         {
-
+            invoker.Study.Layout.MoveNext();
+            AddToList();
         }
 
         public override void UnExecute()

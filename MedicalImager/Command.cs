@@ -28,7 +28,7 @@ namespace MedicalImager
         /// <summary>
         /// Adds the command to the invoker's list of commands
         /// </summary>
-        void addToList()
+        public void AddToList()
         {
             invoker.CommandList.Add(this);
         }

@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager
 {
-    class StudyImage
+    public class StudyImage
     {
         public StudyImage(Uri uri)
         {

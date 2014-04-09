@@ -166,7 +166,7 @@ namespace MedicalImager
         }
 
 
-        private List<StudyImage> Images
+        public List<StudyImage> Images
         {
             get
             {
@@ -182,6 +182,19 @@ namespace MedicalImager
         public void Serialize(System.IO.FileStream stream)
         {
             throw new NotImplementedException();
+        }
+
+
+        List<StudyImage> StudyIterator.Images
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

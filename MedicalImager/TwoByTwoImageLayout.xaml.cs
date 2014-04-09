@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Serialization;
 
 namespace MedicalImager
 {
@@ -34,9 +35,10 @@ namespace MedicalImager
         {
             InitializeComponent();
             Current = new ObservableCollection<BitmapImage>();
+            Images = new List<StudyImage>();
             for (int i = 0; i < study.Size(); i++)
             {
-                StudyImage studyImg = new StudyImage(study[i]);
+                Images.Add(new StudyImage(study[i]));
             }
             Position = pos;
             DataContext = this;
@@ -157,22 +159,17 @@ namespace MedicalImager
         }
 
 
-        List<StudyImage> Images
+        public List<StudyImage> Images
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
 
         public void Serialize(System.IO.FileStream stream)
         {
-            throw new NotImplementedException();
+            XmlSerializer x = new XmlSerializer(this.GetType());
+            x.Serialize(stream, this);
         }
     }
 }
