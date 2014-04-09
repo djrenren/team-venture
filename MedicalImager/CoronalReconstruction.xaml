@@ -8,7 +8,17 @@
 	Title="SliceLayout">
 
     <Grid>
-        <!--<Image x:Name="Image1" Source="{Binding Path=Current[0]}" />-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Image x:Name="Slice" Source="{Binding Path=Reconstruction}" />
+        <Image Grid.Column="1" Grid.Row="0" />
+        <Image Grid.Column="0" Grid.Row="1" Source="{Binding Path=Current[0]}" />
+        <Button x:Name="ToggleButton" Grid.Column="1" Grid.Row="1" Content="Toggle Control" Click="ToggleButton_Click"/>
     </Grid>
 </Page>

@@ -23,9 +23,13 @@ namespace MedicalImager
     /// </summary>
     public partial class CoronalReconstruction : Page, StudyIterator
     {
-        private int imageWidth;
-        private int imageHeight;
-        private int numSlices;
+        private int _imageWidth;
+        private int _imageHeight;
+        private int _numSlices;
+        private int _reconstructionPos;
+        //Determines if the reconstruction, or the study is being controlled with
+        //next and previous buttons
+        private bool _reconstructionEnabled;
 
         public BitmapSource Reconstruction { get; set; }
 
@@ -36,51 +40,52 @@ namespace MedicalImager
             InitializeComponent();
             Current = new ObservableCollection<BitmapImage>();
             Reconstruction = null;
-            Position = pos;
+            Images = new List<StudyImage>();
             for (int i = 0; i < study.Size(); i++)
             {
-                StudyImage studyImg = new StudyImage(study[i]);
+                Images.Add(new StudyImage(study[i]));
             }
             DataContext = this;
             //gets a sample image from the study if possible
             BitmapImage sample = Images.Count > 0 ? Images.ElementAt(0).getBitmapImage() : null;
             if(sample ==  null)
             {
-                imageWidth = 0;
-                imageHeight = 0;
-                numSlices = 0;
+                _imageWidth = 0;
+                _imageHeight = 0;
+                _numSlices = 0;
             }
             else
             {
-                imageWidth = sample.PixelWidth;
-                imageHeight = Images.Count;
-                numSlices = sample.PixelHeight;
+                _imageWidth = sample.PixelWidth;
+                _imageHeight = Images.Count;
+                _numSlices = sample.PixelHeight;
             }
+            Position = pos;
         }
 
         private void createNextImage()
         {
-            Console.WriteLine("w: " + imageWidth + " h: " + imageHeight);
+            Console.WriteLine("w: " + _imageWidth + " h: " + _imageHeight);
             PixelFormat pf = PixelFormats.Bgr32;
-            int rawStride = (imageWidth * 5);
-            byte[] rawImage = new byte[rawStride * imageHeight];
+            int rawStride = (_imageWidth * 5);
+            byte[] rawImage = new byte[rawStride * _imageHeight];
             for(int i = 0; i < Images.Count; i++)
             {
-                Images.ElementAt(i).Source.CopyPixels(new Int32Rect(0, numSlices - Position - 1, imageWidth, 1), 
+                Images.ElementAt(i).Source.CopyPixels(new Int32Rect(0, _numSlices - Position - 1, _imageWidth, 1), 
                     rawImage, 
                     rawStride, 
                     (Images.Count-i-1)*(rawStride));
             }
 
             // Create a BitmapSource.
-            BitmapSource bitmap = BitmapSource.Create(imageWidth, imageHeight,
+            BitmapSource bitmap = BitmapSource.Create(_imageWidth, _imageHeight,
                 96, 96, pf, null,
                 rawImage, rawStride);
 
             // Create an image element;
             Reconstruction = bitmap;
-            Slice.Width = imageWidth;
-            Slice.Height = imageHeight;
+            Slice.Width = _imageWidth;
+            Slice.Height = _imageHeight;
             Slice.Source = Reconstruction;
 
 
@@ -113,7 +118,7 @@ namespace MedicalImager
             {
                 if(_position != value)
                 {
-                    if (value < 0 || value >= numSlices)
+                    if (value < 0 || value >= _numSlices)
                         return;
                     else
                     {
@@ -149,7 +154,7 @@ namespace MedicalImager
 
         public bool MoveNext()
         {
-            if (Position >= numSlices - 1)
+            if (Position >= _numSlices - 1)
             {
                 return false;
             }
@@ -168,14 +173,8 @@ namespace MedicalImager
 
         public List<StudyImage> Images
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
 
@@ -184,17 +183,10 @@ namespace MedicalImager
             throw new NotImplementedException();
         }
 
-
-        List<StudyImage> StudyIterator.Images
+        private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+
         }
+
     }
 }
