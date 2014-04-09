@@ -40,7 +40,6 @@ namespace MedicalImager
             if (def != "" && def != null && Directory.Exists(def))
             {
                 IStudy study = new Study(def);
-                layout = StudyIteratorFactory.Create(study);
                 EnableOperations();
                 updateCount();
                 Layout.Navigate(layout);
