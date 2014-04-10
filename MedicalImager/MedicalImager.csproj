@@ -58,34 +58,34 @@
     <Compile Include="Commands\LoadStudyCom.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Driver.cs" />
+    <Compile Include="ImageOperation.cs" />
     <Compile Include="IStudy.cs" />
     <Compile Include="Commands\SaveCom.cs" />
     <Compile Include="Commands\SetDefaultCom.cs" />
     <Compile Include="Commands\SetLayoutCom.cs" />
     <Compile Include="Commands\StepBackwardCom.cs" />
     <Compile Include="Commands\StepForwardCom.cs" />
-    <Compile Include="L\CoronalReconstruction.xaml.cs" />
-    <Compile Include="L\ImageOperation.cs" />
-    <Compile Include="L\SaggitalReconstruction.xaml.cs" />
-    <Compile Include="L\SingleImageLayout.xaml.cs" />
-    <Compile Include="L\StudyImage.cs" />
-    <Compile Include="L\TwoByTwoImageLayout.xaml.cs" />
+    <Compile Include="Layouts\CoronalReconstruction.xaml.cs" />
+    <Compile Include="Layouts\SaggitalReconstruction.xaml.cs" />
+    <Compile Include="Layouts\SingleImageLayout.xaml.cs" />
+    <Compile Include="Layouts\TwoByTwoImageLayout.xaml.cs" />
     <Compile Include="Study.cs" />
+    <Compile Include="StudyImage.cs" />
     <Compile Include="StudyIterator.cs" />
     <Compile Include="Commands\WindowImagesCom.cs" />
-    <Page Include="L\CoronalReconstruction.xaml">
+    <Page Include="Layouts\CoronalReconstruction.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="L\SaggitalReconstruction.xaml">
+    <Page Include="Layouts\SaggitalReconstruction.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="L\SingleImageLayout.xaml">
+    <Page Include="Layouts\SingleImageLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="L\TwoByTwoImageLayout.xaml">
+    <Page Include="Layouts\TwoByTwoImageLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
