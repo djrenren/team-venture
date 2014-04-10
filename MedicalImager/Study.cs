@@ -89,7 +89,7 @@ namespace MedicalImager
                 }
                 catch (IOException e)
                 {
-                    Console.Out.WriteLine("Copy operation failed");
+                    Console.Out.WriteLine("Copy operation failed: " + e.ToString());
                 }
             }
             //string[] lines = { metadata };

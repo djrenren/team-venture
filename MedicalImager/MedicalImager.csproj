@@ -55,8 +55,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="StudyIteratorFactory.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="CoronalReconstruction.xaml.cs">
+      <DependentUpon>CoronalReconstruction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Driver.cs" />
+    <Compile Include="ImageOperation.cs" />
     <Compile Include="IStudy.cs" />
+    <Compile Include="LoadStudyCom.cs" />
+    <Compile Include="SaveCom.cs" />
+    <Compile Include="SetDefaultCom.cs" />
+    <Compile Include="SetLayoutCom.cs" />
+    <Compile Include="StepBackwardCom.cs" />
+    <Compile Include="StepForwardCom.cs" />
+    <Compile Include="StudyImage.cs" />
     <Compile Include="TwoByTwoImageLayout.xaml.cs">
       <DependentUpon>TwoByTwoImageLayout.xaml</DependentUpon>
     </Compile>
@@ -65,6 +77,11 @@
       <DependentUpon>SingleImageLayout.xaml</DependentUpon>
     </Compile>
     <Compile Include="StudyIterator.cs" />
+    <Compile Include="WindowImagesCom.cs" />
+    <Page Include="CoronalReconstruction.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,7 +122,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
