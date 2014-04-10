@@ -33,7 +33,7 @@ namespace MedicalImager
         /// <param name="stream">The filestream to write to</param>
         void Serialize(FileStream stream);
 
-        List<StudyImage> Images
+        List<VirtualImage> Images
         {
             get; set;
         }

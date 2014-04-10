@@ -35,10 +35,10 @@ namespace MedicalImager
         {
             InitializeComponent();
             Current = new ObservableCollection<BitmapImage>();
-            Images = new List<StudyImage>();
+            Images = new List<VirtualImage>();
             for (int i = 0; i < study.Size(); i++)
             {
-                Images.Add(new StudyImage(study[i]));
+                Images.Add(new VirtualImage(study[i]));
             }
             Position = pos;
             DataContext = this;
@@ -159,7 +159,7 @@ namespace MedicalImager
         }
 
 
-        public List<StudyImage> Images
+        public List<VirtualImage> Images
         {
             get;
             set;

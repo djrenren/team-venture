@@ -38,11 +38,11 @@ namespace MedicalImager
             InitializeComponent();
             Current = new ObservableCollection<BitmapImage>();
             Reconstruction = null;
-            Images = new List<StudyImage>();
+            Images = new List<VirtualImage>();
             _reconstructionEnabled = false;
             for (int i = 0; i < study.Size(); i++)
             {
-                Images.Add(new StudyImage(study[i]));
+                Images.Add(new VirtualImage(study[i]));
             }
             DataContext = this;
             //gets a sample image from the study if possible
@@ -55,7 +55,7 @@ namespace MedicalImager
             {
                 _numSlices = sample.PixelWidth;
             }
-            ReconstructionImages = new List<StudyImage>();
+            ReconstructionImages = new List<VirtualImage>();
             for (int i = 0; i < _numSlices; i++) { ReconstructionImages.Add(null); }
             _reconstructionPos = 0;
             createNextImage();
@@ -66,7 +66,7 @@ namespace MedicalImager
         {
             if (ReconstructionImages.ElementAt(_reconstructionPos) == null)
             {
-                StudyImage newImg = new StudyImage(new Loaders.ReconstructionLoader(Images,
+                VirtualImage newImg = new VirtualImage(new Loaders.ReconstructionLoader(Images,
                     _reconstructionPos,
                     Loaders.ReconstructionType.Saggital));
                 ReconstructionImages.Insert(_reconstructionPos, newImg);
@@ -190,13 +190,13 @@ namespace MedicalImager
         }
 
 
-        public List<StudyImage> Images
+        public List<VirtualImage> Images
         {
             get;
             set;
         }
 
-        public List<StudyImage> ReconstructionImages
+        public List<VirtualImage> ReconstructionImages
         {
             get;
             set;

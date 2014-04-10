@@ -8,10 +8,16 @@ namespace MedicalImager.Commands
 {
     class WindowImagesCom : Command
     {
-        public WindowImagesCom(StudyLayout layout) : base(layout)
+        public WindowImagesCom(StudyLayout layout, int min, int max, List<VirtualImage> images) : base(layout)
         {
 
         }
+
+        public WindowImagesCom(StudyLayout layout, int min, int max, VirtualImage image) : base(layout)
+        {
+
+        }
+
 
         public static void PromptAndCreate()
         {

@@ -11,10 +11,10 @@ namespace MedicalImager.Loaders
 {
     public class ReconstructionLoader : ImageLoader
     {
-        private List<StudyImage> _sourceImages;
+        private List<VirtualImage> _sourceImages;
         private int _position;
         private ReconstructionType _rtype;
-        public ReconstructionLoader(List<StudyImage> sourceImages, int position, ReconstructionType rtype)
+        public ReconstructionLoader(List<VirtualImage> sourceImages, int position, ReconstructionType rtype)
         {
             _sourceImages = sourceImages;
             _position = position;

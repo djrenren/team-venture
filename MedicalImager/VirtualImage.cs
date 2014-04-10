@@ -7,11 +7,11 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager
 {
-    public class StudyImage
+    public class VirtualImage
     {
         ImageLoader loadingStrategy;
 
-        public StudyImage(Uri uri)
+        public VirtualImage(Uri uri)
         {
             // TODO: Complete member initialization
             _uri = uri;
@@ -22,7 +22,7 @@ namespace MedicalImager
             Operations = new List<ImageOperation>();
         }
 
-        public StudyImage(ImageLoader loadStrat)
+        public VirtualImage(ImageLoader loadStrat)
         {
             loadingStrategy = loadStrat;
             Operations = new List<ImageOperation>();

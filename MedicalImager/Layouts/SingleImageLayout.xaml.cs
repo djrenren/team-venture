@@ -39,11 +39,11 @@ namespace MedicalImager
         public SingleImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
-            Images = new List<StudyImage>();
+            Images = new List<VirtualImage>();
             Current = new ObservableCollection<BitmapImage>();
             for (int i = 0; i < study.Size(); i++)
             {
-                Images.Add(new StudyImage(study[i]));
+                Images.Add(new VirtualImage(study[i]));
             }
             Position = pos;
             DataContext = this;
@@ -160,7 +160,7 @@ namespace MedicalImager
 
         }
 
-        public List<StudyImage> Images
+        public List<VirtualImage> Images
         {
             get;
             set;
