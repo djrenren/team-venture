@@ -13,17 +13,29 @@ namespace MedicalImager
         {
             // TODO: Complete member initialization
             _uri = uri;
+            string uriExt = Path.GetExtension(_uri.AbsolutePath);
+            switch (uriExt)
+            {
+                case ".jpg":
+                case ".jpeg":
+                    _loader = new JPGImageLoader();
+                    break;
+                case ".acr":
+                    _loader = new ACRImageLoader();
+                    break;
+            }
         }
 
         private Uri _uri;
-
         private BitmapSource _source;
+        private ImageLoader _loader;
+
         public BitmapSource Source { 
             get
             {
                 if(_source == null)
                 {
-                    _source = new BitmapImage(_uri);
+                    _source = _loader.Load(_uri);
                 }
                 return _source;
             }
