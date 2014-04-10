@@ -20,7 +20,7 @@ namespace MedicalImager.Commands
             d.ShowDialog();
             if(d.DialogResult == true)
             {
-                min = d.
+            
             }
         }
 
