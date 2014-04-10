@@ -13,6 +13,7 @@ namespace MedicalImager
         {
             // TODO: Complete member initialization
             _uri = uri;
+            Operations = new List<ImageOperation>();
         }
 
         private Uri _uri;
@@ -24,6 +25,10 @@ namespace MedicalImager
                 if(_source == null)
                 {
                     _source = new BitmapImage(_uri);
+                    foreach(ImageOperation op in Operations)
+                    {
+                        _source = op.ApplyOperation(_source);
+                    }
                 }
                 return _source;
             }
@@ -34,7 +39,7 @@ namespace MedicalImager
             }
         }
 
-        List<ImageOperation> Operations { get; set; }
+        public List<ImageOperation> Operations { get; set; }
 
         public BitmapImage getBitmapImage()
         {
