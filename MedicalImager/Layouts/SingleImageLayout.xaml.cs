@@ -23,7 +23,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
-    public partial class SingleImageLayout : Page, StudyIterator
+    public partial class SingleImageLayout : Page, StudyLayout
     {
         public static string Representation = "1x1";
 
@@ -49,7 +49,7 @@ namespace MedicalImager
             DataContext = this;
         }
 
-        public SingleImageLayout(IStudy study, StudyIterator layout) : this(study)
+        public SingleImageLayout(IStudy study, StudyLayout layout) : this(study)
         {
             Position = layout.Position;
         }

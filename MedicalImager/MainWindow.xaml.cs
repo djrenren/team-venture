@@ -22,7 +22,7 @@ namespace MedicalImager
     /// </summary>
     public partial class MainWindow : Window, Driver
     {
-        StudyIterator layout;
+        StudyLayout layout;
         public MainWindow()
         {
             Command.invoker = this;
@@ -39,7 +39,7 @@ namespace MedicalImager
                 null;
             if (def != "" && def != null && Directory.Exists(def))
             {
-                IStudy study = new Study(def);
+                IStudy study = new LocalStudy(def);
                 EnableOperations();
                 updateCount();
                 Layout.Navigate(layout);
@@ -264,7 +264,7 @@ namespace MedicalImager
             set;
         }
 
-        public void Navigate(StudyIterator newLayout)
+        public void Navigate(StudyLayout newLayout)
         {
             Layout.Navigate(newLayout);
         }

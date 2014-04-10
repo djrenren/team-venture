@@ -9,7 +9,7 @@ namespace MedicalImager.Commands
     class SetDefaultCom : Command
     {
 
-        public SetDefaultCom(StudyIterator layout) : base(layout)
+        public SetDefaultCom(StudyLayout layout) : base(layout)
         {
         }
 

@@ -21,7 +21,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SliceLayout.xaml
     /// </summary>
-    public partial class CoronalReconstruction : Page, StudyIterator
+    public partial class CoronalReconstruction : Page, StudyLayout
     {
         private int _numSlices;
         private int _reconstructionPos;
@@ -217,6 +217,11 @@ namespace MedicalImager
         {
             Commands.WindowImagesCom.PromptAndCreate();
                
+        }
+
+        private void removeLines()
+        {
+
         }
 
     }

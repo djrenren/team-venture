@@ -22,7 +22,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
-    public partial class TwoByTwoImageLayout : Page, StudyIterator
+    public partial class TwoByTwoImageLayout : Page, StudyLayout
     {
 
         public static string Representation = "2x2";
@@ -44,7 +44,7 @@ namespace MedicalImager
             DataContext = this;
         }
 
-        public TwoByTwoImageLayout(IStudy study, StudyIterator layout) : this(study)
+        public TwoByTwoImageLayout(IStudy study, StudyLayout layout) : this(study)
         {
             Position = layout.Position;
         }

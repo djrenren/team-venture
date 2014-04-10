@@ -72,9 +72,9 @@
     <Compile Include="Layouts\TwoByTwoImageLayout.xaml.cs" />
     <Compile Include="Loaders\JpegLoader.cs" />
     <Compile Include="Loaders\ReconstructionLoader.cs" />
-    <Compile Include="Study.cs" />
+    <Compile Include="LocalStudy.cs" />
     <Compile Include="StudyImage.cs" />
-    <Compile Include="StudyIterator.cs" />
+    <Compile Include="StudyLayout.cs" />
     <Compile Include="Commands\WindowImagesCom.cs" />
     <Compile Include="WindowDialog.xaml.cs">
       <DependentUpon>WindowDialog.xaml</DependentUpon>

@@ -13,7 +13,7 @@ namespace MedicalImager
     /// <summary>
     /// Interface for the image layouts 
     /// </summary>
-    public interface StudyIterator : IEnumerator<ObservableCollection<BitmapImage>>
+    public interface StudyLayout : IEnumerator<ObservableCollection<BitmapImage>>
     {
         /// <summary>
         /// Moves to the previous grouping of images

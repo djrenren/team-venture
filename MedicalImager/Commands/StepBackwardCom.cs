@@ -8,7 +8,7 @@ namespace MedicalImager.Commands
 {
     class StepBackwardCom : Command
     {
-        public StepBackwardCom(StudyIterator layout) : base(layout)
+        public StepBackwardCom(StudyLayout layout) : base(layout)
         {
         }
 

@@ -8,7 +8,7 @@ namespace MedicalImager.Commands
 {
     class WindowImagesCom : Command
     {
-        public WindowImagesCom(StudyIterator layout) : base(layout)
+        public WindowImagesCom(StudyLayout layout) : base(layout)
         {
 
         }

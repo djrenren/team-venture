@@ -8,7 +8,7 @@ namespace MedicalImager.Commands
 {
     class LoadStudyCom : Command
     {
-        public LoadStudyCom(StudyIterator layout) : base (layout)
+        public LoadStudyCom(StudyLayout layout) : base (layout)
         {
 
         }
@@ -19,7 +19,7 @@ namespace MedicalImager.Commands
             string filePath = newDialog.openStudy();
             if (filePath == null)
                 return;
-            invoker.Study = new Study(filePath);
+            invoker.Study = new LocalStudy(filePath);
             invoker.Navigate(invoker.Study.Layout);
             invoker.EnableOperations();
         }

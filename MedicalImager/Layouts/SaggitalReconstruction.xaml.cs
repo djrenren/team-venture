@@ -21,7 +21,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SliceLayout.xaml
     /// </summary>
-    public partial class SaggitalReconstruction : Page, StudyIterator
+    public partial class SaggitalReconstruction : Page, StudyLayout
     {
         private int _numSlices;
         private int _reconstructionPos;

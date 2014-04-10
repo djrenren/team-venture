@@ -10,7 +10,7 @@ namespace MedicalImager.Commands
     {
         private SaveType _saveMethod;
 
-        public SaveCom(StudyIterator currentState, SaveType saveMethod) : base(currentState)
+        public SaveCom(StudyLayout currentState, SaveType saveMethod) : base(currentState)
         {
             _saveMethod = saveMethod;
         }
