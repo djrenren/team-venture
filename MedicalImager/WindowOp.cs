@@ -21,6 +21,11 @@ namespace MedicalImager
             _max = max;
         }
 
+        /// <summary>
+        /// Applies the Windowing operation
+        /// </summary>
+        /// <param name="bms">The image to apply the windowing to</param>
+        /// <returns>a bitmap source representing the modified image</returns>
         public BitmapSource ApplyOperation(BitmapSource bms)
         {
             double m = 255 / (_max - _min);

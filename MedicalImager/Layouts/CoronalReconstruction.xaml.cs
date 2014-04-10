@@ -221,7 +221,13 @@ namespace MedicalImager
 
         private void removeLines()
         {
-
+            /*
+            foreach(VirtualImage vimg in Images)
+            {
+                Predicate<WindowOp> p;
+                vimg.Operations.RemoveAll(p);
+            }
+             */
         }
 
     }

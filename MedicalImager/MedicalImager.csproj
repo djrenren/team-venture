@@ -79,6 +79,7 @@
     <Compile Include="WindowDialog.xaml.cs">
       <DependentUpon>WindowDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowOp.cs" />
     <Page Include="Layouts\CoronalReconstruction.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
