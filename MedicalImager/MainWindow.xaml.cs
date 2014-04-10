@@ -274,5 +274,10 @@ namespace MedicalImager
             get;
             set;
         }
+
+        private void mnu_Saggital_Click(object sender, RoutedEventArgs e)
+        {
+            (new Commands.SetLayoutCom(layout, typeof(SaggitalReconstruction))).Execute();
+        }
     }
 }

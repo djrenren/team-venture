@@ -41,6 +41,7 @@ namespace MedicalImager
             Current = new ObservableCollection<BitmapImage>();
             Reconstruction = null;
             Images = new List<StudyImage>();
+            _reconstructionEnabled = false;
             for (int i = 0; i < study.Size(); i++)
             {
                 Images.Add(new StudyImage(study[i]));
@@ -60,18 +61,20 @@ namespace MedicalImager
                 _imageHeight = Images.Count;
                 _numSlices = sample.PixelHeight;
             }
+            _reconstructionPos = 0;
+            createNextImage();
             Position = pos;
         }
 
         private void createNextImage()
         {
-            Console.WriteLine("w: " + _imageWidth + " h: " + _imageHeight);
+            Console.WriteLine("w: " + _imageWidth + " h: " + _imageHeight + "position: " + _reconstructionPos);
             PixelFormat pf = PixelFormats.Bgr32;
-            int rawStride = (_imageWidth * 5);
+            int rawStride = (_imageWidth*32+7)/8;
             byte[] rawImage = new byte[rawStride * _imageHeight];
             for(int i = 0; i < Images.Count; i++)
             {
-                Images.ElementAt(i).Source.CopyPixels(new Int32Rect(0, _numSlices - Position - 1, _imageWidth, 1), 
+                Images.ElementAt(i).Source.CopyPixels(new Int32Rect(0, _numSlices - _reconstructionPos - 1, _imageWidth, 1), 
                     rawImage, 
                     rawStride, 
                     (Images.Count-i-1)*(rawStride));
@@ -84,26 +87,38 @@ namespace MedicalImager
 
             // Create an image element;
             Reconstruction = bitmap;
-            Slice.Width = _imageWidth;
-            Slice.Height = _imageHeight;
+            //Slice.Width = _imageWidth;
+            //Slice.Height = _imageHeight;
             Slice.Source = Reconstruction;
-
-
-
         }
 
 
         public bool MovePrev()
         {
-            if (Position < 1)
+            switch(_reconstructionEnabled)
             {
-                return false;
+                case true:
+                    if (_reconstructionPos < 1)
+                        return false;
+                    else
+                    {
+                        _reconstructionPos--;
+                        createNextImage();
+                        return true;
+                    }
+                case false:
+                    if (Position > 0)
+                    {
+                        Position--;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
             }
-            else
-            {
-                Position--;
-                return true;
-            }
+            return false;
         }
 
         private int _position = -1;
@@ -118,13 +133,20 @@ namespace MedicalImager
             {
                 if(_position != value)
                 {
-                    if (value < 0 || value >= _numSlices)
+                    if (value < 0 || value >= Images.Count)
                         return;
                     else
                     {
                         _position = value;
-                        System.Diagnostics.Debug.WriteLine("attempting to change image");
-                        createNextImage();
+                        if (Current.Count == 0)
+                        {
+                            Current.Add(Images.ElementAt(value).getBitmapImage());
+                        }
+                        else
+                        {
+                            Current[0] = Images.ElementAt(value).getBitmapImage();
+                        }
+                        Orig.Source = Current[0];
                     }
                 }
             }
@@ -154,15 +176,29 @@ namespace MedicalImager
 
         public bool MoveNext()
         {
-            if (Position >= _numSlices - 1)
+            switch(_reconstructionEnabled)
             {
-                return false;
+                case true:
+                        if (_reconstructionPos >= _numSlices - 1)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            _reconstructionPos++;
+                            createNextImage();
+                            return true;
+                        }
+                case false:
+                        if (Position >= Images.Count - 1)
+                            return false;
+                        else
+                        {
+                            Position++;
+                            return true;
+                        }
             }
-            else
-            {
-                Position++;
-                return true;
-            }
+            return false;
         }
 
         public void Reset()
@@ -185,7 +221,7 @@ namespace MedicalImager
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
-
+            _reconstructionEnabled = !_reconstructionEnabled;
         }
 
     }

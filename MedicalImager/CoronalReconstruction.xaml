@@ -16,9 +16,9 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Image x:Name="Slice" Source="{Binding Path=Reconstruction}" />
-        <Image Grid.Column="1" Grid.Row="0" />
-        <Image Grid.Column="0" Grid.Row="1" Source="{Binding Path=Current[0]}" />
+        <Image x:Name="Orig" Grid.Column="0" Grid.Row="0" Source="{Binding Path=Current[0]}"/>
+        <Image x:Name="Slice" Source="{Binding Path=Reconstruction}" Grid.Column="0" Grid.Row="1" Width="{Binding ActualWidth, ElementName=Orig, Mode=OneWay}"/>
+        <Image Grid.Column="0" Grid.Row="1" />
         <Button x:Name="ToggleButton" Grid.Column="1" Grid.Row="1" Content="Toggle Control" Click="ToggleButton_Click"/>
     </Grid>
 </Page>

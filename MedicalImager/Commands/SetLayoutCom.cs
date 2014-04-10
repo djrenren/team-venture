@@ -36,6 +36,12 @@ namespace MedicalImager.Commands
                 invoker.Study.Layout = newLayout;
                 invoker.Navigate(newLayout);
             }
+            else if (newLayoutType == typeof(SaggitalReconstruction))
+            {
+                SaggitalReconstruction newLayout = new SaggitalReconstruction(invoker.Study, invoker.Study.Layout.Position);
+                invoker.Study.Layout = newLayout;
+                invoker.Navigate(newLayout);
+            }
         }
 
         public override void UnExecute()
