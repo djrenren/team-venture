@@ -23,8 +23,6 @@ namespace MedicalImager
     /// </summary>
     public partial class SaggitalReconstruction : Page, StudyIterator
     {
-        private int _imageWidth;
-        private int _imageHeight;
         private int _numSlices;
         private int _reconstructionPos;
         //Determines if the reconstruction, or the study is being controlled with
@@ -51,16 +49,14 @@ namespace MedicalImager
             BitmapImage sample = Images.Count > 0 ? Images.ElementAt(0).getBitmapImage() : null;
             if(sample ==  null)
             {
-                _imageWidth = 0;
-                _imageHeight = 0;
                 _numSlices = 0;
             }
             else
             {
-                _imageWidth = sample.PixelHeight;
-                _imageHeight = Images.Count;
                 _numSlices = sample.PixelWidth;
             }
+            ReconstructionImages = new List<StudyImage>();
+            for (int i = 0; i < _numSlices; i++) { ReconstructionImages.Add(null); }
             _reconstructionPos = 0;
             createNextImage();
             Position = pos;
@@ -68,29 +64,15 @@ namespace MedicalImager
 
         private void createNextImage()
         {
-            Console.WriteLine("w: " + _imageWidth + " h: " + _imageHeight);
-            PixelFormat pf = PixelFormats.Bgr32;
-            int rawStride = (_imageWidth * 32 +7)/8;
-            byte[] rawImage = new byte[rawStride * _imageHeight];
-            for(int i = 0; i < Images.Count; i++)
+            if (ReconstructionImages.ElementAt(_reconstructionPos) == null)
             {
-                
-                Images.ElementAt(i).Source.CopyPixels(new Int32Rect(_numSlices - _reconstructionPos - 1, 0, 1, _imageWidth), 
-                    rawImage, 
-                    4, 
-                    (Images.Count-i-1)*(rawStride));
+                StudyImage newImg = new StudyImage(new Loaders.ReconstructionLoader(Images,
+                    _reconstructionPos,
+                    Loaders.ReconstructionType.Saggital));
+                ReconstructionImages.Insert(_reconstructionPos, newImg);
             }
 
-            // Create a BitmapSource.
-            BitmapSource bitmap = BitmapSource.Create(_imageWidth, _imageHeight,
-                96, 96, pf, null,
-                rawImage, rawStride);
-            
-            // Create an image element;
-            Reconstruction = bitmap;
-            //Slice.Width = _imageWidth;
-            //Slice.Height = _imageHeight;
-            Slice.Source = Reconstruction;
+            Slice.Source = ReconstructionImages.ElementAt(_reconstructionPos).Source;
         }
 
 
@@ -214,6 +196,11 @@ namespace MedicalImager
             set;
         }
 
+        public List<StudyImage> ReconstructionImages
+        {
+            get;
+            set;
+        }
 
         public void Serialize(System.IO.FileStream stream)
         {

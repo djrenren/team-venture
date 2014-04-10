@@ -13,6 +13,17 @@ namespace MedicalImager.Commands
 
         }
 
+        public static void PromptAndCreate()
+        {
+            WindowDialog d = new WindowDialog();
+            int min, max;
+            d.ShowDialog();
+            if(d.DialogResult == true)
+            {
+                min = d.
+            }
+        }
+
         public override void Execute()
         {
 

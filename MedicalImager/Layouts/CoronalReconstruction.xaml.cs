@@ -23,8 +23,6 @@ namespace MedicalImager
     /// </summary>
     public partial class CoronalReconstruction : Page, StudyIterator
     {
-        private int _imageWidth;
-        private int _imageHeight;
         private int _numSlices;
         private int _reconstructionPos;
         //Determines if the reconstruction, or the study is being controlled with
@@ -51,45 +49,30 @@ namespace MedicalImager
             BitmapImage sample = Images.Count > 0 ? Images.ElementAt(0).getBitmapImage() : null;
             if(sample ==  null)
             {
-                _imageWidth = 0;
-                _imageHeight = 0;
                 _numSlices = 0;
             }
             else
             {
-                _imageWidth = sample.PixelWidth;
-                _imageHeight = Images.Count;
                 _numSlices = sample.PixelHeight;
             }
+            ReconstructionImages = new List<StudyImage>();
+            for(int i = 0; i < _numSlices; i++) {ReconstructionImages.Add(null);}
             _reconstructionPos = 0;
-            createNextImage();
+            setImage();
             Position = pos;
         }
 
-        private void createNextImage()
+        private void setImage()
         {
-            Console.WriteLine("w: " + _imageWidth + " h: " + _imageHeight + "position: " + _reconstructionPos);
-            PixelFormat pf = PixelFormats.Bgr32;
-            int rawStride = (_imageWidth*32+7)/8;
-            byte[] rawImage = new byte[rawStride * _imageHeight];
-            for(int i = 0; i < Images.Count; i++)
+            if(ReconstructionImages.ElementAt(_reconstructionPos) == null)
             {
-                Images.ElementAt(i).Source.CopyPixels(new Int32Rect(0, _numSlices - _reconstructionPos - 1, _imageWidth, 1), 
-                    rawImage, 
-                    rawStride, 
-                    (Images.Count-i-1)*(rawStride));
+                StudyImage newImg = new StudyImage(new Loaders.ReconstructionLoader(Images, 
+                    _reconstructionPos, 
+                    Loaders.ReconstructionType.Coronal));
+                ReconstructionImages.Insert(_reconstructionPos, newImg);
             }
 
-            // Create a BitmapSource.
-            BitmapSource bitmap = BitmapSource.Create(_imageWidth, _imageHeight,
-                96, 96, pf, null,
-                rawImage, rawStride);
-
-            // Create an image element;
-            Reconstruction = bitmap;
-            //Slice.Width = _imageWidth;
-            //Slice.Height = _imageHeight;
-            Slice.Source = Reconstruction;
+            Slice.Source = ReconstructionImages.ElementAt(_reconstructionPos).Source;
         }
 
 
@@ -103,7 +86,7 @@ namespace MedicalImager
                     else
                     {
                         _reconstructionPos--;
-                        createNextImage();
+                        setImage();
                         return true;
                     }
                 case false:
@@ -186,7 +169,7 @@ namespace MedicalImager
                         else
                         {
                             _reconstructionPos++;
-                            createNextImage();
+                            setImage();
                             return true;
                         }
                 case false:
@@ -213,6 +196,12 @@ namespace MedicalImager
             set;
         }
 
+        public List<StudyImage> ReconstructionImages
+        {
+            get;
+            set;
+        }
+
 
         public void Serialize(System.IO.FileStream stream)
         {
@@ -222,6 +211,12 @@ namespace MedicalImager
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             _reconstructionEnabled = !_reconstructionEnabled;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Commands.WindowImagesCom.PromptAndCreate();
+               
         }
 
     }

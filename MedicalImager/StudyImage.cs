@@ -9,10 +9,22 @@ namespace MedicalImager
 {
     public class StudyImage
     {
+        ImageLoader loadingStrategy;
+
         public StudyImage(Uri uri)
         {
             // TODO: Complete member initialization
             _uri = uri;
+            switch(Path.GetExtension(uri.ToString()))
+            {
+                case ".jpg": loadingStrategy = new Loaders.JpegLoader(uri); break;
+            }
+            Operations = new List<ImageOperation>();
+        }
+
+        public StudyImage(ImageLoader loadStrat)
+        {
+            loadingStrategy = loadStrat;
             Operations = new List<ImageOperation>();
         }
 
@@ -24,7 +36,7 @@ namespace MedicalImager
             {
                 if(_source == null)
                 {
-                    _source = new BitmapImage(_uri);
+                    _source = loadingStrategy.LoadImage();
                     foreach(ImageOperation op in Operations)
                     {
                         _source = op.ApplyOperation(_source);

@@ -58,6 +58,7 @@
     <Compile Include="Commands\LoadStudyCom.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Driver.cs" />
+    <Compile Include="ImageLoader.cs" />
     <Compile Include="ImageOperation.cs" />
     <Compile Include="IStudy.cs" />
     <Compile Include="Commands\SaveCom.cs" />
@@ -69,10 +70,15 @@
     <Compile Include="Layouts\SaggitalReconstruction.xaml.cs" />
     <Compile Include="Layouts\SingleImageLayout.xaml.cs" />
     <Compile Include="Layouts\TwoByTwoImageLayout.xaml.cs" />
+    <Compile Include="Loaders\JpegLoader.cs" />
+    <Compile Include="Loaders\ReconstructionLoader.cs" />
     <Compile Include="Study.cs" />
     <Compile Include="StudyImage.cs" />
     <Compile Include="StudyIterator.cs" />
     <Compile Include="Commands\WindowImagesCom.cs" />
+    <Compile Include="WindowDialog.xaml.cs">
+      <DependentUpon>WindowDialog.xaml</DependentUpon>
+    </Compile>
     <Page Include="Layouts\CoronalReconstruction.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,6 +107,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="WindowDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="StudyBrowserDialog.cs" />
