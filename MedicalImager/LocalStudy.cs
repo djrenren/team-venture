@@ -113,7 +113,6 @@ namespace MedicalImager
         public void LoadSavedData()
         {
 
-
             try
             {
                 FileStream f = new FileStream(directory + "\\.data", FileMode.Open);
@@ -126,11 +125,21 @@ namespace MedicalImager
                 }
             }
             catch (Exception e)
+
             {
                 
             }
             Layout = new SingleImageLayout(this);
 
+
+
+            try
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream imgStream = new FileStream(directory + "\\.img", FileMode.Open);
+                Layout.Images = formatter.Deserialize(imgStream) as List<VirtualImage>;
+            }
+            catch (FileNotFoundException) { }
 
         }
     }

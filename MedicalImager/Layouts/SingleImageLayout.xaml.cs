@@ -82,26 +82,23 @@ namespace MedicalImager
 
             set
             {
-                if(value != _position)
+                if(value < 0 || value >= Images.Count)
                 {
-                    if(value < 0 || value >= Images.Count)
+                    //throw new IndexOutOfRangeException("No images found at position " + value);
+                    return;
+                }
+                else
+                {
+                    if (Current.Count == 0)
                     {
-                        //throw new IndexOutOfRangeException("No images found at position " + value);
-                        return;
+                        Current.Add(Images.ElementAt(value).getBitmapImage());
                     }
                     else
                     {
-                        if (Current.Count == 0)
-                        {
-                            Current.Add(Images.ElementAt(value).getBitmapImage());
-                        }
-                        else
-                        {
-                            Current[0] = Images.ElementAt(value).getBitmapImage();
-                        }
-                        _position = value;
-                        Image1.Source = Current[0];
+                        Current[0] = Images.ElementAt(value).getBitmapImage();
                     }
+                    _position = value;
+                    Image1.Source = Current[0];
                 }
             }
         }
@@ -157,6 +154,11 @@ namespace MedicalImager
         {
             get;
             set;
+        }
+
+        private void Image0RtClick_Click(object sender, RoutedEventArgs e)
+        {
+            Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
         }
     }
 }

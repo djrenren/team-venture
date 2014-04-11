@@ -32,7 +32,8 @@ namespace MedicalImager
             double m = 255 / (_max - _min);
             double b = -1 * 255 * _min / (_max - _min);
 
-            int rawStride = (bms.PixelWidth * 32 + 7) / 8;
+
+            int rawStride = (bms.PixelWidth * bms.Format.BitsPerPixel + 7) / 8;
             byte[] rawImage = new byte[rawStride * bms.PixelHeight];
             bms.CopyPixels(rawImage, rawStride, 0);
             for(int i = 0; i < rawImage.Length; i++)
@@ -51,7 +52,7 @@ namespace MedicalImager
                 }
             }
             BitmapSource bitmap = BitmapSource.Create(bms.PixelWidth, bms.PixelHeight,
-                96, 96, PixelFormats.Bgr32, null,
+                96, 96, bms.Format, null,
                 rawImage, rawStride);
 
             return bitmap;

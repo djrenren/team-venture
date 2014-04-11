@@ -61,7 +61,8 @@ namespace MedicalImager
         public void AddOperation(ImageOperation op)
         {
             Operations.Add(op);
-            _source = op.ApplyOperation(_source);
+            if(_source != null)
+                _source = op.ApplyOperation(_source);
         }
 
         public BitmapImage getBitmapImage()
