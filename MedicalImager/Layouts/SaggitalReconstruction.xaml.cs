@@ -21,7 +21,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SliceLayout.xaml
     /// </summary>
-    public partial class SaggitalReconstruction : Page, StudyLayout
+    public partial class SaggitalReconstruction : StudyLayout
     {
         private int _numSlices;
         private int _reconstructionPos;
@@ -78,7 +78,7 @@ namespace MedicalImager
         }
 
 
-        public bool MovePrev()
+        public override bool MovePrev()
         {
             switch(_reconstructionEnabled)
             {
@@ -108,7 +108,7 @@ namespace MedicalImager
 
         private int _position = -1;
 
-        public int Position
+        public override int Position
         {
             get
             {
@@ -154,12 +154,8 @@ namespace MedicalImager
             throw new NotImplementedException();
         }
 
-        object System.Collections.IEnumerator.Current
-        {
-            get { throw new NotImplementedException(); }
-        }
 
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             switch(_reconstructionEnabled)
             {
@@ -192,7 +188,7 @@ namespace MedicalImager
         }
 
 
-        public List<VirtualImage> Images
+        public override List<VirtualImage> Images
         {
             get;
             set;
@@ -204,7 +200,7 @@ namespace MedicalImager
             set;
         }
 
-        public void Serialize(System.IO.FileStream stream)
+        public override void Serialize(System.IO.FileStream stream)
         {
             throw new NotImplementedException();
         }

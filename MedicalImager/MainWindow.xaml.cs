@@ -120,7 +120,7 @@ namespace MedicalImager
             Close();
         }
 
-        private void mnu_Window(object sender, RoutedEventArgs e) 
+        private void mnu_WindowPrompt(object sender, RoutedEventArgs e) 
         { 
             Commands.WindowImagesCom.PromptAndCreate();
         }
@@ -288,6 +288,11 @@ namespace MedicalImager
         public void UpdateCount()
         {
             CountLabel.Content = "" + (this.Study.Layout.Position + 1) + " / " + this.Study.Size();
+        }
+
+        private void mnu_Window_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
-    public partial class TwoByTwoImageLayout : Page, StudyLayout
+    public partial class TwoByTwoImageLayout : StudyLayout
     {
 
         public static string Representation = "2x2";
@@ -60,7 +60,7 @@ namespace MedicalImager
         /// <summary>
         /// Gets and sets the position, handles all iteration
         /// </summary>
-        public int Position
+        public override int Position
         {
             get
             {
@@ -101,17 +101,6 @@ namespace MedicalImager
         }
 
         /// <summary>
-        /// The collection of images being displayed
-        /// </summary>
-        object IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
-        }
-
-        /// <summary>
         /// moves back to the first image
         /// </summary>
         public void Reset()
@@ -123,7 +112,7 @@ namespace MedicalImager
         /// Moves to the next set of images if possible
         /// </summary>
         /// <returns>true if successful, false otherwise</returns>
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             if(Position + 4 > (Images.Count-1))
             {
@@ -140,7 +129,7 @@ namespace MedicalImager
         /// Moves to the previous set of images if possible
         /// </summary>
         /// <returns>true if successful, false otherwise</returns>
-        public bool MovePrev()
+        public override bool MovePrev()
         {
             if(Position <= 1)
             {
@@ -159,14 +148,14 @@ namespace MedicalImager
         }
 
 
-        public List<VirtualImage> Images
+        public override List<VirtualImage> Images
         {
             get;
             set;
         }
 
 
-        public void Serialize(System.IO.FileStream stream)
+        public override void Serialize(System.IO.FileStream stream)
         {
             XmlSerializer x = new XmlSerializer(this.GetType());
             x.Serialize(stream, this);

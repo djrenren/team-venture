@@ -58,7 +58,6 @@
     <Compile Include="Commands\LoadStudyCom.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Driver.cs" />
-    <Compile Include="HorizontalLineOp.cs" />
     <Compile Include="ImageLoader.cs" />
     <Compile Include="ImageOperation.cs" />
     <Compile Include="IStudy.cs" />
@@ -75,7 +74,6 @@
     <Compile Include="Loaders\JpegLoader.cs" />
     <Compile Include="Loaders\ReconstructionLoader.cs" />
     <Compile Include="LocalStudy.cs" />
-    <Compile Include="VerticalLineOp.cs" />
     <Compile Include="VirtualImage.cs" />
     <Compile Include="StudyLayout.cs" />
     <Compile Include="Commands\WindowImagesCom.cs" />
