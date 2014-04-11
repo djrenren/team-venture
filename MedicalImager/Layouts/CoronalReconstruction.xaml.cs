@@ -64,6 +64,8 @@ namespace MedicalImager
 
         private void setImage()
         {
+            if (_numSlices == 0)
+                return;
             if(ReconstructionImages.ElementAt(_reconstructionPos) == null)
             {
                 VirtualImage newImg = new VirtualImage(new Loaders.ReconstructionLoader(Images, 
@@ -121,6 +123,7 @@ namespace MedicalImager
                     else
                     {
                         _position = value;
+                        Images.ElementAt(value).AddOperation(new HorizontalLineOp(_reconstructionPos));
                         if (Current.Count == 0)
                         {
                             Current.Add(Images.ElementAt(value).getBitmapImage());
@@ -221,13 +224,10 @@ namespace MedicalImager
 
         private void removeLines()
         {
-            /*
             foreach(VirtualImage vimg in Images)
             {
-                Predicate<WindowOp> p;
-                vimg.Operations.RemoveAll(p);
-            }
-             */
+                
+            } 
         }
 
     }

@@ -17,7 +17,7 @@ namespace MedicalImager
     public class LocalStudy : List<Uri>, IStudy
     {
         public string directory;
-        List<Uri> studyPaths;
+        public string[] studyPaths;
 
         /// <summary>
         /// Creates a new study using the images contained in a directory
@@ -37,6 +37,7 @@ namespace MedicalImager
                 Uri uri = new Uri(path);
                 base.Add(uri);
             }
+            studyPaths = Directory.GetDirectories(dir);
             LoadSavedData();
         }
 

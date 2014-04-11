@@ -18,6 +18,7 @@ namespace MedicalImager
             switch(Path.GetExtension(uri.ToString()))
             {
                 case ".jpg": loadingStrategy = new Loaders.JpegLoader(uri); break;
+                case ".acr": loadingStrategy = new Loaders.AcrLoader(uri); break;
             }
             Operations = new List<ImageOperation>();
         }
@@ -37,6 +38,7 @@ namespace MedicalImager
                 if(_source == null)
                 {
                     _source = loadingStrategy.LoadImage();
+                    Console.WriteLine("operated");
                     foreach(ImageOperation op in Operations)
                     {
                         _source = op.ApplyOperation(_source);
@@ -52,6 +54,12 @@ namespace MedicalImager
         }
 
         public List<ImageOperation> Operations { get; set; }
+
+        public void AddOperation(ImageOperation op)
+        {
+            Operations.Add(op);
+            _source = op.ApplyOperation(_source);
+        }
 
         public BitmapImage getBitmapImage()
         {

@@ -58,12 +58,14 @@ namespace MedicalImager
             ReconstructionImages = new List<VirtualImage>();
             for (int i = 0; i < _numSlices; i++) { ReconstructionImages.Add(null); }
             _reconstructionPos = 0;
-            createNextImage();
+            setImage();
             Position = pos;
         }
 
-        private void createNextImage()
+        private void setImage()
         {
+            if (_numSlices == 0)
+                return;
             if (ReconstructionImages.ElementAt(_reconstructionPos) == null)
             {
                 VirtualImage newImg = new VirtualImage(new Loaders.ReconstructionLoader(Images,
@@ -86,7 +88,7 @@ namespace MedicalImager
                     else
                     {
                         _reconstructionPos--;
-                        createNextImage();
+                        setImage();
                         return true;
                     }
                 case false:
@@ -121,6 +123,7 @@ namespace MedicalImager
                     else
                     {
                         _position = value;
+                        Images.ElementAt(value).Operations.Add(new VerticalLineOp(_reconstructionPos));
                         if (Current.Count == 0)
                         {
                             Current.Add(Images.ElementAt(value).getBitmapImage());
@@ -169,7 +172,7 @@ namespace MedicalImager
                         else
                         {
                             _reconstructionPos++;
-                            createNextImage();
+                            setImage();
                             return true;
                         }
                 case false:

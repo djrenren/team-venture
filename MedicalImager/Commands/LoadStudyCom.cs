@@ -19,6 +19,15 @@ namespace MedicalImager.Commands
             string filePath = newDialog.openStudy();
             if (filePath == null)
                 return;
+            LocalStudy l = new LocalStudy(filePath);
+            while(l.Size() == 0 && l.studyPaths.Length != 0)
+            {
+                newDialog = new StudyBrowserDialog();
+                filePath = newDialog.openStudy(filePath);
+                if (filePath == null)
+                    return;
+                l = new LocalStudy(filePath);
+            }
             invoker.Study = new LocalStudy(filePath);
             invoker.Navigate(invoker.Study.Layout);
             invoker.EnableOperations();
