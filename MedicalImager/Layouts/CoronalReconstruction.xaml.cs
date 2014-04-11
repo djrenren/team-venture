@@ -252,7 +252,6 @@ namespace MedicalImager
                
         }
 
-        
         private void Image0RtClick_Click(object sender, RoutedEventArgs e)
         {
             Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
@@ -263,6 +262,7 @@ namespace MedicalImager
             Commands.WindowImagesCom.PromptAndCreate(ReconstructionImages.ElementAt(_reconstructionPos));
             setImage();
         }
+
         private void moveLine()
         {
             int newVal = (int)((double)_reconstructionPos * (Orig.ActualHeight / (double)_numSlices));
@@ -270,8 +270,6 @@ namespace MedicalImager
             CoronalLine.Y2 = Orig.ActualHeight - newVal;
             CoronalLine.X1 = (OrigCol.ActualWidth - Orig.ActualWidth) / 2;
             CoronalLine.X2 = ((OrigCol.ActualWidth - Orig.ActualWidth) / 2) + Orig.ActualWidth;
-            Debug.WriteLine("X1 =" + CoronalLine.X1);
-            Debug.WriteLine("X2 =" + CoronalLine.X2);
         }
 
     }
