@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,6 @@ namespace MedicalImager
         //next and previous buttons
         private bool _reconstructionEnabled;
 
-        public BitmapSource Reconstruction { get; set; }
 
         public CoronalReconstruction(IStudy study) : this(study, 0) {}
 
@@ -37,7 +37,6 @@ namespace MedicalImager
         {
             InitializeComponent();
             Current = new ObservableCollection<BitmapImage>();
-            Reconstruction = null;
             Images = new List<VirtualImage>();
             _reconstructionEnabled = false;
             for (int i = 0; i < study.Size(); i++)
@@ -56,17 +55,19 @@ namespace MedicalImager
                 _numSlices = sample.PixelHeight;
             }
             ReconstructionImages = new List<VirtualImage>();
-            for(int i = 0; i < _numSlices; i++) {ReconstructionImages.Add(null);}
+            for (int i = 0; i < _numSlices; i++) { ReconstructionImages.Add(null);}
             _reconstructionPos = 0;
             setImage();
             Position = pos;
+            CoronalLine.Y1 = _numSlices;
+            CoronalLine.Y2 = _numSlices;
         }
 
         private void setImage()
         {
             if (_numSlices == 0)
                 return;
-            if(ReconstructionImages.ElementAt(_reconstructionPos) == null)
+            if (ReconstructionImages.ElementAt(_reconstructionPos) == null)
             {
                 VirtualImage newImg = new VirtualImage(new Loaders.ReconstructionLoader(Images, 
                     _reconstructionPos, 
@@ -80,18 +81,18 @@ namespace MedicalImager
 
         public override bool MovePrev()
         {
-            switch(_reconstructionEnabled)
+            if (_reconstructionEnabled)
             {
-                case true:
                     if (_reconstructionPos < 1)
                         return false;
                     else
                     {
                         _reconstructionPos--;
                         setImage();
+                        moveLine();
                         return true;
                     }
-                case false:
+            } else {
                     if (Position > 0)
                     {
                         Position--;
@@ -103,7 +104,6 @@ namespace MedicalImager
                     }
 
             }
-            return false;
         }
 
         private int _position = -1;
@@ -156,29 +156,30 @@ namespace MedicalImager
 
         public override bool MoveNext()
         {
-            switch(_reconstructionEnabled)
+            if (_reconstructionEnabled)
             {
-                case true:
-                        if (_reconstructionPos >= _numSlices - 1)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            _reconstructionPos++;
-                            setImage();
-                            return true;
-                        }
-                case false:
-                        if (Position >= Images.Count - 1)
-                            return false;
-                        else
-                        {
-                            Position++;
-                            return true;
-                        }
+                if (_reconstructionPos >= _numSlices - 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    _reconstructionPos++;
+                    setImage();
+                    moveLine();
+                    return true;
+                }
             }
-            return false;
+            else
+            {
+                if (Position >= Images.Count - 1)
+                    return false;
+                else
+                {
+                    Position++;
+                    return true;
+                }
+            }
         }
 
         public void Reset()
@@ -208,6 +209,10 @@ namespace MedicalImager
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             _reconstructionEnabled = !_reconstructionEnabled;
+            CoronalLine.Visibility = _reconstructionEnabled ? Visibility.Visible : Visibility.Hidden;
+            Debug.WriteLine("OrigCol.Width =" + OrigCol.Width);
+            Debug.WriteLine("OrigCol.ActualWidth =" + OrigCol.ActualWidth);
+            Debug.WriteLine("OrigCol.MaxWidth =" + OrigCol.MaxWidth);
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -216,12 +221,15 @@ namespace MedicalImager
                
         }
 
-        private void removeLines()
+        private void moveLine()
         {
-            foreach(VirtualImage vimg in Images)
-            {
-                
-            } 
+            int newVal = (int)((double)_reconstructionPos * (Orig.ActualHeight / (double)_numSlices));
+            CoronalLine.Y1 = Orig.ActualHeight - newVal;
+            CoronalLine.Y2 = Orig.ActualHeight - newVal;
+            CoronalLine.X1 = (OrigCol.ActualWidth - Orig.ActualWidth) / 2;
+            CoronalLine.X2 = ((OrigCol.ActualWidth - Orig.ActualWidth) / 2) + Orig.ActualWidth;
+            Debug.WriteLine("X1 =" + CoronalLine.X1);
+            Debug.WriteLine("X2 =" + CoronalLine.X2);
         }
 
     }
