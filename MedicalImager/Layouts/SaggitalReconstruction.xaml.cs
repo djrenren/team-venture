@@ -304,8 +304,8 @@ namespace MedicalImager
 
         private void moveLine()
         {
-            int newVal = (int)((double)_reconstructionPos * (Orig.ActualWidth / (double)_numSlices))
-                + (((int)OrigCol.ActualWidth - (int)Orig.ActualWidth) / 2);
+            int newVal = (((int)OrigCol.ActualWidth - (int)Orig.ActualWidth) / 2) + (int)Orig.ActualWidth
+                - (int)((double)_reconstructionPos * (Orig.ActualWidth / (double)_numSlices));
             SaggLine.Y1 = (OrigRow.ActualHeight - Orig.ActualHeight) / 2;
             SaggLine.Y2 = ((OrigRow.ActualHeight - Orig.ActualHeight) / 2) + Orig.ActualHeight;
             SaggLine.X1 = newVal;
