@@ -208,7 +208,11 @@ namespace MedicalImager
         private void Image0RtClick_Click(object sender, RoutedEventArgs e)
         {
             if (Current[0] != null)
-                Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
+            {
+                Commands.WindowImagesCom com = Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
+                if(com != null) 
+                    com.Execute();
+            }
         }
 
         /// <summary>
@@ -219,7 +223,11 @@ namespace MedicalImager
         private void Image1RtClick_Click(object sender, RoutedEventArgs e)
         {
             if (Current[1] != null)
-                Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position+1));
+            {
+                Commands.WindowImagesCom com = Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position + 1));
+                if (com != null) 
+                    com.Execute();
+            }
         }
 
         /// <summary>
@@ -230,7 +238,11 @@ namespace MedicalImager
         private void Image2RtClick_Click(object sender, RoutedEventArgs e)
         {
             if (Current[2] != null)
-                Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position+2));
+            {
+                Commands.WindowImagesCom com = Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position + 2));
+                if (com != null)
+                    com.Execute();
+            }
         }
 
         /// <summary>
@@ -241,7 +253,11 @@ namespace MedicalImager
         private void Image3RtClick_Click(object sender, RoutedEventArgs e)
         {
             if (Current[3] != null)
-                Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position+3));
+            {
+                Commands.WindowImagesCom com = Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position + 3));
+                if (com != null)
+                    com.Execute();
+            }
         }
     }
 }

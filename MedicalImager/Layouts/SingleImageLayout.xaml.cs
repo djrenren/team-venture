@@ -177,7 +177,9 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void Image0RtClick_Click(object sender, RoutedEventArgs e)
         {
-            Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
+            Commands.WindowImagesCom com = Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
+            if (com != null)
+                com.Execute();
         }
     }
 }
