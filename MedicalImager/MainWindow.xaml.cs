@@ -33,7 +33,7 @@ namespace MedicalImager
             mnu_Save.IsEnabled = false;
             mnu_SaveAs.IsEnabled = false;
             mnu_Default.IsEnabled = false;
-
+            mnu_Window.IsEnabled = false;
             //check for a default study
             string def = //Environment.GetEnvironmentVariable("MedImgDefault", EnvironmentVariableTarget.User);
                 null;
@@ -120,6 +120,10 @@ namespace MedicalImager
             Close();
         }
 
+        private void mnu_Window(object sender, RoutedEventArgs e) 
+        { 
+            Commands.WindowImagesCom.PromptAndCreate();
+        }
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
             /*
@@ -198,6 +202,7 @@ namespace MedicalImager
             mnu_SaveAs.IsEnabled = true;
             mnu_View.IsEnabled = true;
             mnu_Default.IsEnabled = true;
+            mnu_Window.IsEnabled = true;
         }
 
         /// <summary>

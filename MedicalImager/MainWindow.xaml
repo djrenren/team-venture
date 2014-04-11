@@ -12,6 +12,7 @@
                 <MenuItem Header="_Save" x:Name="mnu_Save" Click="mnu_Save_Click" />
                 <MenuItem Header="_Save As..." x:Name="mnu_SaveAs" Click="mnu_SaveAs_Click" />
                 <MenuItem Header="_Set As Default" x:Name="mnu_Default" Click="mnu_Default_Click" />
+                <MenuItem Header="_Window All Images" x:Name="mnu_Window" Click="mnu_Window_Click" />
                 <MenuItem Header="_Exit" x:Name="mnu_Exit" Click="mnu_Exit_Click" />
             </MenuItem>
             <MenuItem Header="_View" x:Name="mnu_View">
