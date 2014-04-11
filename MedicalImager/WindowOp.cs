@@ -8,6 +8,9 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager
 {
+    /// <summary>
+    /// An operation that scales the values of pixels in images
+    /// </summary>
     [Serializable]
     class WindowOp : ImageOperation
     {
@@ -16,6 +19,11 @@ namespace MedicalImager
 
         private int _max;
 
+        /// <summary>
+        /// Creates a new window operation
+        /// </summary>
+        /// <param name="min">The minimum pixel value</param>
+        /// <param name="max">The maximum pixel value</param>
         public WindowOp(int min, int max)
         {
             _min = min;
@@ -23,7 +31,7 @@ namespace MedicalImager
         }
 
         /// <summary>
-        /// Applies the Windowing operation
+        /// Applies the Windowing operation to the given image
         /// </summary>
         /// <param name="bms">The image to apply the windowing to</param>
         /// <returns>a bitmap source representing the modified image</returns>

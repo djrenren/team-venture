@@ -8,11 +8,21 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager
 {
+    /// <summary>
+    /// Allows for modifications of images and is used to display studies
+    /// and reconstructions
+    /// </summary>
     [Serializable]
     public class VirtualImage
     {
+        //the strategy for loading the image
         ImageLoader loadingStrategy;
 
+        /// <summary>
+        /// Creates a new VirtualImage given a Uri. The Uri will be parsed to
+        /// determine the appropriate loading strategy
+        /// </summary>
+        /// <param name="uri"></param>
         public VirtualImage(Uri uri)
         {
             // TODO: Complete member initialization
@@ -25,6 +35,10 @@ namespace MedicalImager
             Operations = new List<ImageOperation>();
         }
 
+        /// <summary>
+        /// Creates a VirtualImage that will use the provided ImageLoader
+        /// </summary>
+        /// <param name="loadStrat">An ImageLoader to load the image</param>
         public VirtualImage(ImageLoader loadStrat)
         {
             loadingStrategy = loadStrat;
@@ -35,6 +49,11 @@ namespace MedicalImager
 
         [NonSerialized]
         private BitmapSource _source;
+
+        /// <summary>
+        /// Gets and set the BitmapSource. Loads the image using the ImageLoader
+        /// then applies all image operations
+        /// </summary>
         public BitmapSource Source { 
             get
             {
@@ -56,8 +75,15 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// The ImageOperations for this image
+        /// </summary>
         public List<ImageOperation> Operations { get; set; }
 
+        /// <summary>
+        /// Adds an image operation and applies it if necessary
+        /// </summary>
+        /// <param name="op"></param>
         public void AddOperation(ImageOperation op)
         {
             Operations.Add(op);
@@ -65,6 +91,10 @@ namespace MedicalImager
                 _source = op.ApplyOperation(_source);
         }
 
+        /// <summary>
+        /// Converts the image to a BitmapImage
+        /// </summary>
+        /// <returns></returns>
         public BitmapImage getBitmapImage()
         {
             JpegBitmapEncoder encoder = new JpegBitmapEncoder();
