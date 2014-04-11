@@ -8,27 +8,38 @@ namespace MedicalImager.Commands
 {
     class LoadStudyCom : Command
     {
-        public LoadStudyCom(StudyLayout layout) : base (layout)
-        {
 
+        private string studyLocation;
+
+        public LoadStudyCom(StudyLayout layout, string studyLocation) : base (layout)
+        {
+            this.studyLocation = studyLocation;
         }
-        
-        public override void Execute()
+
+        public static LoadStudyCom PromptAndCreate()
         {
             StudyBrowserDialog newDialog = new StudyBrowserDialog();
             string filePath = newDialog.openStudy();
             if (filePath == null)
-                return;
-            LocalStudy l = new LocalStudy(filePath);
-            while(l.Size() == 0 && l.studyPaths.Length != 0)
+                return null;
+            return new LoadStudyCom(invoker.Study != null ? invoker.Study.Layout : null, filePath);
+            
+        }
+
+        public override void Execute()
+        {
+            StudyBrowserDialog newDialog;
+            LocalStudy l = new LocalStudy(studyLocation);
+            while (l.Size() == 0 && l.studyPaths.Length != 0)
             {
                 newDialog = new StudyBrowserDialog();
-                filePath = newDialog.openStudy(filePath);
-                if (filePath == null)
+                studyLocation = newDialog.openStudy(studyLocation);
+                if (studyLocation == null)
                     return;
-                l = new LocalStudy(filePath);
+                l = new LocalStudy(studyLocation);
             }
-            invoker.Study = new LocalStudy(filePath);
+            
+            invoker.Study = l;
             invoker.Navigate(invoker.Study.Layout);
             invoker.EnableOperations();
             invoker.UpdateCount();

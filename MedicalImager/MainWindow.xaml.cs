@@ -35,11 +35,10 @@ namespace MedicalImager
             mnu_Default.IsEnabled = false;
             mnu_Window.IsEnabled = false;
             //check for a default study
-            string def = //Environment.GetEnvironmentVariable("MedImgDefault", EnvironmentVariableTarget.User);
-                null;
+            string def = Environment.GetEnvironmentVariable("MedImgDefault", EnvironmentVariableTarget.User);
             if (def != "" && def != null && Directory.Exists(def))
             {
-                IStudy study = new LocalStudy(def);
+                (new Commands.LoadStudyCom(null, def)).Execute();
                 EnableOperations();
                 updateCount();
                 Layout.Navigate(Study.Layout);
@@ -58,7 +57,7 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            (new Commands.LoadStudyCom(null)).Execute();
+            (Commands.LoadStudyCom.PromptAndCreate()).Execute();
         }
 
         /// <summary>
@@ -79,7 +78,7 @@ namespace MedicalImager
             }
             openMenu();
              */
-            (new Commands.LoadStudyCom(Study.Layout)).Execute();
+            (Commands.LoadStudyCom.PromptAndCreate()).Execute();
         }
 
         private void mnu_Save_Click(object sender, RoutedEventArgs e)
