@@ -23,6 +23,7 @@ namespace MedicalImager.Commands
             if (last.SystemState == null) return;
             Command.invoker.Study.Layout = StudyLayout.Reconstruct(last.SystemState);
             Command.invoker.Navigate(Command.invoker.Study.Layout);
+            Command.invoker.UpdateCount();
         }
 
         public override void UnExecute()
