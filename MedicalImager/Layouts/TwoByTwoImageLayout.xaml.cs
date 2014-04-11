@@ -116,7 +116,7 @@ namespace MedicalImager
                     //to the list
                     if(Current.Count == 0)
                     {
-                        for (int i = 0; _position + i < 4; i++)
+                        for (int i = 0; i < 4; i++)
                             if (_position + i < Images.Count)
                             Current.Add(Images.ElementAt(_position + i).getBitmapImage());
                             else
