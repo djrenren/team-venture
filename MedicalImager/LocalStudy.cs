@@ -110,20 +110,7 @@ namespace MedicalImager
                     Console.Out.WriteLine("Copy operation failed: " + e.ToString());
                 }
             }
-            /*
-            foreach (String studyDir in studyPaths)
-            {
-                string copyTo = Path.Combine(targetPath.AbsolutePath, Path.GetDirectoryName(studyDir));
-                try
-                {
-                    Directory.CreateDirectory(studyDir.Replace(directory, targetPath.OriginalString));
-                    System.IO.File.Copy(studyDir, copyTo, true);
-                }
-                catch (IOException e)
-                {
-                    Console.Out.WriteLine("Copy operation failed: " + e.ToString());
-                }
-            }*/
+
             foreach (string dirPath in Directory.GetDirectories(directory, "*",
                 SearchOption.AllDirectories))
                 Directory.CreateDirectory(dirPath.Replace(directory, targetPath.OriginalString));

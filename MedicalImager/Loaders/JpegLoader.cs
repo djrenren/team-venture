@@ -7,6 +7,9 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager.Loaders
 {
+    /// <summary>
+    /// Responisble for loading jpeg images
+    /// </summary>
     [Serializable]
     class JpegLoader : ImageLoader
     {

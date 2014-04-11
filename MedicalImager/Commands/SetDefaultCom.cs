@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedicalImager.Commands
 {
+    /// <summary>
+    /// Command to set the current study as the default
+    /// </summary>
     class SetDefaultCom : Command
     {
 
@@ -13,6 +16,9 @@ namespace MedicalImager.Commands
         {
         }
 
+        /// <summary>
+        /// Sets the current study as the default
+        /// </summary>
         public override void Execute()
         {
 

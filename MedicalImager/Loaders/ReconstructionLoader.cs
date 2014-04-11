@@ -9,12 +9,22 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager.Loaders
 {
+    /// <summary>
+    /// Responsible for loading reconstruction images
+    /// </summary>
     [Serializable]
     public class ReconstructionLoader : ImageLoader
     {
         private List<VirtualImage> _sourceImages;
         private int _position;
         private ReconstructionType _rtype;
+
+        /// <summary>
+        /// Creates a new ReconstructionLoader
+        /// </summary>
+        /// <param name="sourceImages">The images to use for the reconstruction</param>
+        /// <param name="position">The position in the reconstruction</param>
+        /// <param name="rtype">The type of reconstruction being performed</param>
         public ReconstructionLoader(List<VirtualImage> sourceImages, int position, ReconstructionType rtype)
         {
             _sourceImages = sourceImages;
@@ -22,6 +32,10 @@ namespace MedicalImager.Loaders
             _rtype = rtype;
         }
 
+        /// <summary>
+        /// Loads the Reconstruction as a BitmapSource
+        /// </summary>
+        /// <returns>The loaded image</returns>
         public BitmapSource LoadImage()
         {
             int imageWidth;
@@ -49,6 +63,8 @@ namespace MedicalImager.Loaders
                 PixelFormat pf = PixelFormats.Bgr32;
                 int rawStride = (imageWidth*pf.BitsPerPixel+7)/8;
                 byte[] rawImage = new byte[rawStride * imageHeight];
+                
+                //copy slices from each image
                 for(int i = 0; i < _sourceImages.Count; i++)
                 {
                     _sourceImages.ElementAt(i).Source.CopyPixels(new Int32Rect(0, numSlices - _position - 1, imageWidth, 1), 
@@ -84,6 +100,8 @@ namespace MedicalImager.Loaders
                 PixelFormat pf = PixelFormats.Bgr32;
                 int rawStride = (imageWidth * pf.BitsPerPixel + 7) / 8;
                 byte[] rawImage = new byte[rawStride * imageHeight];
+
+                //copy slices from each image
                 for (int i = 0; i < _sourceImages.Count; i++)
                 {
 

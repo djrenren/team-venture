@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedicalImager.Commands
 {
+    /// <summary>
+    /// Command for saving the current state
+    /// </summary>
     class SaveCom : Command
     {
         private SaveType _saveMethod;
@@ -15,6 +18,11 @@ namespace MedicalImager.Commands
             _saveMethod = saveMethod;
         }
 
+        /// <summary>
+        /// Saves the study. In the case of SaveAs, prompts for a folder to save
+        /// into then copies all files and switches the current study to be the
+        /// newly saved study
+        /// </summary>
         public override void Execute()
         {
             switch(_saveMethod)

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedicalImager.Commands
 {
+    /// <summary>
+    /// Command for moving ot the next image
+    /// </summary>
     class StepForwardCom : Command
     {
 
@@ -13,6 +16,9 @@ namespace MedicalImager.Commands
         {
         }
 
+        /// <summary>
+        /// Attempts to move to the next image
+        /// </summary>
         public override void Execute()
         {
             invoker.Study.Layout.MoveNext();

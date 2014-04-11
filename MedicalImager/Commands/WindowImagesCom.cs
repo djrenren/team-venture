@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedicalImager.Commands
 {
+    /// <summary>
+    /// Command that applies windowing operations to images
+    /// </summary>
     class WindowImagesCom : Command
     {
         private int _min;
@@ -13,6 +16,13 @@ namespace MedicalImager.Commands
         private WindowOp _op;
         private List<VirtualImage> _images;
 
+        /// <summary>
+        /// Creates a window command for multiple images
+        /// </summary>
+        /// <param name="layout">the current layout</param>
+        /// <param name="min">the windowing min value</param>
+        /// <param name="max">the windowing max value</param>
+        /// <param name="images">the images to window</param>
         public WindowImagesCom(StudyLayout layout, int min, int max, List<VirtualImage> images) : base(layout)
         {
             _min = min;
@@ -21,6 +31,13 @@ namespace MedicalImager.Commands
             _op = new WindowOp(min, max);
         }
 
+        /// <summary>
+        /// Creates a window command for a single image
+        /// </summary>
+        /// <param name="layout">the current layout</param>
+        /// <param name="min">the windowing min val</param>
+        /// <param name="max">the windowing max val</param>
+        /// <param name="image">the image to window</param>
         public WindowImagesCom(StudyLayout layout, int min, int max, VirtualImage image) : base(layout)
         {
             _min = min;
@@ -30,12 +47,21 @@ namespace MedicalImager.Commands
             _op = new WindowOp(min, max);
         }
 
-
+        /// <summary>
+        /// Prompts the user for windowing values for all images
+        /// </summary>
+        /// <returns>a windowing command</returns>
         public static WindowImagesCom PromptAndCreate()
         {
             return PromptAndCreate(null);
         }
 
+        /// <summary>
+        /// Prompts the user for windowing values and creates a windowing command
+        /// if necessary
+        /// </summary>
+        /// <param name="img">the image to window, null if all images should be windowed</param>
+        /// <returns>a windowing command</returns>
         public static WindowImagesCom PromptAndCreate(VirtualImage img)
         {
             WindowDialog d = new WindowDialog();
@@ -59,6 +85,9 @@ namespace MedicalImager.Commands
             return null;
         }
 
+        /// <summary>
+        /// Applies the WindowOp to the necessary images
+        /// </summary>
         public override void Execute()
         {
             foreach(VirtualImage i in _images)

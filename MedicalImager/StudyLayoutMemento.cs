@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace MedicalImager
 {
+    /// <summary>
+    /// Used to save and restore the StudyLayout
+    /// </summary>
     [Serializable]
     public class StudyLayoutMemento
     {
@@ -15,6 +18,12 @@ namespace MedicalImager
         public List<VirtualImage> Images { get; private set;}
         public string LayoutRepr { get; private set; }
 
+        /// <summary>
+        /// Creates a new StudyLayoutMemento
+        /// </summary>
+        /// <param name="position">The position in the layout</param>
+        /// <param name="images">The images from the layout</param>
+        /// <param name="layoutRepr">A string representation of the images</param>
         public StudyLayoutMemento(int position, List<VirtualImage> images, string layoutRepr){
             Position = position;
             LayoutRepr = layoutRepr;

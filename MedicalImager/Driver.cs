@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MedicalImager
 {
+    /// <summary>
+    /// The interface implemented by user interfaces
+    /// </summary>
     public interface Driver
     {
         /// <summary>

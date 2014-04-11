@@ -38,7 +38,10 @@ namespace MedicalImager
             string def = Environment.GetEnvironmentVariable("MedImgDefault", EnvironmentVariableTarget.User);
             if (def != "" && def != null && Directory.Exists(def))
             {
-                (new Commands.LoadStudyCom(null, def)).Execute();
+                Commands.LoadStudyCom com = (new Commands.LoadStudyCom(null, def));
+                if (com != null)
+                    com.Execute();
+                
                 EnableOperations();
                 updateCount();
                 Layout.Navigate(Study.Layout);
@@ -57,7 +60,10 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            (Commands.LoadStudyCom.PromptAndCreate()).Execute();
+
+            Commands.LoadStudyCom com = (Commands.LoadStudyCom.PromptAndCreate());
+            if (com != null)
+                com.Execute();
         }
 
         /// <summary>
@@ -68,17 +74,9 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void mnu_Open_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            //if a study is being displayed prompt to save first
-            if(Study.Layout != null)
-            {
-                bool cancel = promptSave();
-                if (cancel)
-                    return;
-            }
-            openMenu();
-             */
-            (Commands.LoadStudyCom.PromptAndCreate()).Execute();
+            Commands.LoadStudyCom com = (Commands.LoadStudyCom.PromptAndCreate());
+            if (com != null)
+                com.Execute();
         }
 
         private void mnu_Save_Click(object sender, RoutedEventArgs e)
@@ -95,59 +93,47 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void mnu_SaveAs_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            StudyBrowserDialog open = new StudyBrowserDialog();
-            string path = open.saveStudy();
-
-            if(path == null)
-            {
-                return;
-            }
-
-            Study.Layout.Study.Save(new Uri(path), Study.Layout.Serialize());
-            IStudy copy = new Study(path);
-            Study.Layout = StudyIteratorFactory.Create(copy);
-            Layout.Navigate(Study.Layout);
-             */
             (new Commands.SaveCom(Study.Layout, Commands.SaveCom.SaveType.SaveAs)).Execute();
         }
 
+        /// <summary>
+        /// Triggered when a user selects to make the current study the default
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnu_Default_Click(object sender, RoutedEventArgs e)
         {
-            //Study.Layout.Study.SetDefault();
             (new Commands.SetDefaultCom(Study.Layout)).Execute();
         }
 
+        /// <summary>
+        /// Triggered on clicking exit. Allows for operations like a prompt to
+        /// save to occur
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnu_Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void mnu_WindowPrompt(object sender, RoutedEventArgs e) 
-        { 
-            Commands.WindowImagesCom.PromptAndCreate();
-        }
+        /// <summary>
+        /// Triggers when the user clicks the next button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (Study.Layout != null)
-            {
-                Study.Layout.MoveNext();
-                updateCount();
-            }
-             */
             (new Commands.StepForwardCom(Study.Layout)).Execute();
         }
 
+        /// <summary>
+        /// Triggers when the previous button has been clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (Study.Layout != null)
-            {
-                Study.Layout.MovePrev();
-                updateCount();
-            }
-             */
             (new Commands.StepBackwardCom(Study.Layout)).Execute();
         }
 
@@ -158,16 +144,7 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void mnu_Single_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (Study.Layout != null && !Study.Layout.GetType().Equals(typeof(SingleImageLayout)))
-            {
-                Study.Layout = new SingleImageLayout(Study.Layout.Study, Study.Layout);
-                Layout.Navigate(Study.Layout);
-                updateCount();
-            }
-             */
             (new Commands.SetLayoutCom(Study.Layout, typeof(SingleImageLayout))).Execute();
-
         }
 
         /// <summary>
@@ -177,14 +154,6 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void mnu_TwoByTwo_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (Study.Layout != null && !Study.Layout.GetType().Equals(typeof(TwoByTwoImageLayout)))
-            {
-                Study.Layout = new TwoByTwoImageLayout(Study.Layout.Study, Study.Layout);
-                Layout.Navigate(Study.Layout);
-                updateCount();
-            }
-             */
             (new Commands.SetLayoutCom(Study.Layout, typeof(TwoByTwoImageLayout))).Execute();
         }
 
@@ -252,17 +221,13 @@ namespace MedicalImager
             }
         }
         
-
+        /// <summary>
+        /// Switches to the Coronal layout
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnu_Coronal_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (Study.Layout != null && !Study.Layout.GetType().Equals(typeof(CoronalReconstruction)))
-            {
-                Study.Layout = new CoronalReconstruction(Study.Layout.Study);
-                Layout.Navigate(Study.Layout);
-                updateCount();
-            }
-             */
             (new Commands.SetLayoutCom(Study.Layout, typeof(CoronalReconstruction))).Execute();
         }
 
@@ -272,27 +237,47 @@ namespace MedicalImager
             set;
         }
 
+        /// <summary>
+        /// Displays the given StudyLayout
+        /// </summary>
+        /// <param name="newLayout">The StudyLayout to display</param>
         public void Navigate(StudyLayout newLayout)
         {
             Layout.Navigate(newLayout);
         }
 
+        /// <summary>
+        /// Stack of all current commands
+        /// </summary>
         public Stack<Command> CommandStack
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Switches to the saggital reconstruction
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnu_Saggital_Click(object sender, RoutedEventArgs e)
         {
             (new Commands.SetLayoutCom(Study.Layout, typeof(SaggitalReconstruction))).Execute();
         }
 
+        /// <summary>
+        /// Updates the displayed index on the window
+        /// </summary>
         public void UpdateCount()
         {
             CountLabel.Content = "" + (this.Study.Layout.Position + 1) + " / " + this.Study.Size();
         }
 
+        /// <summary>
+        /// Triggered when the user selects to window all images
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void mnu_Window_Click(object sender, RoutedEventArgs e)
         {
             Commands.WindowImagesCom com = Commands.WindowImagesCom.PromptAndCreate();
@@ -300,6 +285,11 @@ namespace MedicalImager
                 com.Execute();
         }
 
+        /// <summary>
+        /// Undoes the last undo-able operation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUndo_Click(object sender, RoutedEventArgs e)
         {
             (new Commands.UndoCom(Study.Layout)).Execute();

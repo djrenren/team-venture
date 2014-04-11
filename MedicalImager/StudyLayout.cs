@@ -21,11 +21,17 @@ namespace MedicalImager
 
         protected int _position = -1;
 
+
         public StudyLayout(StudyLayoutMemento mem)
         {
             
         }
 
+        /// <summary>
+        /// Creates a StudyLayout from the given memento
+        /// </summary>
+        /// <param name="mem">A StudyLayoutMemento to restore from</param>
+        /// <returns>The restored StudyLayout</returns>
         public static StudyLayout Reconstruct(StudyLayoutMemento mem)
         {
             if(mem.LayoutRepr == TwoByTwoImageLayout.Representation)
@@ -76,7 +82,10 @@ namespace MedicalImager
             get; set;
         }
 
-
+        /// <summary>
+        /// Returns a StudyLayoutMemento representing the current StudyLayout
+        /// </summary>
+        /// <returns></returns>
         public StudyLayoutMemento GetData()
         {
             return new StudyLayoutMemento(Position, Images, Repr);

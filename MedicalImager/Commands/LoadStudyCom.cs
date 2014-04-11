@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedicalImager.Commands
 {
+    /// <summary>
+    /// Command for loading a study
+    /// </summary>
     class LoadStudyCom : Command
     {
 
@@ -16,6 +19,10 @@ namespace MedicalImager.Commands
             this.studyLocation = studyLocation;
         }
 
+        /// <summary>
+        /// Prompts the user to select a study to load
+        /// </summary>
+        /// <returns>A LoadStudyCom, or null if the user cancels</returns>
         public static LoadStudyCom PromptAndCreate()
         {
             StudyBrowserDialog newDialog = new StudyBrowserDialog();
@@ -26,6 +33,11 @@ namespace MedicalImager.Commands
             
         }
 
+        /// <summary>
+        /// Loads the study at the selected directory. If the directory only
+        /// contains other directories it prompts the user to select a nested
+        /// directory.
+        /// </summary>
         public override void Execute()
         {
             StudyBrowserDialog newDialog;

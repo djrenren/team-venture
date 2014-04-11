@@ -9,6 +9,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MedicalImager.Commands
 {
+    /// <summary>
+    /// Command for setting the StudyLayout
+    /// </summary>
     class SetLayoutCom : Command
     {
 
@@ -21,6 +24,9 @@ namespace MedicalImager.Commands
         
         }
 
+        /// <summary>
+        /// Switches over to the provided layout
+        /// </summary>
         public override void Execute()
         {
             StudyLayoutMemento Data = invoker.Study.Layout.GetData();

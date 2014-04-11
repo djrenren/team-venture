@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedicalImager.Commands
 {
+    /// <summary>
+    /// Command to undo operations
+    /// </summary>
     class UndoCom : Command
     {
         public UndoCom(StudyLayout layout) : base(layout)
@@ -13,6 +16,9 @@ namespace MedicalImager.Commands
 
         }
 
+        /// <summary>
+        /// Restores the system to a previous state
+        /// </summary>
         public override void Execute()
         {
             if (invoker.CommandStack.Count == 0)

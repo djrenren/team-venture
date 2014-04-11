@@ -9,9 +9,13 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager.Loaders
 {
+    /// <summary>
+    /// Responsible for loading Acr images
+    /// </summary>
     [Serializable]
     class AcrLoader : ImageLoader
     {
+        //offset to skip the header
         public static readonly int HEADER_OFFSET = 0x2000;
 
         private Uri _uri;
@@ -21,6 +25,10 @@ namespace MedicalImager.Loaders
             _uri = uri;
         }
 
+        /// <summary>
+        /// Loads the acr image in _uri as a BitmapSource
+        /// </summary>
+        /// <returns>the loaded image</returns>
         public BitmapSource LoadImage()
         {
             //Console.WriteLine(_uri.);
