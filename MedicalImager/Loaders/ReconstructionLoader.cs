@@ -47,7 +47,7 @@ namespace MedicalImager.Loaders
 
                 Console.WriteLine("w: " + imageWidth + " h: " + imageHeight + "position: " + _position);
                 PixelFormat pf = PixelFormats.Bgr32;
-                int rawStride = (imageWidth*32+7)/8;
+                int rawStride = (imageWidth*pf.BitsPerPixel+7)/8;
                 byte[] rawImage = new byte[rawStride * imageHeight];
                 for(int i = 0; i < _sourceImages.Count; i++)
                 {
@@ -82,7 +82,7 @@ namespace MedicalImager.Loaders
 
                 Console.WriteLine("w: " + imageWidth + " h: " + imageHeight);
                 PixelFormat pf = PixelFormats.Bgr32;
-                int rawStride = (imageWidth * 32 + 7) / 8;
+                int rawStride = (imageWidth * pf.BitsPerPixel + 7) / 8;
                 byte[] rawImage = new byte[rawStride * imageHeight];
                 for (int i = 0; i < _sourceImages.Count; i++)
                 {

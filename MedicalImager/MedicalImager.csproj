@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\LoadStudyCom.cs" />
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\UndoCom.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="ImageLoader.cs" />
     <Compile Include="ImageOperation.cs" />
