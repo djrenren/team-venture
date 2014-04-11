@@ -36,6 +36,11 @@ namespace MedicalImager
             return null;
         }
 
+        /// <summary>
+        /// Opens the folder browser at a given filepath
+        /// </summary>
+        /// <param name="filepath">the filepath to open at</param>
+        /// <returns></returns>
         public string openStudy(string filepath)
         {
             this.folderBrowser.Description = "Select a nested Study";

@@ -19,21 +19,35 @@ using System.Windows.Shapes;
 namespace MedicalImager
 {
     /// <summary>
-    /// Interaction logic for SliceLayout.xaml
+    /// Interaction logic for SaggitalReconstruction.xaml
     /// </summary>
     [Serializable]
     public partial class SaggitalReconstruction : StudyLayout
     {
+        //The number of slices that can be created
         private int _numSlices;
+
+        //The position of the reconstruction
         private int _reconstructionPos;
+
         //Determines if the reconstruction, or the study is being controlled with
         //next and previous buttons
         private bool _reconstructionEnabled;
 
         public BitmapSource Reconstruction { get; set; }
 
+        /// <summary>
+        /// Creates a SaggitalReconstruction starting at the first image
+        /// </summary>
+        /// <param name="study">The study to load Uri's from</param>
         public SaggitalReconstruction(IStudy study) : this(study, 0) {}
 
+        /// <summary>
+        /// Creates a SaggitalReconstruction starting at the given
+        /// position
+        /// </summary>
+        /// <param name="study">The study to load Uri's from</param>
+        /// <param name="pos">the position to start at</param>
         public SaggitalReconstruction(IStudy study, int pos)
         {
             InitializeComponent();
@@ -63,6 +77,9 @@ namespace MedicalImager
             Position = pos;
         }
 
+        /// <summary>
+        /// Sets the displayed reconstruction image
+        /// </summary>
         private void setImage()
         {
             if (_numSlices == 0)
@@ -78,7 +95,10 @@ namespace MedicalImager
             Slice.Source = ReconstructionImages.ElementAt(_reconstructionPos).Source;
         }
 
-
+        /// <summary>
+        /// Attempts to move to the previous position
+        /// </summary>
+        /// <returns>Whether or not the move was successful</returns>
         public override bool MovePrev()
         {
             switch(_reconstructionEnabled)
@@ -107,8 +127,14 @@ namespace MedicalImager
             return false;
         }
 
+        /// <summary>
+        /// The current position of the study
+        /// </summary>
         private int _position = -1;
 
+        /// <summary>
+        /// Changes the study position, and updates the displayed image
+        /// </summary>
         public override int Position
         {
             get
@@ -122,10 +148,12 @@ namespace MedicalImager
                 else
                 {
                     _position = value;
+                    //first time displaying an image
                     if (Current.Count == 0)
                     {
                         Current.Add(Images.ElementAt(value).getBitmapImage());
                     }
+                    //subsequent displays
                     else
                     {
                         Current[0] = Images.ElementAt(value).getBitmapImage();
@@ -135,16 +163,18 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Returns a string representation of the layout
+        /// </summary>
+        /// <returns>a string representing the layout</returns>
         public string Serialize()
         {
             throw new NotImplementedException();
         }
 
-        public IStudy Study
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+        /// <summary>
+        /// The currently displayed study image
+        /// </summary>
         public ObservableCollection<BitmapImage> Current { get; set; }
 
         public void Dispose()
@@ -152,7 +182,10 @@ namespace MedicalImager
             throw new NotImplementedException();
         }
 
-
+        /// <summary>
+        /// Attempts to move to the next position
+        /// </summary>
+        /// <returns>Whether or not the move was successful</returns>
         public override bool MoveNext()
         {
             switch(_reconstructionEnabled)
@@ -185,13 +218,18 @@ namespace MedicalImager
             throw new NotImplementedException();
         }
 
-
+        /// <summary>
+        /// The VirtualImages being displayed as part of the study
+        /// </summary>
         public override List<VirtualImage> Images
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// The virtual images being displayed as part of the reconstruction
+        /// </summary>
         public List<VirtualImage> ReconstructionImages
         {
             get;
@@ -203,16 +241,33 @@ namespace MedicalImager
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Toggles navigation control between the study and the reconstruction
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             _reconstructionEnabled = !_reconstructionEnabled;
         }
 
+        /// <summary>
+        /// Indicates a window operation was requested on the currently displayed
+        /// study image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Image0RtClick_Click(object sender, RoutedEventArgs e)
         {
             Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
         }
 
+        /// <summary>
+        /// Indicates that a window operation was requested on the currently displayed
+        /// reconstruction image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Image1RtClick_Click(object sender, RoutedEventArgs e)
         {
             Commands.WindowImagesCom.PromptAndCreate(ReconstructionImages.ElementAt(_reconstructionPos));

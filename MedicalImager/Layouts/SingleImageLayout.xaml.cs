@@ -28,8 +28,10 @@ namespace MedicalImager
     {
         public static string Representation = "1x1";
 
-        //List<StudyImage> images;
-
+        /// <summary>
+        /// Creates a SingleImageLayout starting at the first image
+        /// </summary>
+        /// <param name="study"></param>
         public SingleImageLayout(IStudy study) : this(study, 0) {}
 
         /// <summary>
@@ -50,16 +52,30 @@ namespace MedicalImager
             DataContext = this;
         }
 
+        /// <summary>
+        /// Creates a SingleImageLayout from an existing StudyLayout
+        /// </summary>
+        /// <param name="study">The study to get image Uri's from</param>
+        /// <param name="layout">The StudyLayout to use to create this layout</param>
         public SingleImageLayout(IStudy study, StudyLayout layout) : this(study)
         {
             Position = layout.Position;
         }
 
+        /// <summary>
+        /// The currently displayed images
+        /// </summary>
         public ObservableCollection<BitmapImage> Current { get; set; }
 
+        /// <summary>
+        /// The current position in the study
+        /// </summary>
         private int _position = -1;
 
-
+        /// <summary>
+        /// Writes a string representation of the layout to a FileStream
+        /// </summary>
+        /// <param name="stream">The FileStream to write to</param>
         public override void Serialize(FileStream stream)
         {
             //return Representation + '\n' + Position;
@@ -86,10 +102,12 @@ namespace MedicalImager
                 }
                 else
                 {
+                    //First time displaying an image
                     if (Current.Count == 0)
                     {
                         Current.Add(Images.ElementAt(value).getBitmapImage());
                     }
+                    //Subsequent image displays
                     else
                     {
                         Current[0] = Images.ElementAt(value).getBitmapImage();
@@ -142,17 +160,22 @@ namespace MedicalImager
             }
         }
 
-        public void Dispose()
-        {
+        public void Dispose() {}
 
-        }
-
+        /// <summary>
+        /// The VirtualImages being displayed
+        /// </summary>
         public override List<VirtualImage> Images
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Indicates a windowing operation has been selected on the current image
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Image0RtClick_Click(object sender, RoutedEventArgs e)
         {
             Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
