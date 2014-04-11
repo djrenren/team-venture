@@ -22,6 +22,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
+    [Serializable]
     public partial class TwoByTwoImageLayout : StudyLayout
     {
 

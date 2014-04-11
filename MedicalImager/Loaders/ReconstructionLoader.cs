@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager.Loaders
 {
+    [Serializable]
     public class ReconstructionLoader : ImageLoader
     {
         private List<VirtualImage> _sourceImages;

@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager
 {
+    [Serializable]
     class WindowOp : ImageOperation
     {
 
