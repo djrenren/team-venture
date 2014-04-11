@@ -123,7 +123,6 @@ namespace MedicalImager
                     else
                     {
                         _position = value;
-                        Images.ElementAt(value).Operations.Add(new VerticalLineOp(_reconstructionPos));
                         if (Current.Count == 0)
                         {
                             Current.Add(Images.ElementAt(value).getBitmapImage());

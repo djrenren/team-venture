@@ -279,5 +279,10 @@ namespace MedicalImager
         {
             (new Commands.SetLayoutCom(layout, typeof(SaggitalReconstruction))).Execute();
         }
+
+        public void UpdateCount()
+        {
+            CountLabel.Content = "" + (this.Study.Layout.Position + 1) + " / " + this.Study.Size();
+        }
     }
 }
