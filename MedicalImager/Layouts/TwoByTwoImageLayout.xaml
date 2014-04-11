@@ -1,4 +1,5 @@
-﻿<Page x:Class="MedicalImager.TwoByTwoImageLayout"
+﻿ <local:StudyLayout x:Class="MedicalImager.TwoByTwoImageLayout"
+      xmlns:local="clr-namespace:MedicalImager"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,4 +22,4 @@
         <Image Grid.Column="0" Grid.Row="1" Source="{Binding Path=Current[2]}" />
         <Image Grid.Column="1" Grid.Row="1" Source="{Binding Path=Current[3]}" />
     </Grid>
-</Page>
+</local:StudyLayout>

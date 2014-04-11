@@ -26,10 +26,15 @@ namespace MedicalImager
 
         private void okButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Min = Convert.ToInt32(MinVal);
+            Max = Convert.ToInt32(MaxVal);
+            Layout = Command.invoker.Study.Layout;
+            List = Command.invoker.Study.Layout.Images;
         }
 
         public int Min { get; set; }
         public int Max { get; set; }
+        public StudyLayout Layout {get; set; }
+        public List<VirtualImage> List { get; set; }
     }
 }

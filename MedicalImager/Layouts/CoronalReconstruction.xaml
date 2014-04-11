@@ -1,4 +1,5 @@
-﻿<Page x:Class="MedicalImager.CoronalReconstruction"
+﻿<local:StudyLayout x:Class="MedicalImager.CoronalReconstruction"
+      xmlns:local="clr-namespace:MedicalImager"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -29,4 +30,4 @@
         <Image Grid.Column="0" Grid.Row="1" />
         <Button x:Name="ToggleButton" Grid.Column="1" Grid.Row="1" Content="Toggle Control" Click="ToggleButton_Click"/>
     </Grid>
-</Page>
+</local:StudyLayout>

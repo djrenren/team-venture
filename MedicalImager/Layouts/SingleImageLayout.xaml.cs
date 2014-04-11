@@ -23,7 +23,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
-    public partial class SingleImageLayout : Page, StudyLayout
+    public partial class SingleImageLayout : StudyLayout
     {
         public static string Representation = "1x1";
 
@@ -59,7 +59,7 @@ namespace MedicalImager
         private int _position = -1;
 
 
-        public void Serialize(FileStream stream)
+        public override void Serialize(FileStream stream)
         {
             //return Representation + '\n' + Position;
             XmlSerializer x = new XmlSerializer(this.GetType());
@@ -69,7 +69,7 @@ namespace MedicalImager
         /// <summary>
         /// Gets and sets the position. Handles all the iteration
         /// </summary>
-        public int Position
+        public override int Position
         {
             get
             {
@@ -103,17 +103,6 @@ namespace MedicalImager
         }
 
         /// <summary>
-        /// The collection of images being displayed
-        /// </summary>
-        object IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
-        }
-
-        /// <summary>
         /// Resets the iteration to the first element
         /// </summary>
         public void Reset()
@@ -125,7 +114,7 @@ namespace MedicalImager
         /// Moves to the next image if possible
         /// </summary>
         /// <returns>true if successful, false otherwise</returns>
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             if(Position >= Images.Count-1)
             {
@@ -142,7 +131,7 @@ namespace MedicalImager
         /// Moves to the previous image if possible
         /// </summary>
         /// <returns>true if successful, false otherwise</returns>
-        public bool MovePrev()
+        public override bool MovePrev()
         {
             if(Position < 1)
             {
@@ -160,7 +149,7 @@ namespace MedicalImager
 
         }
 
-        public List<VirtualImage> Images
+        public override List<VirtualImage> Images
         {
             get;
             set;

@@ -26,6 +26,10 @@ namespace MedicalImager.Commands
             d.ShowDialog();
             if(d.DialogResult == true)
             {
+                if (d.Min > 0 && !(d.Min >= d.Max) && d.Max <= 255)
+                {
+
+                }
             
             }
         }
