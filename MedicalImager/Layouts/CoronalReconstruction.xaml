@@ -20,9 +20,14 @@
         <Image x:Name="Orig" Grid.Column="0" Grid.Row="0" Source="{Binding Path=Current[0]}" >
             <Image.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="_Window This Image" Click="MenuItem_Click">
-                        
-                    </MenuItem>
+                    <MenuItem x:Name="Image0RtClick"  Header="_Window This Image" Click="Image0RtClick_Click" />
+                </ContextMenu>
+            </Image.ContextMenu>
+        </Image>
+        <Image x:Name="Slice" Source="{Binding Path=Reconstruction}" Grid.Column="0" Grid.Row="1" Width="{Binding ActualWidth, ElementName=Orig, Mode=OneWay}" >
+            <Image.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="Image1RtClick"  Header="_Window This Image" Click="Image1RtClick_Click" />
                 </ContextMenu>
             </Image.ContextMenu>
         </Image>

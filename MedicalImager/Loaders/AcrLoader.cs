@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager.Loaders
 {
+    [Serializable]
     class AcrLoader : ImageLoader
     {
         public static readonly int HEADER_OFFSET = 0x2000;

@@ -292,7 +292,7 @@ namespace MedicalImager
 
         private void mnu_Window_Click(object sender, RoutedEventArgs e)
         {
-
+            Commands.WindowImagesCom.PromptAndCreate();
         }
     }
 }

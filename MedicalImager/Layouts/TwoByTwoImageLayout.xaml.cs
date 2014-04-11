@@ -22,6 +22,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
+    [Serializable]
     public partial class TwoByTwoImageLayout : StudyLayout
     {
 
@@ -69,33 +70,30 @@ namespace MedicalImager
 
             set
             {
-                if(value != _position)
+                if(value < 0 || value >= Images.Count)
                 {
-                    if(value < 0 || value >= Images.Count)
+                    //throw new IndexOutOfRangeException("No images found at position " + value);
+                    return;
+                }
+                else
+                {
+                    _position = value - (value % 4);
+                    Console.WriteLine(_position);
+                    //This is for the first time setting images
+                    if(Current.Count == 0)
                     {
-                        //throw new IndexOutOfRangeException("No images found at position " + value);
-                        return;
+                        for (int i = 0; _position + i < Images.Count && i < 4; i++)
+                            Current.Add(Images.ElementAt(_position + i).getBitmapImage());
                     }
                     else
                     {
-                        _position = value - (value % 4);
-                        Console.WriteLine(_position);
-                        //This is for the first time setting images
-                        if(Current.Count == 0)
-                        {
-                            for (int i = 0; _position + i < Images.Count && i < 4; i++)
-                                Current.Add(Images.ElementAt(_position + i).getBitmapImage());
-                        }
-                        else
-                        {
-                            for (int i = 0; i < 4; i++)
-                                if (_position + i < Images.Count)
-                                    Current[i] = Images.ElementAt(_position + i).getBitmapImage();
-                                else
-                                    Current[i] = null;
-                        }
-                        
+                        for (int i = 0; i < 4; i++)
+                            if (_position + i < Images.Count)
+                                Current[i] = Images.ElementAt(_position + i).getBitmapImage();
+                            else
+                                Current[i] = null;
                     }
+                        
                 }
             }
         }
@@ -159,6 +157,30 @@ namespace MedicalImager
         {
             XmlSerializer x = new XmlSerializer(this.GetType());
             x.Serialize(stream, this);
+        }
+
+        private void Image0RtClick_Click(object sender, RoutedEventArgs e)
+        {
+            if (Current[0] != null)
+                Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
+        }
+
+        private void Image1RtClick_Click(object sender, RoutedEventArgs e)
+        {
+            if (Current[1] != null)
+                Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position+1));
+        }
+
+        private void Image2RtClick_Click(object sender, RoutedEventArgs e)
+        {
+            if (Current[2] != null)
+                Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position+2));
+        }
+
+        private void Image3RtClick_Click(object sender, RoutedEventArgs e)
+        {
+            if (Current[3] != null)
+                Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position+3));
         }
     }
 }

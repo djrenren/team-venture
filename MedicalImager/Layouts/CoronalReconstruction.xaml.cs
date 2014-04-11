@@ -22,6 +22,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SliceLayout.xaml
     /// </summary>
+    [Serializable]
     public partial class CoronalReconstruction : StudyLayout
     {
         private int _numSlices;
@@ -116,8 +117,6 @@ namespace MedicalImager
             }
             set
             {
-                if(_position != value)
-                {
                     if (value < 0 || value >= Images.Count)
                         return;
                     else
@@ -135,7 +134,6 @@ namespace MedicalImager
                     }
                 }
             }
-        }
 
         public string Serialize()
         {
@@ -158,27 +156,27 @@ namespace MedicalImager
         {
             if (_reconstructionEnabled)
             {
-                if (_reconstructionPos >= _numSlices - 1)
-                {
-                    return false;
-                }
-                else
-                {
-                    _reconstructionPos++;
-                    setImage();
+                        if (_reconstructionPos >= _numSlices - 1)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            _reconstructionPos++;
+                            setImage();
                     moveLine();
-                    return true;
-                }
+                            return true;
+                        }
             }
             else
             {
-                if (Position >= Images.Count - 1)
-                    return false;
-                else
-                {
-                    Position++;
-                    return true;
-                }
+                        if (Position >= Images.Count - 1)
+                            return false;
+                        else
+                        {
+                            Position++;
+                            return true;
+                        }
             }
         }
 
@@ -221,6 +219,16 @@ namespace MedicalImager
                
         }
 
+        
+        private void Image0RtClick_Click(object sender, RoutedEventArgs e)
+        {
+            Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
+        }
+
+        private void Image1RtClick_Click(object sender, RoutedEventArgs e)
+            {
+            Commands.WindowImagesCom.PromptAndCreate(ReconstructionImages.ElementAt(_reconstructionPos));
+            setImage();
         private void moveLine()
         {
             int newVal = (int)((double)_reconstructionPos * (Orig.ActualHeight / (double)_numSlices));
