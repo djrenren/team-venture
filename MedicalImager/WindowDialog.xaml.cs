@@ -24,6 +24,11 @@ namespace MedicalImager
             InitializeComponent();
         }
 
+        /// <summary>
+        /// The result of clicking the okay button to submit
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void okButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -43,6 +48,7 @@ namespace MedicalImager
                 this.Close();
                 return;
             }
+            //data is valid
             this.DialogResult = true;
             this.Close();
         }

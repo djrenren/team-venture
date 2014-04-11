@@ -68,6 +68,9 @@ namespace MedicalImager
         /// <param name="stream">The filestream to write to</param>
         public abstract void Serialize(FileStream stream);
 
+        /// <summary>
+        /// The VirtualImages to be displayed
+        /// </summary>
         public abstract List<VirtualImage> Images
         {
             get; set;

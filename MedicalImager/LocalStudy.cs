@@ -17,7 +17,10 @@ namespace MedicalImager
     /// </summary>
     public class LocalStudy : List<Uri>, IStudy
     {
+        //The study's directory
         public string directory;
+
+        //The filepaths to nested folders
         public string[] studyPaths;
 
         /// <summary>
@@ -42,11 +45,18 @@ namespace MedicalImager
             LoadSavedData();
         }
 
+        /// <summary>
+        /// Gets the size of the study
+        /// </summary>
+        /// <returns>the number of items in the study</returns>
         public int Size()
         {
             return this.Count;
         }
 
+        /// <summary>
+        /// Sets this study as the default study
+        /// </summary>
         public void SetDefault()
         {
             Environment.SetEnvironmentVariable("MedImgDefault", directory, EnvironmentVariableTarget.User);
@@ -71,8 +81,6 @@ namespace MedicalImager
         /// Saves state of the system to a new directory
         /// </summary>
         /// <param name="targetPath">The path to the new directory</param>
-        /// <param name="metadata">The content to write into the .data file,
-        /// this should be a serialized layout</param>
         public void Save(Uri targetPath)
         {
             if (!System.IO.Directory.Exists(targetPath.AbsolutePath))
@@ -103,13 +111,18 @@ namespace MedicalImager
             f.Close();
         }
 
+        /// <summary>
+        /// Gets and sets the current layout
+        /// </summary>
         public StudyLayout Layout
         {
             get;
             set;
         }
 
-
+        /// <summary>
+        /// Loads the study from memory
+        /// </summary>
         public void LoadSavedData()
         {
 

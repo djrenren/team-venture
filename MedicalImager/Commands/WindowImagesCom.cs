@@ -31,12 +31,12 @@ namespace MedicalImager.Commands
         }
 
 
-        public static void PromptAndCreate()
+        public static WindowImagesCom PromptAndCreate()
         {
-            PromptAndCreate(null);
+            return PromptAndCreate(null);
         }
 
-        public static void PromptAndCreate(VirtualImage img)
+        public static WindowImagesCom PromptAndCreate(VirtualImage img)
         {
             WindowDialog d = new WindowDialog();
             int min, max;
@@ -46,16 +46,17 @@ namespace MedicalImager.Commands
                 min = d.Min;
                 max = d.Max;
                 if(img == null)
-                    (new Commands.WindowImagesCom(Command.invoker.Study.Layout,
+                    return (new Commands.WindowImagesCom(Command.invoker.Study.Layout,
                         min,
                         max,
-                        Command.invoker.Study.Layout.Images)).Execute();
+                        Command.invoker.Study.Layout.Images));
                 else
-                    (new Commands.WindowImagesCom(Command.invoker.Study.Layout,
+                    return (new Commands.WindowImagesCom(Command.invoker.Study.Layout,
                         min,
                         max,
-                        img)).Execute();
+                        img));
             }
+            return null;
         }
 
         public override void Execute()

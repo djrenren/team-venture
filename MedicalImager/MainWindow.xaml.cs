@@ -51,6 +51,11 @@ namespace MedicalImager
             }
         }
 
+        /// <summary>
+        /// Triggered once the window is open. Causes a LoadStudyCommand to execute
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             (new Commands.LoadStudyCom(null)).Execute();
