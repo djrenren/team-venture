@@ -32,6 +32,7 @@ namespace MedicalImager.Commands
             invoker.Navigate(invoker.Study.Layout);
             invoker.EnableOperations();
             invoker.UpdateCount();
+            invoker.CommandStack.Clear();
         }
 
         public override void UnExecute()

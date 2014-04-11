@@ -22,7 +22,7 @@ namespace MedicalImager
     /// </summary>
     public partial class MainWindow : Window, Driver
     {
-        StudyLayout layout;
+
         public MainWindow()
         {
             Command.invoker = this;
@@ -42,11 +42,10 @@ namespace MedicalImager
                 IStudy study = new LocalStudy(def);
                 EnableOperations();
                 updateCount();
-                Layout.Navigate(layout);
+                Layout.Navigate(Study.Layout);
             }
             else
             {
-                layout = null;
                 //openMenu();
                 this.Loaded += MainWindow_Loaded;
             }
@@ -59,7 +58,7 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            (new Commands.LoadStudyCom(layout)).Execute();
+            (new Commands.LoadStudyCom(null)).Execute();
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace MedicalImager
         {
             /*
             //if a study is being displayed prompt to save first
-            if(layout != null)
+            if(Study.Layout != null)
             {
                 bool cancel = promptSave();
                 if (cancel)
@@ -80,13 +79,13 @@ namespace MedicalImager
             }
             openMenu();
              */
-            (new Commands.LoadStudyCom(layout)).Execute();
+            (new Commands.LoadStudyCom(Study.Layout)).Execute();
         }
 
         private void mnu_Save_Click(object sender, RoutedEventArgs e)
         {
-            //layout.Study.Save(layout.Serialize());
-            (new Commands.SaveCom(layout, Commands.SaveCom.SaveType.Save)).Execute();
+            //Study.Layout.Study.Save(Study.Layout.Serialize());
+            (new Commands.SaveCom(Study.Layout, Commands.SaveCom.SaveType.Save)).Execute();
         }
 
         /// <summary>
@@ -106,18 +105,18 @@ namespace MedicalImager
                 return;
             }
 
-            layout.Study.Save(new Uri(path), layout.Serialize());
+            Study.Layout.Study.Save(new Uri(path), Study.Layout.Serialize());
             IStudy copy = new Study(path);
-            layout = StudyIteratorFactory.Create(copy);
-            Layout.Navigate(layout);
+            Study.Layout = StudyIteratorFactory.Create(copy);
+            Layout.Navigate(Study.Layout);
              */
-            (new Commands.SaveCom(layout, Commands.SaveCom.SaveType.SaveAs)).Execute();
+            (new Commands.SaveCom(Study.Layout, Commands.SaveCom.SaveType.SaveAs)).Execute();
         }
 
         private void mnu_Default_Click(object sender, RoutedEventArgs e)
         {
-            //layout.Study.SetDefault();
-            (new Commands.SetDefaultCom(layout)).Execute();
+            //Study.Layout.Study.SetDefault();
+            (new Commands.SetDefaultCom(Study.Layout)).Execute();
         }
 
         private void mnu_Exit_Click(object sender, RoutedEventArgs e)
@@ -132,25 +131,25 @@ namespace MedicalImager
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
             /*
-            if (layout != null)
+            if (Study.Layout != null)
             {
-                layout.MoveNext();
+                Study.Layout.MoveNext();
                 updateCount();
             }
              */
-            (new Commands.StepForwardCom(layout)).Execute();
+            (new Commands.StepForwardCom(Study.Layout)).Execute();
         }
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
             /*
-            if (layout != null)
+            if (Study.Layout != null)
             {
-                layout.MovePrev();
+                Study.Layout.MovePrev();
                 updateCount();
             }
              */
-            (new Commands.StepBackwardCom(layout)).Execute();
+            (new Commands.StepBackwardCom(Study.Layout)).Execute();
         }
 
         /// <summary>
@@ -161,14 +160,14 @@ namespace MedicalImager
         private void mnu_Single_Click(object sender, RoutedEventArgs e)
         {
             /*
-            if (layout != null && !layout.GetType().Equals(typeof(SingleImageLayout)))
+            if (Study.Layout != null && !Study.Layout.GetType().Equals(typeof(SingleImageLayout)))
             {
-                layout = new SingleImageLayout(layout.Study, layout);
-                Layout.Navigate(layout);
+                Study.Layout = new SingleImageLayout(Study.Layout.Study, Study.Layout);
+                Layout.Navigate(Study.Layout);
                 updateCount();
             }
              */
-            (new Commands.SetLayoutCom(layout, typeof(SingleImageLayout))).Execute();
+            (new Commands.SetLayoutCom(Study.Layout, typeof(SingleImageLayout))).Execute();
 
         }
 
@@ -180,14 +179,14 @@ namespace MedicalImager
         private void mnu_TwoByTwo_Click(object sender, RoutedEventArgs e)
         {
             /*
-            if (layout != null && !layout.GetType().Equals(typeof(TwoByTwoImageLayout)))
+            if (Study.Layout != null && !Study.Layout.GetType().Equals(typeof(TwoByTwoImageLayout)))
             {
-                layout = new TwoByTwoImageLayout(layout.Study, layout);
-                Layout.Navigate(layout);
+                Study.Layout = new TwoByTwoImageLayout(Study.Layout.Study, Study.Layout);
+                Layout.Navigate(Study.Layout);
                 updateCount();
             }
              */
-            (new Commands.SetLayoutCom(layout, typeof(TwoByTwoImageLayout))).Execute();
+            (new Commands.SetLayoutCom(Study.Layout, typeof(TwoByTwoImageLayout))).Execute();
         }
 
         /// <summary>
@@ -195,7 +194,7 @@ namespace MedicalImager
         /// </summary>
         private void updateCount()
         {
-            CountLabel.Content = "Position: " + (layout.Position + 1);
+            CountLabel.Content = "Position: " + (Study.Layout.Position + 1);
         }
 
         /// <summary>
@@ -218,7 +217,7 @@ namespace MedicalImager
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             /*
-            if (layout != null)
+            if (Study.Layout != null)
             {
                 e.Cancel = promptSave();
             }
@@ -244,7 +243,7 @@ namespace MedicalImager
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    layout.Study.Save(layout.Serialize());
+                    Study.Layout.Study.Save(Study.Layout.Serialize());
                     return false;
                 case MessageBoxResult.No:
                     return false;
@@ -258,14 +257,14 @@ namespace MedicalImager
         private void mnu_Coronal_Click(object sender, RoutedEventArgs e)
         {
             /*
-            if (layout != null && !layout.GetType().Equals(typeof(CoronalReconstruction)))
+            if (Study.Layout != null && !Study.Layout.GetType().Equals(typeof(CoronalReconstruction)))
             {
-                layout = new CoronalReconstruction(layout.Study);
-                Layout.Navigate(layout);
+                Study.Layout = new CoronalReconstruction(Study.Layout.Study);
+                Layout.Navigate(Study.Layout);
                 updateCount();
             }
              */
-            (new Commands.SetLayoutCom(layout, typeof(CoronalReconstruction))).Execute();
+            (new Commands.SetLayoutCom(Study.Layout, typeof(CoronalReconstruction))).Execute();
         }
 
         public IStudy Study
@@ -287,7 +286,7 @@ namespace MedicalImager
 
         private void mnu_Saggital_Click(object sender, RoutedEventArgs e)
         {
-            (new Commands.SetLayoutCom(layout, typeof(SaggitalReconstruction))).Execute();
+            (new Commands.SetLayoutCom(Study.Layout, typeof(SaggitalReconstruction))).Execute();
         }
 
         public void UpdateCount()
@@ -299,5 +298,12 @@ namespace MedicalImager
         {
             Commands.WindowImagesCom.PromptAndCreate();
         }
+
+        private void btnUndo_Click(object sender, RoutedEventArgs e)
+        {
+            (new Commands.UndoCom(Study.Layout)).Execute();
+        }
+
+
     }
 }

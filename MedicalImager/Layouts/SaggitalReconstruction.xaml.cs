@@ -57,6 +57,8 @@ namespace MedicalImager
             _reconstructionEnabled = false;
             _reconstructionPos = 0;
             ReconstructionImages = new List<VirtualImage>();
+            SaggLine.X1 = _numSlices;
+            SaggLine.X2 = _numSlices;
 
         }
 
@@ -97,8 +99,8 @@ namespace MedicalImager
             for (int i = 0; i < _numSlices; i++) { ReconstructionImages.Add(null); }
             setImage();
 
-            SaggLine.Y1 = _numSlices;
-            SaggLine.Y2 = _numSlices;
+            SaggLine.X1 = _numSlices;
+            SaggLine.X2 = _numSlices;
         }
 
         /// <summary>
@@ -133,6 +135,7 @@ namespace MedicalImager
                     {
                         _reconstructionPos--;
                         setImage();
+                        moveLine();
                         return true;
                     }
             } else {
@@ -216,6 +219,7 @@ namespace MedicalImager
                 {
                     _reconstructionPos++;
                     setImage();
+                    moveLine();
                     return true;
                 }
             }
@@ -268,6 +272,7 @@ namespace MedicalImager
         {
             _reconstructionEnabled = !_reconstructionEnabled;
             SaggLine.Visibility = _reconstructionEnabled ? Visibility.Visible : Visibility.Hidden;
+            moveLine();
         }
 
         /// <summary>
@@ -299,11 +304,12 @@ namespace MedicalImager
 
         private void moveLine()
         {
-            int newVal = (int)((double)_reconstructionPos * (Orig.ActualHeight / (double)_numSlices));
-            SaggLine.Y1 = Orig.ActualHeight - newVal;
-            SaggLine.Y2 = Orig.ActualHeight - newVal;
-            SaggLine.X1 = (OrigCol.ActualWidth - Orig.ActualWidth) / 2;
-            SaggLine.X2 = ((OrigCol.ActualWidth - Orig.ActualWidth) / 2) + Orig.ActualWidth;
+            int newVal = (int)((double)_reconstructionPos * (Orig.ActualWidth / (double)_numSlices))
+                + (((int)OrigCol.ActualWidth - (int)Orig.ActualWidth) / 2);
+            SaggLine.Y1 = (OrigRow.ActualHeight - Orig.ActualHeight) / 2;
+            SaggLine.Y2 = ((OrigRow.ActualHeight - Orig.ActualHeight) / 2) + Orig.ActualHeight;
+            SaggLine.X1 = newVal;
+            SaggLine.X2 = newVal;
         }
 
     }

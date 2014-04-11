@@ -227,7 +227,7 @@ namespace MedicalImager
                         {
                             _reconstructionPos++;
                             setImage();
-                    moveLine();
+                            moveLine();
                             return true;
                         }
             }
@@ -281,6 +281,7 @@ namespace MedicalImager
         {
             _reconstructionEnabled = !_reconstructionEnabled;
             CoronalLine.Visibility = _reconstructionEnabled ? Visibility.Visible : Visibility.Hidden;
+            moveLine();
             Debug.WriteLine("OrigCol.Width =" + OrigCol.Width);
             Debug.WriteLine("OrigCol.ActualWidth =" + OrigCol.ActualWidth);
             Debug.WriteLine("OrigCol.MaxWidth =" + OrigCol.MaxWidth);

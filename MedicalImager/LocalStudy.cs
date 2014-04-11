@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows;
 
 namespace MedicalImager
 {
@@ -29,20 +30,27 @@ namespace MedicalImager
         /// <param name="dir">the path to the directory holding the study's images</param>
         public LocalStudy(string dir)
         {
-            string[] files = Directory.GetFiles(dir);
-            directory = dir;
-            //this list is used to eliminate non jpeg files
-            List<string> imgPaths = new List<string>();
-            foreach (string path in files)
+            try
             {
-                if(!path.EndsWith(".jpg") && !path.EndsWith(".acr"))
-                    continue;
+                string[] files = Directory.GetFiles(dir);
+                directory = dir;
+                //this list is used to eliminate non jpeg files
+                List<string> imgPaths = new List<string>();
+                foreach (string path in files)
+                {
+                    if (!path.EndsWith(".jpg") && !path.EndsWith(".acr"))
+                        continue;
 
-                Uri uri = new Uri(path);
-                base.Add(uri);
+                    Uri uri = new Uri(path);
+                    base.Add(uri);
+                }
+                studyPaths = Directory.GetDirectories(dir);
+                LoadSavedData();
             }
-            studyPaths = Directory.GetDirectories(dir);
-            LoadSavedData();
+            catch (IOException e)
+            {
+                MessageBox.Show("Error loading study: " + e.Message);
+            }
         }
 
         /// <summary>
