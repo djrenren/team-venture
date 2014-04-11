@@ -10,7 +10,7 @@ namespace MedicalImager.Commands
     {
         private SaveType _saveMethod;
 
-        public SaveCom(StudyLayout currentState, SaveType saveMethod) : base(currentState)
+        public SaveCom(StudyLayout currentState, SaveType saveMethod) : base(null)
         {
             _saveMethod = saveMethod;
         }
@@ -21,6 +21,8 @@ namespace MedicalImager.Commands
             {
                 case SaveType.Save: invoker.Study.Save(); break;
             }
+
+            AddToList();
         }
 
         public override void UnExecute()

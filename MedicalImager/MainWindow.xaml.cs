@@ -215,15 +215,15 @@ namespace MedicalImager
         /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            /*
-            if (Study.Layout != null)
+            
+            if (CommandStack.Count > 0 && CommandStack.Peek().SystemState != null)
             {
                 e.Cancel = promptSave();
             }
-             */
+             
         }
 
-        /*
+        
         /// <summary>
         /// Prompts the user to save the study state
         /// </summary>
@@ -242,7 +242,7 @@ namespace MedicalImager
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    Study.Layout.Study.Save(Study.Layout.Serialize());
+                    Study.Save();
                     return false;
                 case MessageBoxResult.No:
                     return false;
@@ -251,7 +251,7 @@ namespace MedicalImager
                 default: return true;
             }
         }
-         */
+        
 
         private void mnu_Coronal_Click(object sender, RoutedEventArgs e)
         {
