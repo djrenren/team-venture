@@ -9,7 +9,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Name="OrigCol"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -23,6 +23,10 @@
                 </ContextMenu>
             </Image.ContextMenu>
         </Image>
+        <Line Name="SaggLine" Fill="Red" Stroke="Red" Visibility="Hidden"
+              Grid.Column="0" Grid.Row="0"
+              X1="0" Y1="0"
+              X2="{Binding ElementName=Orig, Path=ActualWidth}" Y2="0"/>
         <Image x:Name="Slice" Source="{Binding Path=Reconstruction}" Grid.Column="1" Grid.Row="0" Width="{Binding ActualHeight, ElementName=Orig, Mode=OneWay}" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <ScaleTransform ScaleX="-1"/>

@@ -30,7 +30,6 @@ namespace MedicalImager
         //next and previous buttons
         private bool _reconstructionEnabled;
 
-        public BitmapSource Reconstruction { get; set; }
 
         public SaggitalReconstruction(IStudy study) : this(study, 0) {}
 
@@ -38,7 +37,6 @@ namespace MedicalImager
         {
             InitializeComponent();
             Current = new ObservableCollection<BitmapImage>();
-            Reconstruction = null;
             Images = new List<VirtualImage>();
             _reconstructionEnabled = false;
             for (int i = 0; i < study.Size(); i++)
@@ -61,6 +59,8 @@ namespace MedicalImager
             _reconstructionPos = 0;
             setImage();
             Position = pos;
+            SaggLine.Y1 = _numSlices;
+            SaggLine.Y2 = _numSlices;
         }
 
         private void setImage()
@@ -81,9 +81,8 @@ namespace MedicalImager
 
         public override bool MovePrev()
         {
-            switch(_reconstructionEnabled)
+            if (_reconstructionEnabled)
             {
-                case true:
                     if (_reconstructionPos < 1)
                         return false;
                     else
@@ -92,7 +91,7 @@ namespace MedicalImager
                         setImage();
                         return true;
                     }
-                case false:
+            } else {
                     if (Position > 0)
                     {
                         Position--;
@@ -104,7 +103,6 @@ namespace MedicalImager
                     }
 
             }
-            return false;
         }
 
         private int _position = -1;
@@ -206,6 +204,7 @@ namespace MedicalImager
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             _reconstructionEnabled = !_reconstructionEnabled;
+            SaggLine.Visibility = _reconstructionEnabled ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void Image0RtClick_Click(object sender, RoutedEventArgs e)
@@ -217,6 +216,15 @@ namespace MedicalImager
         {
             Commands.WindowImagesCom.PromptAndCreate(ReconstructionImages.ElementAt(_reconstructionPos));
             setImage();
+        }
+
+        private void moveLine()
+        {
+            int newVal = (int)((double)_reconstructionPos * (Orig.ActualHeight / (double)_numSlices));
+            SaggLine.Y1 = Orig.ActualHeight - newVal;
+            SaggLine.Y2 = Orig.ActualHeight - newVal;
+            SaggLine.X1 = (OrigCol.ActualWidth - Orig.ActualWidth) / 2;
+            SaggLine.X2 = ((OrigCol.ActualWidth - Orig.ActualWidth) / 2) + Orig.ActualWidth;
         }
 
     }
