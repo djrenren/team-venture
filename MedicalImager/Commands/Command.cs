@@ -10,7 +10,7 @@ namespace MedicalImager
     {
         public static Driver invoker = null;
 
-        public Command(StudyIterator currentState)
+        public Command(StudyLayout currentState)
         {
             SystemState = currentState;
         }
@@ -33,6 +33,6 @@ namespace MedicalImager
             invoker.CommandList.Add(this);
         }
 
-        public StudyIterator SystemState { get; private set; }
+        public StudyLayout SystemState { get; private set; }
     }
 }

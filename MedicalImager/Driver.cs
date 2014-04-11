@@ -23,12 +23,17 @@ namespace MedicalImager
         /// Navigate to the provided layout
         /// </summary>
         /// <param name="newLayout">The layout to display</param>
-        void Navigate(StudyIterator newLayout);
+        void Navigate(StudyLayout newLayout);
 
         /// <summary>
         /// Allows operations to be performed on the user interface. This 
         /// enables buttons in the GUI
         /// </summary>
         void EnableOperations();
+
+        /// <summary>
+        /// Updates the position indicator while navigating the study
+        /// </summary>
+        void UpdateCount();
     }
 }

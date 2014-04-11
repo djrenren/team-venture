@@ -9,6 +9,6 @@ namespace MedicalImager
 {
     public interface ImageLoader
     {
-        BitmapImage Load(Uri uriSource);
+        BitmapSource LoadImage();
     }
 }

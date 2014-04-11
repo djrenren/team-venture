@@ -20,7 +20,7 @@ namespace MedicalImager
             set;
         }
 
-        StudyIterator Layout { get; set; }
+        StudyLayout Layout { get; set; }
 
         void LoadSavedData();
 

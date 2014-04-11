@@ -7,35 +7,42 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager
 {
-    public class StudyImage
+    public class VirtualImage
     {
-        public StudyImage(Uri uri)
+        ImageLoader loadingStrategy;
+
+        public VirtualImage(Uri uri)
         {
             // TODO: Complete member initialization
             _uri = uri;
-            string uriExt = Path.GetExtension(_uri.AbsolutePath);
-            switch (uriExt)
+            switch(Path.GetExtension(uri.ToString()))
             {
-                case ".jpg":
-                case ".jpeg":
-                    _loader = new JPGImageLoader();
-                    break;
-                case ".acr":
-                    _loader = new ACRImageLoader();
-                    break;
+                case ".jpg": loadingStrategy = new Loaders.JpegLoader(uri); break;
+                case ".acr": loadingStrategy = new Loaders.AcrLoader(uri); break;
             }
+            Operations = new List<ImageOperation>();
+        }
+
+        public VirtualImage(ImageLoader loadStrat)
+        {
+            loadingStrategy = loadStrat;
+            Operations = new List<ImageOperation>();
         }
 
         private Uri _uri;
-        private BitmapSource _source;
-        private ImageLoader _loader;
 
+        private BitmapSource _source;
         public BitmapSource Source { 
             get
             {
                 if(_source == null)
                 {
-                    _source = _loader.Load(_uri);
+                    _source = loadingStrategy.LoadImage();
+                    Console.WriteLine("operated");
+                    foreach(ImageOperation op in Operations)
+                    {
+                        _source = op.ApplyOperation(_source);
+                    }
                 }
                 return _source;
             }
@@ -46,7 +53,13 @@ namespace MedicalImager
             }
         }
 
-        List<ImageOperation> Operations { get; set; }
+        public List<ImageOperation> Operations { get; set; }
+
+        public void AddOperation(ImageOperation op)
+        {
+            Operations.Add(op);
+            _source = op.ApplyOperation(_source);
+        }
 
         public BitmapImage getBitmapImage()
         {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,45 +23,53 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
-    public partial class TwoByTwoImageLayout : Page, StudyIterator
+    public partial class SingleImageLayout : StudyLayout
     {
+        public static string Representation = "1x1";
 
-        public static string Representation = "2x2";
+        //List<StudyImage> images;
 
-        public TwoByTwoImageLayout(IStudy study) : this(study, 0)
-        {
-        }
+        public SingleImageLayout(IStudy study) : this(study, 0) {}
 
-        public TwoByTwoImageLayout(IStudy study, int pos)
+        /// <summary>
+        /// Creates a SingleImageLayout at a specific position
+        /// </summary>
+        /// <param name="study">the study being used</param>
+        /// <param name="pos">the position in the iteration</param>
+        public SingleImageLayout(IStudy study, int pos)
         {
             InitializeComponent();
+            Images = new List<VirtualImage>();
             Current = new ObservableCollection<BitmapImage>();
-            Images = new List<StudyImage>();
             for (int i = 0; i < study.Size(); i++)
             {
-                Images.Add(new StudyImage(study[i]));
+                Images.Add(new VirtualImage(study[i]));
             }
             Position = pos;
             DataContext = this;
         }
 
-        public TwoByTwoImageLayout(IStudy study, StudyIterator layout) : this(study)
+        public SingleImageLayout(IStudy study, StudyLayout layout) : this(study)
         {
             Position = layout.Position;
         }
 
         public ObservableCollection<BitmapImage> Current { get; set; }
 
-        public string Serialize(){
-            return Representation + '\n' + Position;
+        private int _position = -1;
+
+
+        public override void Serialize(FileStream stream)
+        {
+            //return Representation + '\n' + Position;
+            XmlSerializer x = new XmlSerializer(this.GetType());
+            x.Serialize(stream, this);
         }
 
-        private int _position = -1;
-        
         /// <summary>
-        /// Gets and sets the position, handles all iteration
+        /// Gets and sets the position. Handles all the iteration
         /// </summary>
-        public int Position
+        public override int Position
         {
             get
             {
@@ -78,41 +87,23 @@ namespace MedicalImager
                     }
                     else
                     {
-                        _position = value - (value % 4);
-                        
-                        //This is for the first time setting images
-                        if(Current.Count == 0)
+                        if (Current.Count == 0)
                         {
-                            for (int i = 0; _position + i < Images.Count && i < 4; i++)
-                                Current.Add(Images.ElementAt(_position + i).getBitmapImage());
+                            Current.Add(Images.ElementAt(value).getBitmapImage());
                         }
                         else
                         {
-                            for (int i = 0; i < 4; i++)
-                                if (_position + i < Images.Count)
-                                    Current[i] = Images.ElementAt(_position + i).getBitmapImage();
-                                else
-                                    Current[i] = null;
+                            Current[0] = Images.ElementAt(value).getBitmapImage();
                         }
-                        
+                        _position = value;
+                        Image1.Source = Current[0];
                     }
                 }
             }
         }
 
         /// <summary>
-        /// The collection of images being displayed
-        /// </summary>
-        object IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
-        }
-
-        /// <summary>
-        /// moves back to the first image
+        /// Resets the iteration to the first element
         /// </summary>
         public void Reset()
         {
@@ -120,29 +111,29 @@ namespace MedicalImager
         }
 
         /// <summary>
-        /// Moves to the next set of images if possible
+        /// Moves to the next image if possible
         /// </summary>
         /// <returns>true if successful, false otherwise</returns>
-        public bool MoveNext()
+        public override bool MoveNext()
         {
-            if(Position + 4 > (Images.Count-1))
+            if(Position >= Images.Count-1)
             {
                 return false;
             }
             else
             {
-                Position += 4;
+                Position++;
                 return true;
             }
         }
 
         /// <summary>
-        /// Moves to the previous set of images if possible
+        /// Moves to the previous image if possible
         /// </summary>
         /// <returns>true if successful, false otherwise</returns>
-        public bool MovePrev()
+        public override bool MovePrev()
         {
-            if(Position <= 1)
+            if(Position < 1)
             {
                 return false;
             }
@@ -158,18 +149,10 @@ namespace MedicalImager
 
         }
 
-
-        public List<StudyImage> Images
+        public override List<VirtualImage> Images
         {
             get;
             set;
-        }
-
-
-        public void Serialize(System.IO.FileStream stream)
-        {
-            XmlSerializer x = new XmlSerializer(this.GetType());
-            x.Serialize(stream, this);
         }
     }
 }

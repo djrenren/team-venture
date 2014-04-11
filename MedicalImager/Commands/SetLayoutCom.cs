@@ -11,7 +11,7 @@ namespace MedicalImager.Commands
 
         Type newLayoutType;
 
-        public SetLayoutCom(StudyIterator layout, Type type) : base(layout)
+        public SetLayoutCom(StudyLayout layout, Type type) : base(layout)
         {
             newLayoutType = type;
         }

@@ -14,16 +14,16 @@ namespace MedicalImager
     /// <summary>
     /// List of URIs with additional saving functionality 
     /// </summary>
-    public class Study : List<Uri>, IStudy
+    public class LocalStudy : List<Uri>, IStudy
     {
         public string directory;
-        List<Uri> studyPaths;
+        public string[] studyPaths;
 
         /// <summary>
         /// Creates a new study using the images contained in a directory
         /// </summary>
         /// <param name="dir">the path to the directory holding the study's images</param>
-        public Study(string dir)
+        public LocalStudy(string dir)
         {
             string[] files = Directory.GetFiles(dir);
             directory = dir;
@@ -37,6 +37,7 @@ namespace MedicalImager
                 Uri uri = new Uri(path);
                 base.Add(uri);
             }
+            studyPaths = Directory.GetDirectories(dir);
             LoadSavedData();
         }
 
@@ -99,7 +100,7 @@ namespace MedicalImager
             f.Close();
         }
 
-        public StudyIterator Layout
+        public StudyLayout Layout
         {
             get;
             set;
@@ -110,7 +111,7 @@ namespace MedicalImager
         {
             System.Xml.Serialization.XmlSerializer loader = null;
             try {
-                loader = new System.Xml.Serialization.XmlSerializer(typeof(StudyIterator));
+                loader = new System.Xml.Serialization.XmlSerializer(typeof(StudyLayout));
             } catch (Exception e)
             {
 
@@ -119,7 +120,7 @@ namespace MedicalImager
             try
             {
                 FileStream f = new FileStream(directory + "\\.data", FileMode.Open);
-                Layout = (StudyIterator)loader.Deserialize(f);
+                Layout = (StudyLayout)loader.Deserialize(f);
                 f.Close();
             }
             catch (FileNotFoundException e)

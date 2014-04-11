@@ -22,7 +22,7 @@ namespace MedicalImager
     /// </summary>
     public partial class MainWindow : Window, Driver
     {
-        StudyIterator layout;
+        StudyLayout layout;
         public MainWindow()
         {
             Command.invoker = this;
@@ -33,13 +33,13 @@ namespace MedicalImager
             mnu_Save.IsEnabled = false;
             mnu_SaveAs.IsEnabled = false;
             mnu_Default.IsEnabled = false;
-
+            mnu_Window.IsEnabled = false;
             //check for a default study
             string def = //Environment.GetEnvironmentVariable("MedImgDefault", EnvironmentVariableTarget.User);
                 null;
             if (def != "" && def != null && Directory.Exists(def))
             {
-                IStudy study = new Study(def);
+                IStudy study = new LocalStudy(def);
                 EnableOperations();
                 updateCount();
                 Layout.Navigate(layout);
@@ -120,6 +120,10 @@ namespace MedicalImager
             Close();
         }
 
+        private void mnu_WindowPrompt(object sender, RoutedEventArgs e) 
+        { 
+            Commands.WindowImagesCom.PromptAndCreate();
+        }
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
             /*
@@ -198,6 +202,7 @@ namespace MedicalImager
             mnu_SaveAs.IsEnabled = true;
             mnu_View.IsEnabled = true;
             mnu_Default.IsEnabled = true;
+            mnu_Window.IsEnabled = true;
         }
 
         /// <summary>
@@ -264,7 +269,7 @@ namespace MedicalImager
             set;
         }
 
-        public void Navigate(StudyIterator newLayout)
+        public void Navigate(StudyLayout newLayout)
         {
             Layout.Navigate(newLayout);
         }
@@ -278,6 +283,16 @@ namespace MedicalImager
         private void mnu_Saggital_Click(object sender, RoutedEventArgs e)
         {
             (new Commands.SetLayoutCom(layout, typeof(SaggitalReconstruction))).Execute();
+        }
+
+        public void UpdateCount()
+        {
+            CountLabel.Content = "" + (this.Study.Layout.Position + 1) + " / " + this.Study.Size();
+        }
+
+        private void mnu_Window_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace MedicalImager
@@ -13,27 +14,34 @@ namespace MedicalImager
     /// <summary>
     /// Interface for the image layouts 
     /// </summary>
-    public interface StudyIterator : IEnumerator<ObservableCollection<BitmapImage>>
+    public abstract class StudyLayout : Page
     {
         /// <summary>
         /// Moves to the previous grouping of images
         /// </summary>
         /// <returns>true if the move was successful, false otherwise</returns>
-        bool MovePrev();
+        public abstract bool MovePrev();
+
+
+        /// <summary>
+        /// Moves to the previous grouping of images
+        /// </summary>
+        /// <returns>true if the move was successful, false otherwise</returns>
+        public abstract bool MoveNext();
 
         /// <summary>
         /// The current position in the study
         /// </summary>
-        int Position { get; set; }
+        public abstract int Position { get; set; }
 
         /// <summary>
         /// Creates a texy representation that can be written to the disk.
         /// Uneccessary data should be disposed of before serializing.
         /// </summary>
         /// <param name="stream">The filestream to write to</param>
-        void Serialize(FileStream stream);
+        public abstract void Serialize(FileStream stream);
 
-        List<StudyImage> Images
+        public abstract List<VirtualImage> Images
         {
             get; set;
         }

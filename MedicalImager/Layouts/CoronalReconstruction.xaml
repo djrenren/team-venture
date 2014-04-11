@@ -1,4 +1,5 @@
-﻿<Page x:Class="MedicalImager.SaggitalReconstruction"
+﻿<local:StudyLayout x:Class="MedicalImager.CoronalReconstruction"
+      xmlns:local="clr-namespace:MedicalImager"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -16,13 +17,17 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Image x:Name="Orig" Grid.Column="0" Grid.Row="0" Source="{Binding Path=Current[0]}"/>
-        <Image x:Name="Slice" Source="{Binding Path=Reconstruction}" Grid.Column="1" Grid.Row="0" Width="{Binding ActualHeight, ElementName=Orig, Mode=OneWay}" RenderTransformOrigin="0.5,0.5">
-            <Image.RenderTransform>
-                <ScaleTransform ScaleX="-1"/>
-            </Image.RenderTransform>
+        <Image x:Name="Orig" Grid.Column="0" Grid.Row="0" Source="{Binding Path=Current[0]}" >
+            <Image.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="_Window This Image" Click="MenuItem_Click">
+                        
+                    </MenuItem>
+                </ContextMenu>
+            </Image.ContextMenu>
         </Image>
+        <Image x:Name="Slice" Source="{Binding Path=Reconstruction}" Grid.Column="0" Grid.Row="1" Width="{Binding ActualWidth, ElementName=Orig, Mode=OneWay}"/>
         <Image Grid.Column="0" Grid.Row="1" />
         <Button x:Name="ToggleButton" Grid.Column="1" Grid.Row="1" Content="Toggle Control" Click="ToggleButton_Click"/>
     </Grid>
-</Page>
+</local:StudyLayout>

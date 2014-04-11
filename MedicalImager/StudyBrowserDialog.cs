@@ -36,6 +36,19 @@ namespace MedicalImager
             return null;
         }
 
+        public string openStudy(string filepath)
+        {
+            this.folderBrowser.Description = "Select a nested Study";
+            this.folderBrowser.ShowNewFolderButton = false;
+            this.folderBrowser.SelectedPath = filepath;
+            DialogResult result = folderBrowser.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                return folderBrowser.SelectedPath;
+            }
+            return null;
+        }
+
         /// <summary>
         /// Creates a dialog window for selecting a directory to save a study in
         /// </summary>

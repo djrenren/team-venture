@@ -8,13 +8,14 @@ namespace MedicalImager.Commands
 {
     class StepBackwardCom : Command
     {
-        public StepBackwardCom(StudyIterator layout) : base(layout)
+        public StepBackwardCom(StudyLayout layout) : base(layout)
         {
         }
 
         public override void Execute()
         {
             invoker.Study.Layout.MovePrev();
+            invoker.UpdateCount();
             AddToList();
         }
 
