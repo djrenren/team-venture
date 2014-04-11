@@ -295,7 +295,9 @@ namespace MedicalImager
 
         private void mnu_Window_Click(object sender, RoutedEventArgs e)
         {
-            Commands.WindowImagesCom.PromptAndCreate();
+            Commands.WindowImagesCom com = Commands.WindowImagesCom.PromptAndCreate();
+            if (com != null)
+                com.Execute();
         }
 
         private void btnUndo_Click(object sender, RoutedEventArgs e)
