@@ -27,10 +27,15 @@ namespace MedicalImager
     public partial class SingleImageLayout : StudyLayout
     {
         public static string Representation = "1x1";
+        public override string Repr { get { return Representation;} }
+        public SingleImageLayout(StudyLayoutMemento mem)
+        {
+            InitializeComponent();
+            this.Images = mem.Images;
+            this.Position = mem.Position;
+        }
 
-        //List<StudyImage> images;
-
-        public SingleImageLayout(IStudy study) : this(study, 0) {}
+        public SingleImageLayout(IStudy study) : this(study, 0) { }
 
         /// <summary>
         /// Creates a SingleImageLayout at a specific position
@@ -41,7 +46,6 @@ namespace MedicalImager
         {
             InitializeComponent();
             Images = new List<VirtualImage>();
-            Current = new ObservableCollection<BitmapImage>();
             for (int i = 0; i < study.Size(); i++)
             {
                 Images.Add(new VirtualImage(study[i]));
@@ -55,16 +59,15 @@ namespace MedicalImager
             Position = layout.Position;
         }
 
-        public ObservableCollection<BitmapImage> Current { get; set; }
+        public ObservableCollection<BitmapImage> Current = new ObservableCollection<BitmapImage>();
 
-        private int _position = -1;
 
 
         public override void Serialize(FileStream stream)
         {
             //return Representation + '\n' + Position;
-            XmlSerializer x = new XmlSerializer(this.GetType());
-            x.Serialize(stream, this);
+            //XmlSerializer x = new XmlSerializer(this.GetType());
+            //x.Serialize(stream, this);
         }
 
         /// <summary>

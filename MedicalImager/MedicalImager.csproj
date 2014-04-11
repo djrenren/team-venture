@@ -75,6 +75,7 @@
     <Compile Include="Loaders\JpegLoader.cs" />
     <Compile Include="Loaders\ReconstructionLoader.cs" />
     <Compile Include="LocalStudy.cs" />
+    <Compile Include="StudyLayoutMemento.cs" />
     <Compile Include="VirtualImage.cs" />
     <Compile Include="StudyLayout.cs" />
     <Compile Include="Commands\WindowImagesCom.cs" />

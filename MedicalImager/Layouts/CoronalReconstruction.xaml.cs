@@ -30,25 +30,53 @@ namespace MedicalImager
         //next and previous buttons
         private bool _reconstructionEnabled;
 
+        //Representation to be used when serializing
+        public static string Representation = "CR";
+
+        public override string Repr { get { return Representation; } }
+
         public BitmapSource Reconstruction { get; set; }
 
         public CoronalReconstruction(IStudy study) : this(study, 0) {}
 
-        public CoronalReconstruction(IStudy study, int pos)
+        public CoronalReconstruction()
         {
             InitializeComponent();
             Current = new ObservableCollection<BitmapImage>();
             Reconstruction = null;
-            Images = new List<VirtualImage>();
             _reconstructionEnabled = false;
+            _reconstructionPos = 0;
+            ReconstructionImages = new List<VirtualImage>();
+
+        }
+
+        public CoronalReconstruction(StudyLayoutMemento mem) : this()
+        {
+            this.Images = mem.Images;
+            DataContext = this;
+            sampleImages();
+            this.Position = mem.Position;
+
+            
+        }
+
+        public CoronalReconstruction(IStudy study, int pos) : this()
+        {
+            Images = new List<VirtualImage>();
             for (int i = 0; i < study.Size(); i++)
             {
                 Images.Add(new VirtualImage(study[i]));
             }
             DataContext = this;
             //gets a sample image from the study if possible
+            sampleImages();
+            Position = pos;
+        }
+
+        private void sampleImages()
+        {
             BitmapImage sample = Images.Count > 0 ? Images.ElementAt(0).getBitmapImage() : null;
-            if(sample ==  null)
+            if (sample == null)
             {
                 _numSlices = 0;
             }
@@ -56,11 +84,9 @@ namespace MedicalImager
             {
                 _numSlices = sample.PixelHeight;
             }
-            ReconstructionImages = new List<VirtualImage>();
-            for(int i = 0; i < _numSlices; i++) {ReconstructionImages.Add(null);}
-            _reconstructionPos = 0;
+            for (int i = 0; i < _numSlices; i++) { ReconstructionImages.Add(null); }
             setImage();
-            Position = pos;
+
         }
 
         private void setImage()
@@ -107,7 +133,6 @@ namespace MedicalImager
             return false;
         }
 
-        private int _position = -1;
 
         public override int Position
         {

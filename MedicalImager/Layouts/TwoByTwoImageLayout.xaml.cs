@@ -27,9 +27,20 @@ namespace MedicalImager
     {
 
         public static string Representation = "2x2";
+        public override string Repr { get { return Representation; } }
 
         public TwoByTwoImageLayout(IStudy study) : this(study, 0)
         {
+        }
+
+
+        public TwoByTwoImageLayout(StudyLayoutMemento mem)
+        {
+            InitializeComponent();
+            this.Images = mem.Images;
+            Current = new ObservableCollection<BitmapImage>();
+            this.Position = mem.Position;
+            DataContext = this;
         }
 
         public TwoByTwoImageLayout(IStudy study, int pos)
@@ -56,7 +67,6 @@ namespace MedicalImager
             return Representation + '\n' + Position;
         }
 
-        private int _position = -1;
         
         /// <summary>
         /// Gets and sets the position, handles all iteration
