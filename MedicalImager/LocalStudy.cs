@@ -85,15 +85,14 @@ namespace MedicalImager
         {
             if (!System.IO.Directory.Exists(targetPath.AbsolutePath))
             {
-                //throw new Exception("The directory already exists: " + targetPath);
                 Directory.CreateDirectory(targetPath.AbsolutePath);
             }
 
             //DirectoryInfo dir = Directory.CreateDirectory(targetPath.AbsolutePath);
             foreach (Uri path in base.ToArray())
             {
-                String stringVer = path.ToString();
-                string copyTo = Path.Combine(targetPath.AbsolutePath, Path.GetFileName(stringVer));
+                string stringVer = path.OriginalString;
+                string copyTo = Path.Combine(targetPath.AbsolutePath.ToString(), Path.GetFileName(stringVer));
                 try
                 {
                     System.IO.File.Copy(stringVer, copyTo, true);
@@ -103,6 +102,28 @@ namespace MedicalImager
                     Console.Out.WriteLine("Copy operation failed: " + e.ToString());
                 }
             }
+            /*
+            foreach (String studyDir in studyPaths)
+            {
+                string copyTo = Path.Combine(targetPath.AbsolutePath, Path.GetDirectoryName(studyDir));
+                try
+                {
+                    Directory.CreateDirectory(studyDir.Replace(directory, targetPath.OriginalString));
+                    System.IO.File.Copy(studyDir, copyTo, true);
+                }
+                catch (IOException e)
+                {
+                    Console.Out.WriteLine("Copy operation failed: " + e.ToString());
+                }
+            }*/
+            foreach (string dirPath in Directory.GetDirectories(directory, "*",
+                SearchOption.AllDirectories))
+                Directory.CreateDirectory(dirPath.Replace(directory, targetPath.OriginalString));
+
+            foreach (string newPath in Directory.GetFiles(directory, "*.*",
+                SearchOption.AllDirectories))
+                File.Copy(newPath, newPath.Replace(directory, targetPath.OriginalString), true);
+
             StudyLayoutMemento data = Layout.GetData();
 
             BinaryFormatter formatter = new BinaryFormatter();
