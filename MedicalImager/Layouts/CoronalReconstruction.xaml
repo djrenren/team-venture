@@ -10,7 +10,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Name="OrigCol"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -31,6 +31,11 @@
                 </ContextMenu>
             </Image.ContextMenu>
         </Image>
+        <Line Name="CoronalLine" Fill="Red" Stroke="Red" Visibility="Hidden"
+              Grid.Column="0" Grid.Row="0"
+              X1="0" Y1="0"
+              X2="{Binding ElementName=Orig, Path=ActualWidth}" Y2="0"/>
+        <Image x:Name="Slice" Source="{Binding Path=Reconstruction}" Grid.Column="0" Grid.Row="1" Width="{Binding ActualWidth, ElementName=Orig, Mode=OneWay}"/>
         <Image Grid.Column="0" Grid.Row="1" />
         <Button x:Name="ToggleButton" Grid.Column="1" Grid.Row="1" Content="Toggle Control" Click="ToggleButton_Click"/>
     </Grid>

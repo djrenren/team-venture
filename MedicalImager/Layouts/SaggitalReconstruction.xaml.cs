@@ -188,29 +188,29 @@ namespace MedicalImager
         /// <returns>Whether or not the move was successful</returns>
         public override bool MoveNext()
         {
-            switch(_reconstructionEnabled)
+            if (_reconstructionEnabled)
             {
-                case true:
-                        if (_reconstructionPos >= _numSlices - 1)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            _reconstructionPos++;
-                            setImage();
-                            return true;
-                        }
-                case false:
-                        if (Position >= Images.Count - 1)
-                            return false;
-                        else
-                        {
-                            Position++;
-                            return true;
-                        }
+                if (_reconstructionPos >= _numSlices - 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    _reconstructionPos++;
+                    setImage();
+                    return true;
+                }
             }
-            return false;
+            else
+            {
+                if (Position >= Images.Count - 1)
+                    return false;
+                else
+                {
+                    Position++;
+                    return true;
+                }
+            }
         }
 
         public void Reset()
