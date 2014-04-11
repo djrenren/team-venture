@@ -23,8 +23,8 @@ namespace MedicalImager.Loaders
 
         public BitmapSource LoadImage()
         {
-            Console.WriteLine(_uri.ToString());
-            byte[] fileBytes = File.ReadAllBytes(_uri.OriginalString);
+            //Console.WriteLine(_uri.);
+            byte[] fileBytes = File.ReadAllBytes(_uri.AbsolutePath);
 
             int position = HEADER_OFFSET;
 
