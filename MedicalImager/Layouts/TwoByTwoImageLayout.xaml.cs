@@ -27,6 +27,7 @@ namespace MedicalImager
     {
 
         public static string Representation = "2x2";
+        public override string Repr { get { return Representation; } }
 
         /// <summary>
         /// Creates a TwoByTwoImageLayout. Images start by default with the
@@ -35,6 +36,16 @@ namespace MedicalImager
         /// <param name="study">The study to get image Uri's from</param>
         public TwoByTwoImageLayout(IStudy study) : this(study, 0)
         {
+        }
+
+
+        public TwoByTwoImageLayout(StudyLayoutMemento mem)
+        {
+            InitializeComponent();
+            this.Images = mem.Images;
+            Current = new ObservableCollection<BitmapImage>();
+            this.Position = mem.Position;
+            DataContext = this;
         }
 
         /// <summary>
@@ -78,10 +89,6 @@ namespace MedicalImager
             return Representation + '\n' + Position;
         }
 
-        /// <summary>
-        /// The current image index
-        /// </summary>
-        private int _position = -1;
         
         /// <summary>
         /// Gets and sets the position, handles all iteration
@@ -111,7 +118,7 @@ namespace MedicalImager
                     {
                         for (int i = 0; _position + i < 4; i++)
                             if (_position + i < Images.Count)
-                                Current.Add(Images.ElementAt(_position + i).getBitmapImage());
+                            Current.Add(Images.ElementAt(_position + i).getBitmapImage());
                             else
                                 Current.Add(null);
                     }

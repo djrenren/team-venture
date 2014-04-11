@@ -17,6 +17,27 @@ namespace MedicalImager
     [Serializable()]
     public abstract class StudyLayout : Page
     {
+        public StudyLayout() { }
+
+        protected int _position = -1;
+
+        public StudyLayout(StudyLayoutMemento mem)
+        {
+            
+        }
+
+        public static StudyLayout Reconstruct(StudyLayoutMemento mem)
+        {
+            if(mem.LayoutRepr == TwoByTwoImageLayout.Representation)
+                return new TwoByTwoImageLayout(mem);
+            if(mem.LayoutRepr  == SingleImageLayout.Representation)
+                return new SingleImageLayout(mem);
+            if(mem.LayoutRepr == CoronalReconstruction.Representation)
+                return new CoronalReconstruction(mem);
+            if (mem.LayoutRepr == SaggitalReconstruction.Representation)
+                return new SaggitalReconstruction(mem);
+            return null;
+        }
 
         /// <summary>
         /// Moves to the previous grouping of images
@@ -25,6 +46,10 @@ namespace MedicalImager
         public abstract bool MovePrev();
 
 
+
+        // Extract the representation from any given layout
+        public abstract string Repr { get;  }
+        
         /// <summary>
         /// Moves to the previous grouping of images
         /// </summary>
@@ -34,7 +59,7 @@ namespace MedicalImager
         /// <summary>
         /// The current position in the study
         /// </summary>
-        public abstract int Position { get; set; }
+        public abstract int Position { get; set;}
 
         /// <summary>
         /// Creates a texy representation that can be written to the disk.
@@ -49,6 +74,12 @@ namespace MedicalImager
         public abstract List<VirtualImage> Images
         {
             get; set;
+        }
+
+
+        public StudyLayoutMemento GetData()
+        {
+            return new StudyLayoutMemento(Position, Images, Repr);
         }
 
     }

@@ -35,6 +35,13 @@ namespace MedicalImager
         //next and previous buttons
         private bool _reconstructionEnabled;
 
+        //Representation to be used when serializing
+        public static string Representation = "CR";
+
+        public override string Repr { get { return Representation; } }
+
+        public BitmapSource Reconstruction { get; set; }
+
 
         /// <summary>
         /// Creates a CoronalReconstruction starting at the first image
@@ -42,26 +49,49 @@ namespace MedicalImager
         /// <param name="study">the study to display</param>
         public CoronalReconstruction(IStudy study) : this(study, 0) {}
 
-        /// <summary>
-        /// Creates a CoronalReconstruction starting at the given position
-        /// </summary>
-        /// <param name="study">the study to display</param>
-        /// <param name="pos">the position in the study to start at</param>
-        public CoronalReconstruction(IStudy study, int pos)
+        public CoronalReconstruction()
         {
             InitializeComponent();
             Current = new ObservableCollection<BitmapImage>();
+            Reconstruction = null;
             Images = new List<VirtualImage>();
             _reconstructionEnabled = false;
+            _reconstructionPos = 0;
+            ReconstructionImages = new List<VirtualImage>();
+            CoronalLine.Y1 = _numSlices;
+            CoronalLine.Y2 = _numSlices;
+
+        }
+
+        public CoronalReconstruction(StudyLayoutMemento mem) : this()
+        {
+            this.Images = mem.Images;
+            DataContext = this;
+            sampleImages();
+            this.Position = mem.Position;
+
+            
+        }
+
+        public CoronalReconstruction(IStudy study, int pos) : this()
+        {
+            Images = new List<VirtualImage>();
             for (int i = 0; i < study.Size(); i++)
             {
                 Images.Add(new VirtualImage(study[i]));
             }
             DataContext = this;
+            //gets a sample image from the study if possible
+            sampleImages();
+            Position = pos;
+        }
+
+        private void sampleImages()
+        {
             //gets a sample image from the study if possible to use to determine the size
             //of the reconstruction
             BitmapImage sample = Images.Count > 0 ? Images.ElementAt(0).getBitmapImage() : null;
-            if(sample ==  null)
+            if (sample == null)
             {
                 _numSlices = 0;
             }
@@ -69,13 +99,13 @@ namespace MedicalImager
             {
                 _numSlices = sample.PixelHeight;
             }
+            for (int i = 0; i < _numSlices; i++) { ReconstructionImages.Add(null); }
+            setImage();
+
             ReconstructionImages = new List<VirtualImage>();
             for (int i = 0; i < _numSlices; i++) { ReconstructionImages.Add(null);}
             _reconstructionPos = 0;
             setImage();
-            Position = pos;
-            CoronalLine.Y1 = _numSlices;
-            CoronalLine.Y2 = _numSlices;
         }
 
         /// <summary>
@@ -128,8 +158,6 @@ namespace MedicalImager
             }
         }
 
-        //The current poisition in the study
-        private int _position = -1;
 
         /// <summary>
         /// Gets and sets the current position in the study, updating images
@@ -276,7 +304,7 @@ namespace MedicalImager
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Image1RtClick_Click(object sender, RoutedEventArgs e)
-            {
+        {
             Commands.WindowImagesCom.PromptAndCreate(ReconstructionImages.ElementAt(_reconstructionPos));
             setImage();
         }

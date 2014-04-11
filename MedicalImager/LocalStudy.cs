@@ -69,17 +69,12 @@ namespace MedicalImager
         /// this should be a serialized layout</param>
         public void Save()
         {
-            //string[] lines = { metadata };
-            //System.IO.File.WriteAllLines(directory + @"\.data", lines);
-            FileStream f = new FileStream(directory + @"\.data", FileMode.Create); 
-            Layout.Serialize(f);
-            f.Close();
+            StudyLayoutMemento data = Layout.GetData();
 
-            FileStream imgStream = new FileStream(directory + @"\.img", FileMode.Create); 
             BinaryFormatter formatter = new BinaryFormatter();
-
-            formatter.Serialize(imgStream, Layout.Images);
-            imgStream.Close();
+            FileStream f = new FileStream(directory + @"\" + ".data", FileMode.Create); 
+            formatter.Serialize(f, data);
+            f.Close();
         }
 
         /// <summary>
@@ -108,17 +103,12 @@ namespace MedicalImager
                     Console.Out.WriteLine("Copy operation failed: " + e.ToString());
                 }
             }
-            //string[] lines = { metadata };
-            //System.IO.File.WriteAllLines(targetPath.AbsolutePath + @"\.data", lines);
-            FileStream f = new FileStream(targetPath.AbsolutePath + @"\.data", FileMode.Create);
-            Layout.Serialize(f);
-            f.Close();
+            StudyLayoutMemento data = Layout.GetData();
 
-            FileStream imgStream = new FileStream(directory + @"\.img", FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
-
-            formatter.Serialize(imgStream, Layout.Images);
-            imgStream.Close();
+            FileStream f = new FileStream(directory + @"\" + ".data", FileMode.Create); 
+            formatter.Serialize(f, data);
+            f.Close();
         }
 
         /// <summary>
@@ -135,21 +125,25 @@ namespace MedicalImager
         /// </summary>
         public void LoadSavedData()
         {
-            System.Xml.Serialization.XmlSerializer loader = null;
-            try {
-                loader = new System.Xml.Serialization.XmlSerializer(typeof(StudyLayout));
-            } catch (Exception){}
 
             try
             {
                 FileStream f = new FileStream(directory + "\\.data", FileMode.Open);
-                Layout = (StudyLayout)loader.Deserialize(f);
-                f.Close();
+                using (f)
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    StudyLayoutMemento m = formatter.Deserialize(f) as StudyLayoutMemento;
+                    Layout = StudyLayout.Reconstruct(m);
+                    if (Layout != null) return;
+                }
             }
-            catch (FileNotFoundException)
+            catch (Exception e)
+
             {
-                Layout = new SingleImageLayout(this);
+                
             }
+            Layout = new SingleImageLayout(this);
+
 
 
             try
