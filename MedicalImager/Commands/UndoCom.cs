@@ -15,18 +15,19 @@ namespace MedicalImager.Commands
 
         public override void Execute()
         {
-            // Don't pop if there's nothing to pop
             if (invoker.CommandStack.Count == 0)
                 return;
-            while (invoker.CommandStack.Count > 0)
+
+            Command last;
+            do
             {
-                Command last = invoker.CommandStack.Pop();
-                // The SystemState may be null, don't try to reconstruct it
-                if (last.SystemState == null) continue;
-                Command.invoker.Study.Layout = StudyLayout.Reconstruct(last.SystemState);
-                Command.invoker.Navigate(Command.invoker.Study.Layout);
+                last = invoker.CommandStack.Pop();
             }
-           
+            while (invoker.CommandStack.Count > 0 && last.SystemState == null);
+            
+            Command.invoker.Study.Layout = StudyLayout.Reconstruct(last.SystemState);
+            Command.invoker.Navigate(Command.invoker.Study.Layout);
+            Command.invoker.UpdateCount();
         }
 
         public override void UnExecute()
