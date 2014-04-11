@@ -26,10 +26,28 @@ namespace MedicalImager
 
         private void okButton_Click(object sender, RoutedEventArgs e)
         {
-            Min = Convert.ToInt32(MinVal);
-            Max = Convert.ToInt32(MaxVal);
-            Layout = Command.invoker.Study.Layout;
-            List = Command.invoker.Study.Layout.Images;
+            try
+            {
+                Min = Convert.ToInt32(MinVal.Text);
+                Max = Convert.ToInt32(MaxVal.Text);
+            } catch (InvalidCastException){this.Close(); return;}
+            catch (FormatException) { this.Close(); return; }
+
+            if (Min < 0 || Max > 255)
+            {
+                this.Close();
+                return;
+            }
+            if (Min >= Max)
+            {
+                this.Close();
+                return;
+            }
+            (new Commands.WindowImagesCom(Command.invoker.Study.Layout, 
+                Min, 
+                Max,
+                Command.invoker.Study.Layout.Images)).Execute();
+            this.Close();
         }
 
         public int Min { get; set; }

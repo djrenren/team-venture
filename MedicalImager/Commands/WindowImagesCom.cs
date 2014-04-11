@@ -8,9 +8,17 @@ namespace MedicalImager.Commands
 {
     class WindowImagesCom : Command
     {
+        private int _min;
+        private int _max;
+        private WindowOp _op;
+        private List<VirtualImage> _images;
+
         public WindowImagesCom(StudyLayout layout, int min, int max, List<VirtualImage> images) : base(layout)
         {
-
+            _min = min;
+            _max = max;
+            _images = images;
+            _op = new WindowOp(min, max);
         }
 
         public WindowImagesCom(StudyLayout layout, int min, int max, VirtualImage image) : base(layout)
@@ -36,7 +44,10 @@ namespace MedicalImager.Commands
 
         public override void Execute()
         {
-
+            foreach(VirtualImage i in _images)
+            {
+                i.AddOperation(_op);
+            }
         }
 
         public override void UnExecute()
