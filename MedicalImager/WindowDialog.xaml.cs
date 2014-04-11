@@ -43,10 +43,7 @@ namespace MedicalImager
                 this.Close();
                 return;
             }
-            (new Commands.WindowImagesCom(Command.invoker.Study.Layout, 
-                Min, 
-                Max,
-                Command.invoker.Study.Layout.Images)).Execute();
+            this.DialogResult = true;
             this.Close();
         }
 

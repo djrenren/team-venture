@@ -117,23 +117,20 @@ namespace MedicalImager
             }
             set
             {
-                if(_position != value)
+                if (value < 0 || value >= Images.Count)
+                    return;
+                else
                 {
-                    if (value < 0 || value >= Images.Count)
-                        return;
+                    _position = value;
+                    if (Current.Count == 0)
+                    {
+                        Current.Add(Images.ElementAt(value).getBitmapImage());
+                    }
                     else
                     {
-                        _position = value;
-                        if (Current.Count == 0)
-                        {
-                            Current.Add(Images.ElementAt(value).getBitmapImage());
-                        }
-                        else
-                        {
-                            Current[0] = Images.ElementAt(value).getBitmapImage();
-                        }
-                        Orig.Source = Current[0];
+                        Current[0] = Images.ElementAt(value).getBitmapImage();
                     }
+                    Orig.Source = Current[0];
                 }
             }
         }
@@ -217,12 +214,15 @@ namespace MedicalImager
                
         }
 
-        private void removeLines()
+        private void Image0RtClick_Click(object sender, RoutedEventArgs e)
         {
-            foreach(VirtualImage vimg in Images)
-            {
-                
-            } 
+            Commands.WindowImagesCom.PromptAndCreate(Images.ElementAt(_position));
+        }
+
+        private void Image1RtClick_Click(object sender, RoutedEventArgs e)
+        {
+            Commands.WindowImagesCom.PromptAndCreate(ReconstructionImages.ElementAt(_reconstructionPos));
+            setImage();
         }
 
     }

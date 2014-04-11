@@ -125,10 +125,7 @@ namespace MedicalImager
             System.Xml.Serialization.XmlSerializer loader = null;
             try {
                 loader = new System.Xml.Serialization.XmlSerializer(typeof(StudyLayout));
-            } catch (Exception e)
-            {
-
-            }
+            } catch (Exception){}
 
             try
             {
@@ -136,7 +133,7 @@ namespace MedicalImager
                 Layout = (StudyLayout)loader.Deserialize(f);
                 f.Close();
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
                 Layout = new SingleImageLayout(this);
             }
@@ -148,7 +145,7 @@ namespace MedicalImager
                 FileStream imgStream = new FileStream(directory + "\\.img", FileMode.Open);
                 Layout.Images = formatter.Deserialize(imgStream) as List<VirtualImage>;
             }
-            catch (FileNotFoundException e) { }
+            catch (FileNotFoundException) { }
 
         }
     }
