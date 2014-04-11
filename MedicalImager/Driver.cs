@@ -12,7 +12,7 @@ namespace MedicalImager
         /// <summary>
         /// The list of actions performed
         /// </summary>
-        List<Command> CommandList { get; set; }
+        Stack<Command> CommandStack { get; set; }
 
         /// <summary>
         /// Gets the current study

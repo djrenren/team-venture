@@ -26,7 +26,7 @@ namespace MedicalImager
         public MainWindow()
         {
             Command.invoker = this;
-            CommandList = new List<Command>();
+            CommandStack = new Stack<Command>();
 
             InitializeComponent();
             mnu_View.IsEnabled = false;
@@ -269,7 +269,7 @@ namespace MedicalImager
             Layout.Navigate(newLayout);
         }
 
-        public List<Command> CommandList
+        public Stack<Command> CommandStack
         {
             get;
             set;

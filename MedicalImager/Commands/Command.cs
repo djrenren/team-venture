@@ -12,6 +12,7 @@ namespace MedicalImager
 
         public Command(StudyLayout currentState)
         {
+            //TODO copy here
             SystemState = currentState;
         }
         
@@ -30,7 +31,7 @@ namespace MedicalImager
         /// </summary>
         public void AddToList()
         {
-            invoker.CommandList.Add(this);
+            invoker.CommandStack.Push(this);
         }
 
         public StudyLayout SystemState { get; private set; }
