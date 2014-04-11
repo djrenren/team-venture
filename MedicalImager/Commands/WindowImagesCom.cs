@@ -66,6 +66,7 @@ namespace MedicalImager.Commands
             }
             //forces the study to refresh the displayed images
             invoker.Study.Layout.Position = invoker.Study.Layout.Position;
+            AddToList();
         }
 
         public override void UnExecute()

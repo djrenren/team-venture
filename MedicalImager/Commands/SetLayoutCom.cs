@@ -23,10 +23,10 @@ namespace MedicalImager.Commands
 
         public override void Execute()
         {
-
+            StudyLayoutMemento Data = invoker.Study.Layout.GetData();
             if(newLayoutType == typeof(SingleImageLayout))
             {
-                SingleImageLayout newLayout = new SingleImageLayout(invoker.Study, invoker.Study.Layout.Position);
+                SingleImageLayout newLayout = new SingleImageLayout(Data);
                
                 invoker.Study.Layout = newLayout;
                 invoker.Navigate(newLayout);
@@ -35,7 +35,7 @@ namespace MedicalImager.Commands
             } 
             else if (newLayoutType == typeof(TwoByTwoImageLayout))
             {
-                TwoByTwoImageLayout newLayout = new TwoByTwoImageLayout(invoker.Study, invoker.Study.Layout.Position);
+                TwoByTwoImageLayout newLayout = new TwoByTwoImageLayout(Data);
 
                 invoker.Study.Layout = newLayout;
                 invoker.Navigate(newLayout);
@@ -44,7 +44,7 @@ namespace MedicalImager.Commands
             }
             else if (newLayoutType == typeof(CoronalReconstruction))
             {
-                CoronalReconstruction newLayout = new CoronalReconstruction(invoker.Study, invoker.Study.Layout.Position);
+                CoronalReconstruction newLayout = new CoronalReconstruction(Data);
                 invoker.Study.Layout = newLayout;
                 invoker.Navigate(newLayout);
 
@@ -52,7 +52,7 @@ namespace MedicalImager.Commands
             }
             else if (newLayoutType == typeof(SaggitalReconstruction))
             {
-                SaggitalReconstruction newLayout = new SaggitalReconstruction(invoker.Study, invoker.Study.Layout.Position);
+                SaggitalReconstruction newLayout = new SaggitalReconstruction(Data);
 
                 invoker.Study.Layout = newLayout;
                 invoker.Navigate(newLayout);
@@ -60,6 +60,8 @@ namespace MedicalImager.Commands
 
                  
             }
+
+            AddToList();
 
        
 

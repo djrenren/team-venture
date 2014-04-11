@@ -29,6 +29,9 @@
         <Button x:Name="btnNext" Content="&gt;" DockPanel.Dock="Right"
                 HorizontalAlignment="Right" VerticalAlignment="Center" Width="20" Height="54"
                 Grid.Column="2" Margin="0,0,5,0" Click="btnNext_Click"/>
+        <Button x:Name="btnUndo" Content="Undo" DockPanel.Dock="Bottom"
+                HorizontalAlignment="Right" VerticalAlignment="Center" Width="54" Height="20"
+                Margin="0,0,0,5" Click="btnUndo_Click" />
         <Label x:Name="CountLabel" 
                HorizontalAlignment="Center" 
                VerticalAlignment="Bottom"
