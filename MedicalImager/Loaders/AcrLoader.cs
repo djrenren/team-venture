@@ -23,9 +23,7 @@ namespace MedicalImager.Loaders
         public BitmapSource LoadImage()
         {
             Console.WriteLine(_uri.ToString());
-            //BinaryReader reader = new BinaryReader(new FileStream(_uri.ToString(), FileMode.Open), En);
             byte[] fileBytes = File.ReadAllBytes(_uri.OriginalString);
-            //reader.ReadBytes(HEADER_OFFSET);
 
             int position = HEADER_OFFSET;
 
@@ -39,9 +37,9 @@ namespace MedicalImager.Loaders
 
             for(int i = 0; i < width*height; i++)
             {
-                pixelHigh = /*reader.ReadByte();*/ fileBytes[position];
+                pixelHigh = fileBytes[position];
                 position++;
-                pixelLow = /*reader.ReadByte();*/ fileBytes[position];
+                pixelLow = fileBytes[position];
                 position++;
 
                 pixels[i] = (byte)(pixelHigh << 4 | pixelLow >> 4);

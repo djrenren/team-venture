@@ -30,5 +30,10 @@ namespace MedicalImager
         /// enables buttons in the GUI
         /// </summary>
         void EnableOperations();
+
+        /// <summary>
+        /// Updates the position indicator while navigating the study
+        /// </summary>
+        void UpdateCount();
     }
 }

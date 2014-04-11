@@ -79,7 +79,7 @@ namespace MedicalImager
                     else
                     {
                         _position = value - (value % 4);
-                        
+                        Console.WriteLine(_position);
                         //This is for the first time setting images
                         if(Current.Count == 0)
                         {
