@@ -143,25 +143,25 @@ namespace MedicalImager
             }
             set
             {
-                if (value < 0 || value >= Images.Count)
-                    return;
-                else
-                {
-                    _position = value;
-                    //The first time an image is displayed
-                    if (Current.Count == 0)
-                    {
-                        Current.Add(Images.ElementAt(value).getBitmapImage());
-                    }
-                    //Subsequent displays
+                    if (value < 0 || value >= Images.Count)
+                        return;
                     else
                     {
-                        Current[0] = Images.ElementAt(value).getBitmapImage();
+                        _position = value;
+                    //The first time an image is displayed
+                        if (Current.Count == 0)
+                        {
+                            Current.Add(Images.ElementAt(value).getBitmapImage());
+                        }
+                    //Subsequent displays
+                        else
+                        {
+                            Current[0] = Images.ElementAt(value).getBitmapImage();
+                        }
+                        Orig.Source = Current[0];
                     }
-                    Orig.Source = Current[0];
                 }
             }
-        }
 
         public string Serialize()
         {
@@ -276,9 +276,11 @@ namespace MedicalImager
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Image1RtClick_Click(object sender, RoutedEventArgs e)
-        {
+            {
             Commands.WindowImagesCom.PromptAndCreate(ReconstructionImages.ElementAt(_reconstructionPos));
             setImage();
+        }
+
         private void moveLine()
         {
             int newVal = (int)((double)_reconstructionPos * (Orig.ActualHeight / (double)_numSlices));
@@ -286,8 +288,6 @@ namespace MedicalImager
             CoronalLine.Y2 = Orig.ActualHeight - newVal;
             CoronalLine.X1 = (OrigCol.ActualWidth - Orig.ActualWidth) / 2;
             CoronalLine.X2 = ((OrigCol.ActualWidth - Orig.ActualWidth) / 2) + Orig.ActualWidth;
-            Debug.WriteLine("X1 =" + CoronalLine.X1);
-            Debug.WriteLine("X2 =" + CoronalLine.X2);
         }
 
     }
