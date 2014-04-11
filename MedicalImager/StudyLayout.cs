@@ -14,8 +14,10 @@ namespace MedicalImager
     /// <summary>
     /// Interface for the image layouts 
     /// </summary>
+    [Serializable()]
     public abstract class StudyLayout : Page
     {
+
         /// <summary>
         /// Moves to the previous grouping of images
         /// </summary>
@@ -45,5 +47,6 @@ namespace MedicalImager
         {
             get; set;
         }
+
     }
 }

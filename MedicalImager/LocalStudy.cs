@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Drawing;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MedicalImager
 {
@@ -60,9 +61,15 @@ namespace MedicalImager
         {
             //string[] lines = { metadata };
             //System.IO.File.WriteAllLines(directory + @"\.data", lines);
-            FileStream f = new FileStream(directory + @"\.data", FileMode.Create);
+            FileStream f = new FileStream(directory + @"\.data", FileMode.Create); 
             Layout.Serialize(f);
             f.Close();
+
+            FileStream imgStream = new FileStream(directory + @"\.img", FileMode.Create); 
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            formatter.Serialize(imgStream, Layout.Images);
+            imgStream.Close();
         }
 
         /// <summary>
@@ -98,6 +105,12 @@ namespace MedicalImager
             FileStream f = new FileStream(targetPath.AbsolutePath + @"\.data", FileMode.Create);
             Layout.Serialize(f);
             f.Close();
+
+            FileStream imgStream = new FileStream(directory + @"\.img", FileMode.Create);
+            BinaryFormatter formatter = new BinaryFormatter();
+
+            formatter.Serialize(imgStream, Layout.Images);
+            imgStream.Close();
         }
 
         public StudyLayout Layout
@@ -126,7 +139,17 @@ namespace MedicalImager
             catch (FileNotFoundException e)
             {
                 Layout = new SingleImageLayout(this);
-            }   
+            }
+
+
+            try
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream imgStream = new FileStream(directory + "\\.img", FileMode.Open);
+                Layout.Images = formatter.Deserialize(imgStream) as List<VirtualImage>;
+            }
+            catch (FileNotFoundException e) { }
+
         }
     }
 }

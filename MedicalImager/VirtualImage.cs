@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace MedicalImager
 {
+    [Serializable]
     public class VirtualImage
     {
         ImageLoader loadingStrategy;
@@ -31,6 +33,7 @@ namespace MedicalImager
 
         private Uri _uri;
 
+        [NonSerialized]
         private BitmapSource _source;
         public BitmapSource Source { 
             get

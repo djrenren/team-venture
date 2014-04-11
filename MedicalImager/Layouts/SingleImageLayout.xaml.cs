@@ -23,6 +23,7 @@ namespace MedicalImager
     /// <summary>
     /// Interaction logic for SingleImageLayout.xaml
     /// </summary>
+    [Serializable]
     public partial class SingleImageLayout : StudyLayout
     {
         public static string Representation = "1x1";
